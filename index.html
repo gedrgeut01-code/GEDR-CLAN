@@ -1,23 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GEDR CLAN | البوابة الرسمية</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <title>GEDR CLAN — بوابة المجتمع</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Firebase SDK (Compat لسهولة التكامل الفوري) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
   <style>
     :root {
-      --bg: #0b0d12;
-      --card: #131722;
-      --border: #252b3b;
-      --gold: #eab308;
-      --gold-dark: #ca8a04;
-      --text: #f3f4f6;
-      --muted: #9ca3af;
+      --bg-main: #09090b;
+      --bg-card: #121216;
+      --bg-elevated: #191920;
+      --gold: #d4af37;
+      --gold-bright: #f5d061;
+      --gold-soft: rgba(212, 175, 55, 0.14);
+      --gold-border: rgba(212, 175, 55, 0.34);
+      --text-main: #f4f4f6;
+      --text-muted: #a1a1aa;
       --danger: #ef4444;
       --success: #22c55e;
+      --radius: 16px;
     }
 
     * {
@@ -28,668 +37,1090 @@
     }
 
     body {
-      background-color: var(--bg);
-      color: var(--text);
+      background: radial-gradient(circle at top, #1b1608 0%, var(--bg-main) 55%);
+      color: var(--text-main);
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 16px;
+      line-height: 1.6;
     }
 
     .container {
-      width: 100%;
-      max-width: 460px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 28px 22px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 20px 16px 60px;
     }
 
-    .screen {
-      display: none;
-      animation: fadeIn 0.25s ease;
+    .hidden {
+      display: none !important;
     }
 
-    .screen.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .logo-wrap {
+    /* شاشة الدخول الرئيسية */
+    .login-screen {
+      min-height: 88vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 24px;
-      text-align: center;
-    }
-
-    .avatar-circle {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      border: 3px solid var(--gold);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      background: #0f131c;
-      margin-bottom: 12px;
-      box-shadow: 0 0 25px rgba(234, 179, 8, 0.2);
+      text-align: center;
+      gap: 18px;
+      padding: 24px 12px;
     }
 
-    .avatar-circle img {
+    .logo-ring {
+      width: 132px;
+      height: 132px;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(135deg, var(--gold-bright), #8f6b14);
+      box-shadow: 0 0 32px rgba(212, 175, 55, 0.28);
+    }
+
+    .logo-ring img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      border-radius: 50%;
+      background: #000;
+      display: block;
     }
 
-    h1, h2 {
-      color: var(--gold);
+    .brand-title {
+      font-size: 1.85rem;
       font-weight: 800;
-      text-align: center;
+      color: var(--gold-bright);
+      letter-spacing: 0.5px;
     }
 
-    h1 { font-size: 1.6rem; }
-    h2 { font-size: 1.35rem; margin-bottom: 18px; }
+    .brand-sub {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 420px;
+    }
 
-    .subtitle {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-top: 4px;
+    .auth-actions {
+      width: 100%;
+      max-width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
     }
 
     .btn {
-      width: 100%;
-      padding: 14px 18px;
-      border-radius: 12px;
       border: none;
-      font-size: 1rem;
+      border-radius: 12px;
+      padding: 13px 18px;
+      font-size: 0.98rem;
       font-weight: 700;
       cursor: pointer;
-      display: flex;
+      transition: transform 0.15s ease, opacity 0.15s ease, background 0.2s ease;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      transition: 0.2s;
-      margin-bottom: 12px;
+      gap: 8px;
     }
 
-    .btn-google {
-      background: #ffffff;
-      color: #111827;
+    .btn:active {
+      transform: scale(0.98);
     }
 
-    .btn-google:hover { background: #f3f4f6; }
-
-    .btn-guest {
-      background: #1e2433;
-      color: var(--text);
-      border: 1px solid var(--border);
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
     }
-
-    .btn-guest:hover { border-color: var(--gold); }
 
     .btn-gold {
-      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      color: #0b0d12;
+      background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+      color: #111;
     }
 
-    .btn-gold:hover { opacity: 0.92; }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--gold);
-      border: 1px solid var(--gold);
+    .btn-dark {
+      background: var(--bg-elevated);
+      color: var(--text-main);
+      border: 1px solid var(--gold-border);
     }
 
-    .btn-back {
-      background: transparent;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 8px 14px;
-      font-size: 0.85rem;
-      width: auto;
-      margin-bottom: 16px;
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      padding: 7px 12px;
+      font-size: 0.82rem;
+      border-radius: 9px;
+    }
+
+    /* الشريط العلوي بعد الدخول */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
     }
 
     .user-badge {
-      background: #1a202e;
-      border: 1px solid var(--border);
-      padding: 8px 14px;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      color: var(--gold);
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .rules-hint {
-      text-align: center;
-      font-size: 0.92rem;
-      color: var(--muted);
-      margin-top: 18px;
-      line-height: 1.7;
-    }
-
-    .rules-link {
-      color: var(--gold);
-      font-weight: 800;
-      text-decoration: underline;
-      text-underline-offset: 4px;
-      cursor: pointer;
-    }
-
-    .rules-box {
-      background: #0f131c;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      max-height: 300px;
-      overflow-y: auto;
-      margin-bottom: 18px;
-      font-size: 0.92rem;
-      line-height: 1.8;
-    }
-
-    .rules-box ul {
-      padding-right: 18px;
-    }
-
-    .rules-box li {
-      margin-bottom: 8px;
-    }
-
-    .agree-row {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: #1a202e;
-      border: 1px solid var(--border);
-      padding: 12px 14px;
-      border-radius: 12px;
-      cursor: pointer;
-      margin-bottom: 16px;
-      user-select: none;
-    }
-
-    .agree-row input[type="checkbox"] {
-      width: 20px;
-      height: 20px;
-      accent-color: var(--success);
-      cursor: pointer;
-    }
-
-    .agree-row span {
-      font-size: 0.92rem;
-      font-weight: 700;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    label {
-      display: block;
       font-size: 0.9rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-      color: #e5e7eb;
     }
 
-    input[type="text"],
-    input[type="number"],
-    select {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #0f131c;
-      color: var(--text);
-      font-size: 0.95rem;
-      outline: none;
+    .user-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold-bright);
     }
 
-    input:focus, select:focus {
-      border-color: var(--gold);
-    }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    .top-controls {
+      display: flex;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .skill-item {
+    /* شبكة 2x2 الرئيسية */
+    .grid-2x2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .tile-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius);
+      padding: 22px 14px;
+      color: var(--text-main);
+      font-size: 1.02rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+      min-height: 112px;
+      transition: all 0.2s ease;
+    }
+
+    .tile-btn:hover,
+    .tile-btn.active {
+      background: var(--gold-soft);
+      border-color: var(--gold-bright);
+      color: var(--gold-bright);
+      transform: translateY(-2px);
+    }
+
+    .tile-icon {
+      font-size: 1.5rem;
+    }
+
+    /* لوحة تحكم المالك */
+    .admin-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--gold-bright);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 22px;
+      box-shadow: 0 0 24px rgba(212, 175, 55, 0.12);
+    }
+
+    .admin-header {
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: #0f131c;
-      border: 1px solid var(--border);
-      padding: 10px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 0.9rem;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .skill-item input {
-      accent-color: var(--gold);
-      width: 16px;
-      height: 16px;
-    }
-
-    .strict-warning {
-      background: rgba(239, 68, 68, 0.14);
-      border: 1px solid var(--danger);
-      color: #fca5a5;
-      padding: 12px;
-      border-radius: 10px;
-      font-size: 0.92rem;
+    .admin-title {
+      color: var(--gold-bright);
       font-weight: 800;
-      text-align: center;
+      font-size: 1.05rem;
+    }
+
+    .mode-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .field-group {
+      margin-bottom: 12px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .input,
+    .textarea {
+      width: 100%;
+      background: var(--bg-elevated);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: var(--text-main);
+      font-size: 0.92rem;
+    }
+
+    .input:focus,
+    .textarea:focus {
+      outline: none;
+      border-color: var(--gold-bright);
+    }
+
+    .textarea {
+      min-height: 86px;
+      resize: vertical;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .msg-box {
+      margin-top: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .msg-err {
+      color: #f87171;
+    }
+
+    .msg-ok {
+      color: #4ade80;
+    }
+
+    /* الأقسام والبطاقات */
+    .section-box {
+      background: var(--bg-card);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .section-heading {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--gold-bright);
+      margin-bottom: 14px;
+    }
+
+    .post-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius);
+      padding: 15px;
       margin-bottom: 16px;
     }
 
-    .error-msg {
-      color: var(--danger);
-      font-size: 0.85rem;
-      text-align: center;
-      margin-bottom: 12px;
-      display: none;
-    }
-
-    .success-banner {
-      text-align: center;
-      padding: 20px 10px;
-    }
-
-    .success-icon {
-      font-size: 3rem;
+    .post-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
       margin-bottom: 10px;
+    }
+
+    .author-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold-bright);
+      background: #000;
+    }
+
+    .author-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 800;
+      font-size: 0.96rem;
+    }
+
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+      color: #111;
+      font-size: 0.72rem;
+      font-weight: 900;
+    }
+
+    .post-time {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .post-text {
+      font-size: 0.96rem;
+      margin-bottom: 12px;
+      white-space: pre-line;
+    }
+
+    .post-img {
+      width: 100%;
+      max-height: 420px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* التفاعلات ❤️ و 😂 */
+    .reactions-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .react-btn {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      border-radius: 10px;
+      padding: 7px 14px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .react-btn.active {
+      border-color: var(--gold-bright);
+      background: var(--gold-soft);
+      color: var(--gold-bright);
+    }
+
+    /* شبكة خيارات التصويت المتساوية */
+    .poll-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .poll-opt-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--gold-border);
+      border-radius: 12px;
+      padding: 14px 12px;
+      color: var(--text-main);
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 76px;
+      transition: all 0.18s ease;
+    }
+
+    .poll-opt-btn:hover:not(:disabled) {
+      border-color: var(--gold-bright);
+      background: var(--gold-soft);
+    }
+
+    .poll-opt-btn.selected {
+      border-color: var(--gold-bright);
+      background: rgba(212, 175, 55, 0.22);
+      box-shadow: 0 0 0 1px var(--gold-bright);
+    }
+
+    .poll-opt-btn:disabled {
+      cursor: default;
+    }
+
+    .poll-opt-label {
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .poll-opt-count {
+      font-size: 0.84rem;
+      color: var(--gold-bright);
+      font-weight: 700;
+    }
+
+    .poll-status {
+      margin-top: 10px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 24px 10px;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 520px) {
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+      .poll-options {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-
   <div class="container">
+    <!-- 1. شاشة الدخول الرئيسية -->
+    <section id="loginScreen" class="login-screen">
+      <div class="logo-ring">
+        <img src="IMG_20261112_133428_146.png" alt="شعار GEDR CLAN" />
+      </div>
+      <h1 class="brand-title">GEDR CLAN</h1>
+      <p class="brand-sub">مرحباً بك في بوابة الكلان الرسمية — مسابقات، اختبارات، أخبار وتصويتات.</p>
+      <div class="auth-actions">
+        <button id="googleLoginBtn" class="btn btn-gold">تسجيل الدخول عبر جوجل</button>
+        <button id="guestBtn" class="btn btn-dark">المتابعة كزائر</button>
+      </div>
+      <div id="authError" class="msg-box msg-err"></div>
+    </section>
 
-    <!-- 1. واجهة تسجيل الدخول الإجبارية -->
-    <div id="screen-login" class="screen active">
-      <div class="logo-wrap">
-        <div class="avatar-circle">
-          <img src="IMG_20261112_133428_146.png" alt="صورة حساب GEDR" />
+    <!-- 2. واجهة المجتمع بعد الدخول -->
+    <main id="portalScreen" class="hidden">
+      <div class="top-bar">
+        <div class="user-badge">
+          <span class="user-dot"></span>
+          <span id="sessionLabel">زائر</span>
         </div>
-        <h1>GEDR CLAN</h1>
-        <p class="subtitle">يرجى اختيار طريقة الدخول للمتابعة</p>
+        <div class="top-controls">
+          <button id="toggleAdminBtn" class="btn btn-gold hidden" style="padding: 8px 13px; font-size: 0.85rem;">
+            ⚙️ إدارة المنشورات
+          </button>
+          <button id="logoutBtn" class="btn btn-dark" style="padding: 8px 13px; font-size: 0.85rem;">
+            خروج
+          </button>
+        </div>
       </div>
 
-      <button class="btn btn-google" onclick="loginWithGoogle()">
-        <svg width="20" height="20" viewBox="0 0 48 48">
-          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-        </svg>
-        تسجيل دخول عبر جوجل
-      </button>
-
-      <button class="btn btn-guest" onclick="continueAsGuest()">
-        المتابعة كزائر
-      </button>
-
-      <p id="login-error" class="error-msg"></p>
-    </div>
-
-    <!-- 2. صفحة الاختيار (مسابقة / اختبار كلان) -->
-    <div id="screen-choice" class="screen">
-      <div id="user-status" class="user-badge"></div>
-      <h2>اختر وجهتك في GEDR CLAN</h2>
-
-      <button class="btn btn-gold" onclick="openForm('tournament')">
-        تسجيل في مسابقة
-      </button>
-
-      <button class="btn btn-outline" onclick="openForm('clan')">
-        تسجيل في اختبار كلان
-      </button>
-
-      <p class="rules-hint">
-        لضمان مشاركتك لا تنسَ قراءة
-        <span class="rules-link" onclick="showScreen('screen-rules')">القوانين</span>
-        والموافقة عليها
-      </p>
-    </div>
-
-    <!-- 3. صفحة القوانين -->
-    <div id="screen-rules" class="screen">
-      <button class="btn btn-back" onclick="showScreen('screen-choice')">→ رجوع</button>
-      <h2>قوانين GEDR CLAN</h2>
-
-      <div class="rules-box">
-        <ul>
-          <li>الاحترام المتبادل بين جميع الأعضاء والمنظمين، ويُمنع السب أو الاستفزاز نهائياً.</li>
-          <li>يُمنع منعاً باتاً استخدام أي نوع من الهاكات أو البرامج المساعدة أو استغلال الثغرات.</li>
-          <li>الالتزام بمواعيد البطولات والتدريبات المحددة من إدارة الكلان.</li>
-          <li>إدخال رمز معرف اللاعب (UID) الصحيح؛ أي خطأ في الآيدي يُلغي طلبك.</li>
-          <li>للمتقدمين لاختبار الكلان: يُشترط توفر بطاقة تغيير الاسم لوضع شعار الكلان فور القبول.</li>
-        </ul>
-      </div>
-
-      <label class="agree-row">
-        <input type="checkbox" id="rules-page-checkbox" onchange="handleRulesPageAgree(this)" />
-        <span>لقد قرأت جميع القوانين وأنا أوافق عليها</span>
-      </label>
-    </div>
-
-    <!-- 4. استمارة تسجيل في مسابقة -->
-    <div id="screen-tournament" class="screen">
-      <button class="btn btn-back" onclick="showScreen('screen-choice')">→ رجوع</button>
-      <h2>تسجيل في مسابقة</h2>
-
-      <form onsubmit="submitForm(event, 'تسجيل في مسابقة')">
-        <div class="form-group">
-          <label>رمز معرف اللاعب (UID):</label>
-          <input type="number" id="t-uid" required placeholder="أدخل الآيدي الخاص بك في اللعبة" />
+      <!-- لوحة المالك السرية (تظهر فقط لحساب gedrgeut01@gmail.com) -->
+      <section id="adminPanel" class="admin-panel hidden">
+        <div class="admin-header">
+          <span class="admin-title">لوحة تحكم المالك — GEDR GEUT</span>
+          <button id="closeAdminBtn" class="btn btn-dark" style="padding: 5px 10px; font-size: 0.8rem;">إغلاق</button>
         </div>
 
-        <div class="form-group">
-          <label>الدولة المقيم فيها:</label>
-          <select id="t-country" class="arab-countries" required></select>
+        <div class="mode-switch">
+          <button type="button" id="modeNewsBtn" class="btn btn-gold">نشر خبر جديد</button>
+          <button type="button" id="modePollBtn" class="btn btn-dark">نشر تصويت جديد</button>
         </div>
 
-        <div class="form-group">
-          <label>عمر اللاعب:</label>
-          <select id="t-age" required>
-            <option value="">-- اختر العمر --</option>
-            <option value="أصغر من 16">أصغر من 16</option>
-            <option value="من 16 إلى 18 سنة">من 16 إلى 18 سنة</option>
-            <option value="أكبر من 18 سنة">أكبر من 18 سنة</option>
-          </select>
+        <div class="field-group">
+          <label class="field-label" for="postTextInput">نص المنشور / وصف التصويت</label>
+          <textarea id="postTextInput" class="textarea" placeholder="اكتب التفاصيل هنا..."></textarea>
         </div>
 
-        <div class="form-group">
-          <label>مستوى اللاعب:</label>
-          <select id="t-level" required>
-            <option value="">-- اختر المستوى --</option>
-            <option value="جديد">جديد</option>
-            <option value="خبير">خبير</option>
-            <option value="محترف">محترف</option>
-          </select>
+        <div class="field-group">
+          <label class="field-label" for="postImageInput">إرفاق صورة (اختياري)</label>
+          <input type="file" id="postImageInput" class="input" accept="image/*" />
         </div>
 
-        <label class="agree-row">
-          <input type="checkbox" id="t-agree" onchange="syncAgreement(this.checked)" />
-          <span>لقد قرأت جميع القوانين وأنا أوافق عليها</span>
-        </label>
-
-        <p id="t-error" class="error-msg"></p>
-        <button type="submit" class="btn btn-gold">إرسال المعلومات</button>
-      </form>
-    </div>
-
-    <!-- 5. استمارة تسجيل في اختبار كلان -->
-    <div id="screen-clan" class="screen">
-      <button class="btn btn-back" onclick="showScreen('screen-choice')">→ رجوع</button>
-      <h2>تسجيل في اختبار كلان</h2>
-
-      <form onsubmit="submitForm(event, 'تسجيل في اختبار كلان')">
-        <div class="form-group">
-          <label>رمز معرف اللاعب (UID):</label>
-          <input type="number" id="c-uid" required placeholder="أدخل الآيدي الخاص بك في اللعبة" />
-        </div>
-
-        <div class="form-group">
-          <label>الدولة المقيم فيها:</label>
-          <select id="c-country" class="arab-countries" required></select>
-        </div>
-
-        <div class="form-group">
-          <label>عمر اللاعب:</label>
-          <select id="c-age" required>
-            <option value="">-- اختر العمر --</option>
-            <option value="أصغر من 16">أصغر من 16</option>
-            <option value="من 16 إلى 18 سنة">من 16 إلى 18 سنة</option>
-            <option value="أكبر من 18 سنة">أكبر من 18 سنة</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>مستوى اللاعب:</label>
-          <select id="c-level" required>
-            <option value="">-- اختر المستوى --</option>
-            <option value="جديد">جديد</option>
-            <option value="خبير">خبير</option>
-            <option value="محترف">محترف</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>مهارات اللاعب (اختر مهارتك):</label>
-          <div class="skills-grid">
-            <label class="skill-item"><input type="checkbox" name="c-skill" value="هجومي" /> هجومي</label>
-            <label class="skill-item"><input type="checkbox" name="c-skill" value="قناص" /> قناص</label>
-            <label class="skill-item"><input type="checkbox" name="c-skill" value="ريفايفر" /> ريفايفر</label>
-            <label class="skill-item"><input type="checkbox" name="c-skill" value="لاعب حبل" /> لاعب حبل</label>
+        <!-- حقول التصويت (من 2 إلى 4 خانات) -->
+        <div id="pollFieldsBox" class="field-group hidden">
+          <label class="field-label">خانات التصويت (اكتب من خانتين إلى 4 خانات — اترك الفارغ وسيُخفى تلقائياً)</label>
+          <div class="options-grid">
+            <input type="text" id="optA" class="input" placeholder="الخانة 1 (إجباري)" />
+            <input type="text" id="optB" class="input" placeholder="الخانة 2 (إجباري)" />
+            <input type="text" id="optC" class="input" placeholder="الخانة 3 (اختياري)" />
+            <input type="text" id="optD" class="input" placeholder="الخانة 4 (اختياري)" />
           </div>
         </div>
 
-        <div class="strict-warning">
-          ⚠️ يجب امتلاك بطاقة تغيير الاسم بدونها سيتم رفضك
-        </div>
+        <button type="button" id="publishPostBtn" class="btn btn-gold" style="width: 100%;">نشر الآن</button>
+        <div id="adminMsg" class="msg-box"></div>
+      </section>
 
-        <label class="agree-row">
-          <input type="checkbox" id="c-agree" onchange="syncAgreement(this.checked)" />
-          <span>لقد قرأت جميع القوانين وأنا أوافق عليها</span>
-        </label>
+      <!-- شبكة 2x2 الرئيسية -->
+      <section class="grid-2x2" aria-label="الأقسام الرئيسية">
+        <button type="button" id="btnCompetition" class="tile-btn">
+          <span class="tile-icon">🏆</span>
+          <span>مشاركة في مسابقة</span>
+        </button>
 
-        <p id="c-error" class="error-msg"></p>
-        <button type="submit" class="btn btn-gold">إرسال المعلومات</button>
-      </form>
-    </div>
+        <button type="button" id="btnClanTest" class="tile-btn">
+          <span class="tile-icon">🎯</span>
+          <span>مشاركة في اختبار كلان</span>
+        </button>
 
-    <!-- 6. لافتة تم إرسال المعلومات -->
-    <div id="screen-success" class="screen">
-      <div class="success-banner">
-        <div class="success-icon">✅</div>
-        <h2>تم إرسال المعلومات بنجاح!</h2>
-        <p class="subtitle" style="margin: 12px 0 22px; line-height: 1.8;">
-          تم استلام طلبك بنجاح وإرساله إلى إدارة <strong>GEDR CLAN</strong>.<br/>
-          عند الموافقة سيتم التواصل معك وإرسال طلب الصداقة داخل اللعبة عبر الآيدي (UID) الذي سجلته.
-        </p>
-        <button class="btn btn-gold" onclick="showScreen('screen-choice')">العودة إلى القائمة الرئيسية</button>
-      </div>
-    </div>
+        <button type="button" id="btnNews" class="tile-btn active">
+          <span class="tile-icon">📰</span>
+          <span>آخر الأخبار</span>
+        </button>
 
+        <button type="button" id="btnVoting" class="tile-btn">
+          <span class="tile-icon">📊</span>
+          <span>تصويت على الأفضل</span>
+        </button>
+      </section>
+
+      <!-- قسم آخر الأخبار -->
+      <section id="newsSection" class="section-box">
+        <h2 class="section-heading">📰 آخر الأخبار</h2>
+        <div id="newsFeed"></div>
+      </section>
+
+      <!-- قسم تصويت على الأفضل -->
+      <section id="votingSection" class="section-box hidden">
+        <h2 class="section-heading">📊 تصويت على الأفضل</h2>
+        <div id="votingFeed"></div>
+      </section>
+    </main>
   </div>
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  <script>
+    // =========================================================================
+    // إعدادات المشروع والروابط (ضع بيانات مشروعك الحالية هنا)
+    // =========================================================================
+    const ADMIN_EMAIL = "gedrgeut01@gmail.com";
+    const AUTHOR_NAME = "GEDR GEUT";
+    const AUTHOR_AVATAR = "IMG_20261112_133428_146.png";
+    const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
+    // ضع روابط نماذج المسابقات واختبار الكلان هنا عند الحاجة
+    const COMPETITION_URL = "#competition";
+    const CLAN_TEST_URL = "#clan-test";
+
+    // استبدل هذه القيم ببيانات firebaseConfig الخاصة بمشروعك gedr-clan
     const firebaseConfig = {
-      authDomain: "gedr-clan.firebaseapp.com",
-      projectId: "gedr-clan"
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
     };
 
-    let auth = null;
-    let provider = null;
-    try {
-      const app = initializeApp(firebaseConfig);
-      auth = getAuth(app);
-      provider = new GoogleAuthProvider();
-    } catch (e) {
-      console.warn("Firebase init note:", e);
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
     }
 
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // حالة التطبيق المحلية
     let currentUser = null;
-    let rulesAgreed = false;
+    let isGuestMode = false;
+    let publishMode = "news"; // "news" | "poll"
+    let allPosts = [];
 
-    const arabCountries = [
-      "الجزائر", "المغرب", "تونس", "ليبيا", "مصر", "موريتانيا", "السودان",
-      "السعودية", "الإمارات", "قطر", "الكويت", "البحرين", "سلطنة عمان",
-      "اليمن", "الأردن", "فلسطين", "لبنان", "سوريا", "العراق", "الصومال", "جيبوتي", "جزر القمر"
-    ];
+    // عناصر الواجهة
+    const loginScreen = document.getElementById("loginScreen");
+    const portalScreen = document.getElementById("portalScreen");
+    const googleLoginBtn = document.getElementById("googleLoginBtn");
+    const guestBtn = document.getElementById("guestBtn");
+    const authError = document.getElementById("authError");
+    const sessionLabel = document.getElementById("sessionLabel");
+    const toggleAdminBtn = document.getElementById("toggleAdminBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-    document.querySelectorAll(".arab-countries").forEach(select => {
-      select.innerHTML = `<option value="">-- اختر الدولة العربية --</option>` +
-        arabCountries.map(c => `<option value="${c}">${c}</option>`).join("");
+    const adminPanel = document.getElementById("adminPanel");
+    const closeAdminBtn = document.getElementById("closeAdminBtn");
+    const modeNewsBtn = document.getElementById("modeNewsBtn");
+    const modePollBtn = document.getElementById("modePollBtn");
+    const pollFieldsBox = document.getElementById("pollFieldsBox");
+    const publishPostBtn = document.getElementById("publishPostBtn");
+    const adminMsg = document.getElementById("adminMsg");
+
+    const btnCompetition = document.getElementById("btnCompetition");
+    const btnClanTest = document.getElementById("btnClanTest");
+    const btnNews = document.getElementById("btnNews");
+    const btnVoting = document.getElementById("btnVoting");
+    const newsSection = document.getElementById("newsSection");
+    const votingSection = document.getElementById("votingSection");
+    const newsFeed = document.getElementById("newsFeed");
+    const votingFeed = document.getElementById("votingFeed");
+
+    function isAdmin() {
+      return Boolean(currentUser && currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL);
+    }
+
+    function enterPortalUI() {
+      loginScreen.classList.add("hidden");
+      portalScreen.classList.remove("hidden");
+
+      if (currentUser) {
+        sessionLabel.textContent = isAdmin()
+          ? `${AUTHOR_NAME} (${currentUser.email})`
+          : (currentUser.displayName || currentUser.email);
+      } else {
+        sessionLabel.textContent = "وضع الزائر";
+      }
+
+      if (isAdmin()) {
+        toggleAdminBtn.classList.remove("hidden");
+      } else {
+        toggleAdminBtn.classList.add("hidden");
+        adminPanel.classList.add("hidden");
+      }
+
+      subscribeToPosts();
+    }
+
+    function enterLoginUI() {
+      portalScreen.classList.add("hidden");
+      adminPanel.classList.add("hidden");
+      loginScreen.classList.remove("hidden");
+    }
+
+    // تسجيل الدخول عبر جوجل
+    googleLoginBtn.addEventListener("click", async () => {
+      authError.textContent = "";
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        await auth.signInWithPopup(provider);
+        isGuestMode = false;
+      } catch (err) {
+        authError.textContent = "تعذر تسجيل الدخول عبر جوجل. تأكد من تفعيل Google Sign-In في Firebase.";
+      }
     });
 
-    window.showScreen = function(id) {
-      if (!currentUser && id !== "screen-login") {
-        id = "screen-login";
+    // المتابعة كزائر
+    guestBtn.addEventListener("click", () => {
+      authError.textContent = "";
+      isGuestMode = true;
+      enterPortalUI();
+    });
+
+    // خروج
+    logoutBtn.addEventListener("click", async () => {
+      isGuestMode = false;
+      if (currentUser) {
+        await auth.signOut();
       }
-      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-      document.getElementById(id).classList.add("active");
-      window.scrollTo(0, 0);
-    };
+      enterLoginUI();
+    });
 
-    window.loginWithGoogle = async function() {
-      const errEl = document.getElementById("login-error");
-      errEl.style.display = "none";
-      try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        currentUser = {
-          type: "حساب جوجل",
-          name: user.displayName || "لاعب جوجل",
-          email: user.email || "غير متوفر"
-        };
-        enterPortal();
-      } catch (error) {
-        errEl.textContent = "تعذر تسجيل الدخول عبر جوجل. تأكد من السماح بالنوافذ المنبثقة أو جرّب المتابعة كزائر.";
-        errEl.style.display = "block";
+    auth.onAuthStateChanged((user) => {
+      currentUser = user;
+      if (user) {
+        enterPortalUI();
+      } else if (!isGuestMode) {
+        enterLoginUI();
+      } else {
+        enterPortalUI();
       }
-    };
+    });
 
-    window.continueAsGuest = function() {
-      currentUser = {
-        type: "زائر",
-        name: "زائر",
-        email: "دخول كزائر"
-      };
-      enterPortal();
-    };
-
-    function enterPortal() {
-      const statusEl = document.getElementById("user-status");
-      statusEl.textContent = currentUser.type === "زائر"
-        ? "وضع الدخول: زائر"
-        : `مرحباً: ${currentUser.name} (${currentUser.email})`;
-      showScreen("screen-choice");
+    // التنقل بين شبكة 2x2
+    function setActiveTab(tab) {
+      btnNews.classList.toggle("active", tab === "news");
+      btnVoting.classList.toggle("active", tab === "voting");
+      newsSection.classList.toggle("hidden", tab !== "news");
+      votingSection.classList.toggle("hidden", tab !== "voting");
     }
 
-    window.syncAgreement = function(checked) {
-      rulesAgreed = checked;
-      document.getElementById("rules-page-checkbox").checked = checked;
-      document.getElementById("t-agree").checked = checked;
-      document.getElementById("c-agree").checked = checked;
-    };
+    btnNews.addEventListener("click", () => setActiveTab("news"));
+    btnVoting.addEventListener("click", () => setActiveTab("voting"));
 
-    window.handleRulesPageAgree = function(checkbox) {
-      syncAgreement(checkbox.checked);
-      if (checkbox.checked) {
-        setTimeout(() => {
-          showScreen("screen-choice");
-        }, 250);
-      }
-    };
-
-    window.openForm = function(type) {
-      syncAgreement(rulesAgreed);
-      if (type === "tournament") {
-        document.getElementById("t-error").style.display = "none";
-        showScreen("screen-tournament");
+    btnCompetition.addEventListener("click", () => {
+      if (COMPLETION_URL.startsWith("http")) {
+        window.open(COMPLETION_URL, "_blank", "noopener,noreferrer");
       } else {
-        document.getElementById("c-error").style.display = "none";
-        showScreen("screen-clan");
+        alert("أضف رابط نموذج المشاركة في مسابقة داخل المتغير COMPETITION_URL.");
       }
-    };
+    });
 
-    window.submitForm = async function(e, formType) {
-      e.preventDefault();
-      const isTournament = formType === "تسجيل في مسابقة";
-      const prefix = isTournament ? "t" : "c";
-      const errEl = document.getElementById(`${prefix}-error`);
-      errEl.style.display = "none";
+    btnClanTest.addEventListener("click", () => {
+      if (CLAN_TEST_URL.startsWith("http")) {
+        window.open(CLAN_TEST_URL, "_blank", "noopener,noreferrer");
+      } else {
+        alert("أضف رابط نموذج اختبار الكلان داخل المتغير CLAN_TEST_URL.");
+      }
+    });
 
-      if (!rulesAgreed) {
-        errEl.textContent = "يجب الموافقة على القوانين أولاً (ضع علامة ✅ في مربع الموافقة) لإرسال المعلومات.";
-        errEl.style.display = "block";
+    // تحكم لوحة المالك
+    toggleAdminBtn.addEventListener("click", () => {
+      if (!isAdmin()) return;
+      adminPanel.classList.toggle("hidden");
+    });
+
+    closeAdminBtn.addEventListener("click", () => {
+      adminPanel.classList.add("hidden");
+    });
+
+    function setPublishMode(mode) {
+      publishMode = mode;
+      modeNewsBtn.className = mode === "news" ? "btn btn-gold" : "btn btn-dark";
+      modePollBtn.className = mode === "poll" ? "btn btn-gold" : "btn btn-dark";
+      pollFieldsBox.classList.toggle("hidden", mode !== "poll");
+      adminMsg.textContent = "";
+    }
+
+    modeNewsBtn.addEventListener("click", () => setPublishMode("news"));
+    modePollBtn.addEventListener("click", () => setPublishMode("poll"));
+
+    // قراءة وضغط الصورة إلى Base64 لتخزينها مباشرة دون الحاجة لـ Storage إضافي
+    function readImageAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        if (!file) return resolve("");
+        const reader = new FileReader();
+        reader.onload = () => {
+          const img = new Image();
+          img.onload = () => {
+            const maxW = 900;
+            const scale = img.width > maxW ? maxW / img.width : 1;
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL("image/jpeg", 0.78));
+          };
+          img.onerror = reject;
+          img.src = reader.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // نشر خبر أو تصويت
+    publishPostBtn.addEventListener("click", async () => {
+      if (!isAdmin()) return;
+      adminMsg.className = "msg-box";
+      adminMsg.textContent = "";
+
+      const text = document.getElementById("postTextInput").value.trim();
+      const imageFile = document.getElementById("postImageInput").files[0];
+
+      if (!text && !imageFile) {
+        adminMsg.classList.add("msg-err");
+        adminMsg.textContent = "اكتب نصاً أو أرفق صورة قبل النشر.";
         return;
       }
 
-      const uid = document.getElementById(`${prefix}-uid`).value.trim();
-      const country = document.getElementById(`${prefix}-country`).value;
-      const age = document.getElementById(`${prefix}-age`).value;
-      const level = document.getElementById(`${prefix}-level`).value;
+      let options = [];
+      let votes = {};
 
-      let skillsText = "";
-      if (!isTournament) {
-        const selectedSkills = Array.from(document.querySelectorAll('input[name="c-skill"]:checked')).map(el => el.value);
-        if (selectedSkills.length === 0) {
-          errEl.textContent = "يرجى اختيار مهارة واحدة على الأقل.";
-          errEl.style.display = "block";
+      if (publishMode === "poll") {
+        const rawOpts = [
+          document.getElementById("optA").value.trim(),
+          document.getElementById("optB").value.trim(),
+          document.getElementById("optC").value.trim(),
+          document.getElementById("optD").value.trim()
+        ].filter(Boolean);
+
+        // منع النشر إذا كانت خانة واحدة فقط أو أقل من خانتين
+        if (rawOpts.length < 2) {
+          adminMsg.classList.add("msg-err");
+          adminMsg.textContent = "يجب إدخال خانتين على الأقل لإطلاق التصويت (يُمنع النشر بخانة واحدة).";
           return;
         }
-        skillsText = selectedSkills.join(" + ");
-      }
 
-      const payload = {
-        _subject: `طلب جديد (${formType}) - UID: ${uid}`,
-        نوع_الطلب: formType,
-        طريقة_الدخول: `${currentUser.name} (${currentUser.email})`,
-        رمز_معرف_اللاعب_UID: uid,
-        الدولة: country,
-        العمر: age,
-        المستوى: level
-      };
-
-      if (!isTournament) {
-        payload["مهارات_اللاعب"] = skillsText;
-        payload["بطاقة_تغيير_الاسم"] = "مؤكد - يمتلك البطاقة";
-      }
-
-      // 1. إرسال إشعار إلى Gmail عبر FormSubmit
-      try {
-        await fetch("https://formsubmit.co/ajax/gedrgeut01@gmail.com", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify(payload)
+        options = rawOpts.slice(0, 4).map((label, idx) => ({
+          id: `opt_${idx}`,
+          label
+        }));
+        options.forEach((o) => {
+          votes[o.id] = 0;
         });
+      }
+
+      publishPostBtn.disabled = true;
+      publishPostBtn.textContent = "جاري النشر...";
+
+      try {
+        const imageData = await readImageAsDataUrl(imageFile);
+        const now = Date.now();
+
+        await db.collection("posts").add({
+          type: publishMode,
+          text,
+          image: imageData,
+          authorName: AUTHOR_NAME,
+          authorAvatar: AUTHOR_AVATAR,
+          createdAt: now,
+          expiresAt: publishMode === "poll" ? now + SEVEN_DAYS_MS : null,
+          likes: 0,
+          laughs: 0,
+          options,
+          votes
+        });
+
+        document.getElementById("postTextInput").value = "";
+        document.getElementById("postImageInput").value = "";
+        document.getElementById("optA").value = "";
+        document.getElementById("optB").value = "";
+        document.getElementById("optC").value = "";
+        document.getElementById("optD").value = "";
+
+        adminMsg.classList.add("msg-ok");
+        adminMsg.textContent = publishMode === "poll"
+          ? "تم إطلاق التصويت بنجاح (مدة التصويت 7 أيام)."
+          : "تم نشر الخبر بنجاح.";
       } catch (err) {
-        console.warn("Email notification warning:", err);
+        adminMsg.classList.add("msg-err");
+        adminMsg.textContent = "حدث خطأ أثناء النشر. تأكد من صلاحيات المالك وحجم الصورة.";
+      } finally {
+        publishPostBtn.disabled = false;
+        publishPostBtn.textContent = "نشر الآن";
+      }
+    });
+
+    // حساب الوقت المنقضي تلقائياً
+    function formatElapsedTime(timestamp) {
+      const diffSec = Math.max(0, Math.floor((Date.now() - Number(timestamp || Date.now())) / 1000));
+      if (diffSec < 60) return "الآن";
+      const mins = Math.floor(diffSec / 60);
+      if (mins < 60) return `منذ ${mins} د`;
+      const hours = Math.floor(mins / 60);
+      if (hours < 24) return `منذ ${hours} س`;
+      const days = Math.floor(hours / 24);
+      if (days < 30) return `منذ ${days} يوم`;
+      const months = Math.floor(days / 30);
+      if (months < 12) return `منذ ${months} شهر`;
+      const years = Math.floor(months / 12);
+      return `منذ ${years} سنة`;
+    }
+
+    function formatRemainingTime(expiresAt) {
+      const rem = Number(expiresAt || 0) - Date.now();
+      if (rem <= 0) return "انتهى التصويت (7 أيام)";
+      const days = Math.floor(rem / (24 * 60 * 60 * 1000));
+      const hours = Math.floor((rem % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+      return `متبقي: ${days} يوم و ${hours} ساعة`;
+    }
+
+    // تتبع التفاعلات والتصويت محلياً لمنع التكرار بدون تراجع
+    function getLocalReaction(postId) {
+      return localStorage.getItem(`gedr_react_${postId}`) || "";
+    }
+
+    function setLocalReaction(postId, type) {
+      localStorage.setItem(`gedr_react_${postId}`, type);
+    }
+
+    function getLocalVote(postId) {
+      return localStorage.getItem(`gedr_vote_${postId}`) || "";
+    }
+
+    function setLocalVote(postId, optionId) {
+      localStorage.setItem(`gedr_vote_${postId}`, optionId);
+    }
+
+    // التفاعل بـ ❤️ أو 😂
+    async function handleReaction(postId, type) {
+      const current = getLocalReaction(postId);
+      if (current === type) return; // منع تكرار نفس التفاعل
+
+      const postRef = db.collection("posts").doc(postId);
+      await db.runTransaction(async (tx) => {
+        const snap = await tx.get(postRef);
+        if (!snap.exists) return;
+        const data = snap.data();
+        let likes = Number(data.likes || 0);
+        let laughs = Number(data.laughs || 0);
+
+        if (current === "like") likes = Math.max(0, likes - 1);
+        if (current === "laugh") laughs = Math.max(0, laughs - 1);
+
+        if (type === "like") likes += 1;
+        if (type === "laugh") laughs += 1;
+
+        tx.update(postRef, { likes, laughs });
+      });
+
+      setLocalReaction(postId, type);
+      renderFeeds();
+    }
+
+    // التصويت على خيار واحد فقط بدون تراجع ولمدة 7 أيام
+    async function handleVote(postId, optionId) {
+      const existingVote = getLocalVote(postId);
+      if (existingVote) return; // تصويت واحد فقط بدون تراجع
+
+      const post = allPosts.find((p) => p.id === postId);
+      if (!post) return;
+      if (Date.now() >= Number(post.expiresAt || 0)) return;
+
+      const postRef = db.collection("posts").doc(postId);
+      await db.runTransaction(async (tx) => {
+        const snap = await tx.get(postRef);
+        if (!snap.exists) return;
+        const data = snap.data();
+        if (Date.now() >= Number(data.expiresAt || 0)) return;
+
+        const votes = Object.assign({}, data.votes || {});
+        votes[optionId] = Number(votes[optionId] || 0) + 1;
+        tx.update(postRef, { votes });
+      });
+
+      setLocalVote(postId, optionId);
+      renderFeeds();
+    }
+
+    // حذف منشور للمالك فقط
+    async function handleDeletePost(postId) {
+      if (!isAdmin()) return;
+      if (!confirm("هل تريد حذف هذا المنشور نهائياً؟")) return;
+      await db.collection("posts").doc(postId).delete();
+    }
+
+    // عرض منشورات الأخبار والتصويت
+    function renderFeeds() {
+      const newsPosts = allPosts.filter((p) => p.type === "news");
+      const pollPosts = allPosts.filter((p) => p.type === "poll");
+
+      // قسم آخر الأخبار
+      if (!newsPosts.length) {
+        newsFeed.innerHTML = `<div class="empty-state">لا توجد أخبار منشورة حالياً.</div>`;
+      } else {
+        newsFeed.innerHTML = newsPosts.map((post) => {
+          const reacted = getLocalReaction(post.id);
+          return `
+            <article class="post-card">
+              <div class="post-head">
+                <div class="author-wrap">
+                  <img class="author-avatar" src="${post.authorAvatar || AUTHOR_AVATAR}" alt="${AUTHOR_NAME}" />
+                  <div>
+                    <div class="author-name-row">
+                      <span>${post.authorName || AUTHOR_NAME}</span>
+                      <span class="verified-badge" title="موثق">✓</span>
+                    </div>
+                    <div class="post-time">${formatElapsedTime(post.createdAt)}</div>
+                  </div>
+                </div>
+                ${isAdmin() ? `<button type="button" class="btn-danger" onclick="handleDeletePost('${post.id}')">حذف</button>` : ""}
+              </div>
+              ${post.text ? `<p class="post-text">${escapeHtml(post.text)}</p>` : ""}
+              ${post.image ? `<img class="post-img" src="${post.image}" alt="صورة الخبر" />` : ""}
+              <div class="reactions-bar">
+                <button type="button" class="react-btn ${reacted === "like" ? "active" : ""}" onclick="handleReaction('${post.id}', 'like')">
+                  <span>❤️</span>
+                  <span>${Number(post.likes || 0)}</span>
+                </button>
+                <button type="button" class="react-btn ${reacted === "laugh" ? "active" : ""}" onclick="handleReaction('${post.id}', 'laugh')">
+                  <span>😂</span>
+                  <span>${Number(post.laughs || 0)}</span>
+                </button>
+              </div>
+            </article>
+          `;
+        }).join("");
       }
 
-      // 2. تجهيز رسالة واتساب وإرسالها إلى رقمك
-      let waMessage = `*طلب جديد في GEDR CLAN*\n` +
-        `• *النوع:* ${formType}\n` +
-        `• *الحساب:* ${currentUser.name} (${currentUser.email})\n` +
-        `• *UID:* ${uid}\n` +
-        `• *الدولة:* ${country}\n` +
-        `• *العمر:* ${age}\n` +
-        `• *المستوى:* ${level}\n`;
+      // قسم تصويت على الأفضل
+      if (!pollPosts.length) {
+        votingFeed.innerHTML = `<div class="empty-state">لا توجد تصويتات نشطة حالياً.</div>`;
+      } else {
+        votingFeed.innerHTML = pollPosts.map((post) => {
+          const myVote = getLocalVote(post.id);
+          const isExpired = Date.now() >= Number(post.expiresAt || 0);
+          const showCounts = Boolean(myVote) || isExpired;
+          const options = Array.isArray(post.options) ? post.options : [];
+          const votesMap = post.votes || {};
 
-      if (!isTournament) {
-        waMessage += `• *المهارات:* ${skillsText}\n` +
-                     `• *بطاقة تغيير الاسم:* متوفرة ✅\n`;
+          const optionsHtml = options.map((opt) => {
+            const count = Number(votesMap[opt.id] || 0);
+            const isSelected = myVote === opt.id;
+            const disabled = Boolean(myVote) || isExpired;
+            return `
+              <button
+                type="button"
+                class="poll-opt-btn ${isSelected ? "selected" : ""}"
+                ${disabled ? "disabled" : ""}
+                onclick="handleVote('${post.id}', '${opt.id}')"
+              >
+                <span class="poll-opt-label">${escapeHtml(opt.label)}</span>
+                ${showCounts ? `<span class="poll-opt-count">${count} صوت</span>` : ""}
+              </button>
+            `;
+          }).join("");
+
+          return `
+            <article class="post-card">
+              <div class="post-head">
+                <div class="author-wrap">
+                  <img class="author-avatar" src="${post.authorAvatar || AUTHOR_AVATAR}" alt="${AUTHOR_NAME}" />
+                  <div>
+                    <div class="author-name-row">
+                      <span>${post.authorName || AUTHOR_NAME}</span>
+                      <span class="verified-badge" title="موثق">✓</span>
+                    </div>
+                    <div class="post-time">${formatElapsedTime(post.createdAt)}</div>
+                  </div>
+                </div>
+                ${isAdmin() ? `<button type="button" class="btn-danger" onclick="handleDeletePost('${post.id}')">حذف</button>` : ""}
+              </div>
+              ${post.text ? `<p class="post-text">${escapeHtml(post.text)}</p>` : ""}
+              ${post.image ? `<img class="post-img" src="${post.image}" alt="صورة التصويت" />` : ""}
+              <div class="poll-options">${optionsHtml}</div>
+              <div class="poll-status">
+                <span>${formatRemainingTime(post.expiresAt)}</span>
+                <span>${myVote ? "تم تسجيل صوتك (لا يمكن التراجع)" : (isExpired ? "النتائج النهائية معلنة" : "اختر خانة واحدة فقط")}</span>
+              </div>
+            </article>
+          `;
+        }).join("");
       }
+    }
 
-      const waUrl = `https://wa.me/213784697227?text=${encodeURIComponent(waMessage)}`;
-      window.open(waUrl, "_blank");
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
 
-      // 3. إظهار لافتة النجاح
-      showScreen("screen-success");
-    };
+    let unsubscribePosts = null;
+    function subscribeToPosts() {
+      if (unsubscribePosts) unsubscribePosts();
+      unsubscribePosts = db.collection("posts")
+        .orderBy("createdAt", "desc")
+        .onSnapshot((snapshot) => {
+          allPosts = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+          renderFeeds();
+        }, () => {
+          newsFeed.innerHTML = `<div class="empty-state">تعذر تحميل المنشورات حالياً.</div>`;
+        });
+    }
+
+    // تحديث عداد الوقت كل دقيقة
+    setInterval(() => {
+      if (allPosts.length) renderFeeds();
+    }, 60000);
   </script>
 </body>
 </html>
