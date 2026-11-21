@@ -119,6 +119,7 @@
       justify-content: center;
       gap: 10px;
       transition: transform 0.14s ease, background-color 0.14s ease;
+      text-decoration: none;
     }
 
     .btn:active {
@@ -152,6 +153,18 @@
       background-color: rgba(229, 184, 59, 0.18) !important;
       color: #f5cb4c !important;
       border: 1px solid rgba(229, 184, 59, 0.55) !important;
+    }
+
+    .btn-whatsapp {
+      background-color: #16a34a !important;
+      color: #ffffff !important;
+      border: 1px solid #22c55e !important;
+    }
+
+    .btn-gmail {
+      background-color: #2563eb !important;
+      color: #ffffff !important;
+      border: 1px solid #60a5fa !important;
     }
 
     .btn-danger {
@@ -192,6 +205,32 @@
       font-size: 0.94rem;
       font-weight: 800;
       margin-bottom: 16px;
+    }
+
+    .rules-box {
+      background-color: #111117 !important;
+      border: 1px solid var(--gold-border) !important;
+      color: #e4e4e7 !important;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      line-height: 1.75;
+    }
+
+    .send-channels-box {
+      background-color: #121820 !important;
+      border: 1.5px solid var(--gold-border) !important;
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    .send-channels-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 10px;
     }
 
     .notice-banner {
@@ -441,7 +480,8 @@
     }
 
     @media (max-width: 540px) {
-      .grid-4 {
+      .grid-4,
+      .send-channels-grid {
         grid-template-columns: 1fr;
       }
       .tile-card {
@@ -462,7 +502,7 @@
     <div class="avatar-ring">
       <img
         id="clanAvatar"
-        src="https://gedrgeut01-code.github.io/IMG_20261112_133428_146.png"
+        src="./IMG_20261112_133428_146.png"
         alt="شعار GEDR CLAN"
       />
     </div>
@@ -611,6 +651,15 @@
           </div>
 
           <div class="form-group">
+            <button id="toggleRulesBtn" class="btn btn-outline-gold btn-sm" type="button">قراءة القوانين</button>
+            <div id="rulesContent" class="rules-box hidden">
+              • الالتزام بالأخلاق والاحترام وعدم استخدام أي برامج أو ثغرات مخالفة.<br />
+              • إدخال معرف اللاعب UID الصحيح الخاص بحسابك.<br />
+              • التواجد في الموعد المحدد للمسابقة وقرارات الإدارة نهائية.
+            </div>
+          </div>
+
+          <div class="form-group">
             <label class="checkbox-row" for="contestRulesAgree">
               <input id="contestRulesAgree" type="checkbox" required />
               <span>الموافقة على القوانين</span>
@@ -619,6 +668,14 @@
 
           <button class="btn btn-gold" type="submit">إرسال طلب المشاركة في المسابقة</button>
         </form>
+
+        <div id="contestSendChannels" class="send-channels-box hidden">
+          <strong style="color:#f5cb4c;">إرسال الاستمارة مباشرة إلى الإدارة:</strong>
+          <div class="send-channels-grid">
+            <a id="contestWhatsappLink" class="btn btn-whatsapp btn-sm" target="_blank" rel="noopener">واتساب (+213784697227)</a>
+            <a id="contestGmailLink" class="btn btn-gmail btn-sm" target="_blank" rel="noopener">Gmail (gedrgeut01@gmail.com)</a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -665,6 +722,14 @@
 
           <button class="btn btn-gold" type="submit">إرسال طلب اختبار الكلان</button>
         </form>
+
+        <div id="tryoutSendChannels" class="send-channels-box hidden">
+          <strong style="color:#f5cb4c;">إرسال الاستمارة مباشرة إلى الإدارة:</strong>
+          <div class="send-channels-grid">
+            <a id="tryoutWhatsappLink" class="btn btn-whatsapp btn-sm" target="_blank" rel="noopener">واتساب (+213784697227)</a>
+            <a id="tryoutGmailLink" class="btn btn-gmail btn-sm" target="_blank" rel="noopener">Gmail (gedrgeut01@gmail.com)</a>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -698,7 +763,25 @@
     } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
     const ADMIN_EMAIL = "gedrgeut01@gmail.com";
-    const LOGO_URL = "https://gedrgeut01-code.github.io/IMG_20261112_133428_146.png";
+    const ADMIN_WHATSAPP = "213784697227";
+    const LOGO_IMAGE_FILE = "IMG_20261112_133428_146.png";
+
+    const LOGO_CANDIDATES = [
+      `./${LOGO_IMAGE_FILE}`,
+      LOGO_IMAGE_FILE,
+      `https://gedrgeut01-code.github.io/${LOGO_IMAGE_FILE}`,
+      `https://raw.githubusercontent.com/gedrgeut01-code/GEDR-CLAN/main/${LOGO_IMAGE_FILE}`
+    ];
+
+    const clanAvatar = document.getElementById("clanAvatar");
+    let logoIdx = 0;
+    clanAvatar.src = LOGO_CANDIDATES[0];
+    clanAvatar.onerror = () => {
+      logoIdx += 1;
+      if (logoIdx < LOGO_CANDIDATES.length) {
+        clanAvatar.src = LOGO_CANDIDATES[logoIdx];
+      }
+    };
 
     const ARAB_COUNTRIES = [
       "الجزائر", "السعودية", "مصر", "العراق", "المغرب", "تونس",
@@ -720,9 +803,6 @@
       messagingSenderId: "PUT_YOUR_REAL_SENDER_ID_HERE",
       appId: "PUT_YOUR_REAL_APP_ID_HERE"
     };
-
-    const clanAvatar = document.getElementById("clanAvatar");
-    clanAvatar.src = LOGO_URL;
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
@@ -749,6 +829,9 @@
     const newsList = document.getElementById("newsList");
     const pollsList = document.getElementById("pollsList");
 
+    const toggleRulesBtn = document.getElementById("toggleRulesBtn");
+    const rulesContent = document.getElementById("rulesContent");
+
     const subPages = ["newsPage", "pollsPage", "contestPage", "tryoutPage"];
     let currentUser = null;
     let isGuest = false;
@@ -765,7 +848,7 @@
       toastEl.textContent = msg;
       toastEl.classList.remove("hidden");
       clearTimeout(showToast._t);
-      showToast._t = setTimeout(() => toastEl.classList.add("hidden"), 2600);
+      showToast._t = setTimeout(() => toastEl.classList.add("hidden"), 2800);
     }
 
     function showError(msg) {
@@ -799,6 +882,16 @@
     document.querySelectorAll(".back-btn").forEach((btn) => {
       btn.addEventListener("click", goHome);
     });
+
+    toggleRulesBtn.addEventListener("click", () => {
+      rulesContent.classList.toggle("hidden");
+    });
+
+    function buildSendLinks(subject, textBody) {
+      const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(textBody)}`;
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(ADMIN_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(textBody)}`;
+      return { whatsappUrl, gmailUrl };
+    }
 
     await setPersistence(auth, browserLocalPersistence).catch(() => {});
 
@@ -1115,20 +1208,32 @@
         return;
       }
 
-      try {
-        await addDoc(collection(db, "contest_registrations"), {
-          uid,
-          country,
-          ageGroup,
-          agreedToRules,
-          userEmail: currentUser?.email || "guest",
-          createdAt: serverTimestamp()
-        });
-        e.target.reset();
-        showToast("تم إرسال طلب المشاركة في المسابقة بنجاح");
-      } catch {
-        showToast("تعذر إرسال طلب المسابقة");
+      const summaryText =
+        `طلب مشاركة في مسابقة — GEDR CLAN\n` +
+        `معرف اللاعب UID: ${uid}\n` +
+        `الدولة: ${country}\n` +
+        `عمر اللاعب: ${ageGroup}\n` +
+        `الموافقة على القوانين: نعم`;
+
+      const { whatsappUrl, gmailUrl } = buildSendLinks("طلب مشاركة في مسابقة - GEDR CLAN", summaryText);
+      document.getElementById("contestWhatsappLink").href = whatsappUrl;
+      document.getElementById("contestGmailLink").href = gmailUrl;
+      document.getElementById("contestSendChannels").classList.remove("hidden");
+
+      if (!firebaseConfig.apiKey.startsWith("PUT_YOUR_REAL_")) {
+        try {
+          await addDoc(collection(db, "contest_registrations"), {
+            uid,
+            country,
+            ageGroup,
+            agreedToRules,
+            userEmail: currentUser?.email || "guest",
+            createdAt: serverTimestamp()
+          });
+        } catch {}
       }
+
+      showToast("تم تجهيز الاستمارة — اختر واتساب أو Gmail للإرسال");
     });
 
     // إرسال نموذج مشاركة في اختبار كلان
@@ -1139,20 +1244,32 @@
       const ageGroup = document.getElementById("tryoutAge").value;
       const skill = document.getElementById("tryoutSkill").value;
 
-      try {
-        await addDoc(collection(db, "clan_tryouts"), {
-          uid,
-          country,
-          ageGroup,
-          skill,
-          userEmail: currentUser?.email || "guest",
-          createdAt: serverTimestamp()
-        });
-        e.target.reset();
-        showToast("تم إرسال طلب اختبار الكلان بنجاح");
-      } catch {
-        showToast("تعذر إرسال طلب الاختبار");
+      const summaryText =
+        `طلب مشاركة في اختبار كلان — GEDR CLAN\n` +
+        `معرف اللاعب UID: ${uid}\n` +
+        `الدولة: ${country}\n` +
+        `عمر اللاعب: ${ageGroup}\n` +
+        `المهارة: ${skill}`;
+
+      const { whatsappUrl, gmailUrl } = buildSendLinks("طلب مشاركة في اختبار كلان - GEDR CLAN", summaryText);
+      document.getElementById("tryoutWhatsappLink").href = whatsappUrl;
+      document.getElementById("tryoutGmailLink").href = gmailUrl;
+      document.getElementById("tryoutSendChannels").classList.remove("hidden");
+
+      if (!firebaseConfig.apiKey.startsWith("PUT_YOUR_REAL_")) {
+        try {
+          await addDoc(collection(db, "clan_tryouts"), {
+            uid,
+            country,
+            ageGroup,
+            skill,
+            userEmail: currentUser?.email || "guest",
+            createdAt: serverTimestamp()
+          });
+        } catch {}
       }
+
+      showToast("تم تجهيز الاستمارة — اختر واتساب أو Gmail للإرسال");
     });
   </script>
 </body>
