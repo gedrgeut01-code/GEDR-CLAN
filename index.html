@@ -354,6 +354,7 @@
     }
 
     input[type="text"],
+    input[type="file"],
     textarea,
     select {
       width: 100%;
@@ -372,6 +373,7 @@
     }
 
     input:focus,
+    input[type="file"]:focus,
     textarea:focus,
     select:focus {
       border-color: #e5b83b !important;
@@ -380,6 +382,24 @@
     textarea {
       min-height: 95px;
       resize: vertical;
+    }
+
+    .poll-options-boxes {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .poll-option-box {
+      background-color: #101016 !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .poll-option-box input[type="text"] {
+      padding: 9px 11px;
+      font-size: 0.93rem;
     }
 
     .checkbox-row {
@@ -421,10 +441,95 @@
       margin-bottom: 8px;
     }
 
+    .admin-post-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
     .post-title {
       font-size: 1.08rem;
       font-weight: 800;
       color: #f5cb4c !important;
+    }
+
+    .post-image {
+      width: 100%;
+      max-height: 340px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin: 10px 0 12px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      display: block;
+    }
+
+    .reactions-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .reaction-btn {
+      background-color: #111117 !important;
+      color: #ffffff !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .reaction-btn:hover,
+    .reaction-btn.active {
+      border-color: #e5b83b !important;
+      background-color: rgba(229, 184, 59, 0.18) !important;
+    }
+
+    .reaction-count {
+      color: #f5cb4c !important;
+      font-weight: 800;
+    }
+
+    .poll-expiry-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background-color: #121219 !important;
+      border: 1px solid rgba(229, 184, 59, 0.35) !important;
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      font-size: 0.86rem;
+      color: #fde68a !important;
+      font-weight: 700;
+    }
+
+    .poll-edit-panel {
+      background-color: #111117 !important;
+      border: 1px solid var(--gold-border) !important;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .poll-edit-panel select {
+      width: auto;
+      min-width: 150px;
+      padding: 7px 10px;
+      font-size: 0.88rem;
     }
 
     .post-date {
@@ -450,10 +555,15 @@
       gap: 10px;
     }
 
-    .poll-option:hover,
+    .poll-option:hover:not(:disabled),
     .poll-option.voted {
       border-color: #e5b83b !important;
       background-color: rgba(229, 184, 59, 0.18) !important;
+    }
+
+    .poll-option:disabled {
+      opacity: 0.85;
+      cursor: default;
     }
 
     .empty-msg {
@@ -583,6 +693,10 @@
             <label class="field-label" for="newsBodyInput">تفاصيل الخبر</label>
             <textarea id="newsBodyInput" placeholder="اكتب تفاصيل الخبر هنا..." required></textarea>
           </div>
+          <div class="form-group">
+            <label class="field-label" for="newsImageInput">صورة الخبر من الجهاز (اختياري)</label>
+            <input id="newsImageInput" type="file" accept="image/*" />
+          </div>
           <button class="btn btn-gold" type="submit">نشر الخبر الآن</button>
         </form>
       </div>
@@ -610,10 +724,39 @@
             <label class="field-label" for="pollQuestionInput">سؤال التصويت</label>
             <input id="pollQuestionInput" type="text" placeholder="اكتب سؤال التصويت" required />
           </div>
+
           <div class="form-group">
-            <label class="field-label" for="pollOptionsInput">خيارات التصويت (كل خيار في سطر)</label>
-            <textarea id="pollOptionsInput" placeholder="الخيار الأول&#10;الخيار الثاني&#10;الخيار الثالث" required></textarea>
+            <label class="field-label">خيارات التصويت (2 إجباري و2 اختياري كحد أقصى)</label>
+            <div class="poll-options-boxes">
+              <div class="poll-option-box">
+                <input id="pollOption1Input" type="text" placeholder="الخيار الأول (إجباري)" required />
+              </div>
+              <div class="poll-option-box">
+                <input id="pollOption2Input" type="text" placeholder="الخيار الثاني (إجباري)" required />
+              </div>
+              <div class="poll-option-box">
+                <input id="pollOption3Input" type="text" placeholder="الخيار الثالث (اختياري)" />
+              </div>
+              <div class="poll-option-box">
+                <input id="pollOption4Input" type="text" placeholder="الخيار الرابع (اختياري)" />
+              </div>
+            </div>
           </div>
+
+          <div class="form-group">
+            <label class="field-label" for="pollDurationInput">مدة انتهاء التصويت</label>
+            <select id="pollDurationInput" required>
+              <option value="7">7 أيام</option>
+              <option value="15">15 يوم</option>
+              <option value="30">30 يوم</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="field-label" for="pollImageInput">صورة التصويت من الجهاز (اختياري)</label>
+            <input id="pollImageInput" type="file" accept="image/*" />
+          </div>
+
           <button class="btn btn-gold" type="submit">نشر التصويت الآن</button>
         </form>
       </div>
@@ -759,7 +902,8 @@
       query,
       orderBy,
       serverTimestamp,
-      updateDoc
+      updateDoc,
+      Timestamp
     } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
     const ADMIN_EMAIL = "gedrgeut01@gmail.com";
@@ -840,6 +984,7 @@
     let isAdmin = false;
     let latestNewsDocs = [];
     let latestPollDocs = [];
+    const openPollEditors = new Set();
 
     const isInAppBrowser = /Instagram|FBAN|FBAV|TikTok|Line|Snapchat/i.test(navigator.userAgent);
     if (isInAppBrowser) {
@@ -893,6 +1038,63 @@
       const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(textBody)}`;
       const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(ADMIN_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(textBody)}`;
       return { whatsappUrl, gmailUrl };
+    }
+
+    function compressImageFile(file, maxWidth = 900, quality = 0.72) {
+      return new Promise((resolve, reject) => {
+        if (!file) {
+          resolve("");
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = new Image();
+          img.onload = () => {
+            let { width, height } = img;
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL("image/jpeg", quality));
+          };
+          img.onerror = () => reject(new Error("تعذر قراءة الصورة"));
+          img.src = ev.target.result;
+        };
+        reader.onerror = () => reject(new Error("تعذر تحميل الملف"));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function computeExpiresAt(days) {
+      const safeDays = Number(days) || 7;
+      const ms = Date.now() + safeDays * 24 * 60 * 60 * 1000;
+      return Timestamp.fromMillis(ms);
+    }
+
+    function getPollExpiryInfo(poll) {
+      const raw = poll.expiresAt;
+      const expiryDate = raw?.toDate ? raw.toDate() : raw ? new Date(raw) : null;
+      if (!expiryDate || Number.isNaN(expiryDate.getTime())) {
+        return { expired: false, text: "مدة التصويت غير محددة" };
+      }
+      const diffMs = expiryDate.getTime() - Date.now();
+      const formattedDate = expiryDate.toLocaleDateString("ar");
+      if (diffMs <= 0) {
+        return { expired: true, text: `انتهى التصويت (${formattedDate})` };
+      }
+      const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
+      const days = Math.floor(totalHours / 24);
+      const hours = totalHours % 24;
+      const remainingText = days > 0 ? `متبقي ${days} يوم و${hours} ساعة` : `متبقي ${hours} ساعة`;
+      return {
+        expired: false,
+        text: `${remainingText} — ينتهي ${formattedDate}`
+      };
     }
 
     await setPersistence(auth, browserLocalPersistence).catch(() => {});
@@ -991,12 +1193,17 @@
       if (!isAdmin) return;
       const title = document.getElementById("newsTitleInput").value.trim();
       const body = document.getElementById("newsBodyInput").value.trim();
+      const file = document.getElementById("newsImageInput").files[0];
       if (!title || !body) return;
 
       try {
+        const imageData = file ? await compressImageFile(file) : "";
         await addDoc(collection(db, "news"), {
           title,
           body,
+          imageData,
+          likesCount: 0,
+          funnyCount: 0,
           authorEmail: currentUser.email,
           createdAt: serverTimestamp()
         });
@@ -1004,7 +1211,7 @@
         createNewsForm.classList.add("hidden");
         showToast("تم نشر الخبر بنجاح");
       } catch {
-        showToast("حدث خطأ أثناء نشر الخبر");
+        showToast("حدث خطأ أثناء نشر الخبر أو معالجة الصورة");
       }
     });
 
@@ -1012,22 +1219,36 @@
       e.preventDefault();
       if (!isAdmin) return;
       const question = document.getElementById("pollQuestionInput").value.trim();
-      const options = document
-        .getElementById("pollOptionsInput")
-        .value.split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean)
-        .map((label, idx) => ({ id: "opt_" + idx, label, votes: 0 }));
+      const rawLabels = [
+        document.getElementById("pollOption1Input").value.trim(),
+        document.getElementById("pollOption2Input").value.trim(),
+        document.getElementById("pollOption3Input").value.trim(),
+        document.getElementById("pollOption4Input").value.trim()
+      ].filter(Boolean);
 
-      if (!question || options.length < 2) {
-        showToast("أدخل سؤالاً وخيارين على الأقل");
+      if (!question || rawLabels.length < 2 || rawLabels.length > 4) {
+        showToast("أدخل سؤالاً وخيارين على الأقل وبحد أقصى 4 خيارات");
         return;
       }
 
+      const options = rawLabels.map((label, idx) => ({
+        id: "opt_" + idx,
+        label,
+        votes: 0
+      }));
+
+      const durationDays = Number(document.getElementById("pollDurationInput").value) || 7;
+      const expiresAt = computeExpiresAt(durationDays);
+      const file = document.getElementById("pollImageInput").files[0];
+
       try {
+        const imageData = file ? await compressImageFile(file) : "";
         await addDoc(collection(db, "polls"), {
           question,
           options,
+          imageData,
+          durationDays,
+          expiresAt,
           authorEmail: currentUser.email,
           createdAt: serverTimestamp()
         });
@@ -1035,7 +1256,7 @@
         createPollForm.classList.add("hidden");
         showToast("تم نشر التصويت بنجاح");
       } catch {
-        showToast("حدث خطأ أثناء نشر التصويت");
+        showToast("حدث خطأ أثناء نشر التصويت أو معالجة الصورة");
       }
     });
 
@@ -1074,16 +1295,77 @@
           top.appendChild(delBtn);
         }
 
+        card.appendChild(top);
+
+        if (item.imageData) {
+          const imgEl = document.createElement("img");
+          imgEl.className = "post-image";
+          imgEl.src = item.imageData;
+          imgEl.alt = item.title || "صورة الخبر";
+          card.appendChild(imgEl);
+        }
+
         const bodyEl = document.createElement("p");
         bodyEl.textContent = item.body || "";
+        card.appendChild(bodyEl);
+
+        const likedKey = "reacted_news_like_" + item.id;
+        const funnyKey = "reacted_news_funny_" + item.id;
+        const hasLiked = localStorage.getItem(likedKey) === "1";
+        const hasFunny = localStorage.getItem(funnyKey) === "1";
+
+        const reactionsRow = document.createElement("div");
+        reactionsRow.className = "reactions-row";
+
+        const heartBtn = document.createElement("button");
+        heartBtn.type = "button";
+        heartBtn.className = "reaction-btn" + (hasLiked ? " active" : "");
+        heartBtn.innerHTML = `<span>❤</span><span class="reaction-count">${item.likesCount || 0}</span>`;
+        heartBtn.addEventListener("click", async () => {
+          if (hasLiked) {
+            showToast("لقد تفاعلت بـ ❤ مسبقاً");
+            return;
+          }
+          try {
+            await updateDoc(doc(db, "news", item.id), {
+              likesCount: (item.likesCount || 0) + 1
+            });
+            localStorage.setItem(likedKey, "1");
+            showToast("تم تسجيل إعجابك");
+          } catch {
+            showToast("تعذر تحديث التفاعل");
+          }
+        });
+
+        const funnyBtn = document.createElement("button");
+        funnyBtn.type = "button";
+        funnyBtn.className = "reaction-btn" + (hasFunny ? " active" : "");
+        funnyBtn.innerHTML = `<span>😂</span><span class="reaction-count">${item.funnyCount || 0}</span>`;
+        funnyBtn.addEventListener("click", async () => {
+          if (hasFunny) {
+            showToast("لقد تفاعلت بـ 😂 مسبقاً");
+            return;
+          }
+          try {
+            await updateDoc(doc(db, "news", item.id), {
+              funnyCount: (item.funnyCount || 0) + 1
+            });
+            localStorage.setItem(funnyKey, "1");
+            showToast("تم تسجيل تفاعلك");
+          } catch {
+            showToast("تعذر تحديث التفاعل");
+          }
+        });
+
+        reactionsRow.append(heartBtn, funnyBtn);
+        card.appendChild(reactionsRow);
 
         const dateEl = document.createElement("div");
         dateEl.className = "post-date";
         const dt = item.createdAt?.toDate ? item.createdAt.toDate().toLocaleString("ar") : "";
         dateEl.textContent = dt;
-
-        card.append(top, bodyEl);
         if (dt) card.appendChild(dateEl);
+
         newsList.appendChild(card);
       });
     }
@@ -1108,6 +1390,22 @@
         top.appendChild(qEl);
 
         if (isAdmin) {
+          const actionsWrap = document.createElement("div");
+          actionsWrap.className = "admin-post-actions";
+
+          const editDurationBtn = document.createElement("button");
+          editDurationBtn.type = "button";
+          editDurationBtn.className = "btn btn-outline-gold btn-sm";
+          editDurationBtn.textContent = "تعديل المدة";
+          editDurationBtn.addEventListener("click", () => {
+            if (openPollEditors.has(poll.id)) {
+              openPollEditors.delete(poll.id);
+            } else {
+              openPollEditors.add(poll.id);
+            }
+            renderPolls(latestPollDocs);
+          });
+
           const delBtn = document.createElement("button");
           delBtn.type = "button";
           delBtn.className = "btn-danger";
@@ -1120,21 +1418,76 @@
               showToast("تعذر حذف التصويت");
             }
           });
-          top.appendChild(delBtn);
+
+          actionsWrap.append(editDurationBtn, delBtn);
+          top.appendChild(actionsWrap);
         }
 
         card.appendChild(top);
 
+        const expiryInfo = getPollExpiryInfo(poll);
+        const expiryBar = document.createElement("div");
+        expiryBar.className = "poll-expiry-bar";
+        expiryBar.textContent = expiryInfo.text;
+        card.appendChild(expiryBar);
+
+        if (isAdmin && openPollEditors.has(poll.id)) {
+          const editorPanel = document.createElement("div");
+          editorPanel.className = "poll-edit-panel";
+
+          const selectDays = document.createElement("select");
+          [7, 15, 30].forEach((d) => {
+            const optEl = document.createElement("option");
+            optEl.value = String(d);
+            optEl.textContent = `${d} ${d === 15 ? "يوم" : "أيام"}`;
+            if ((poll.durationDays || 7) === d) optEl.selected = true;
+            selectDays.appendChild(optEl);
+          });
+
+          const saveDaysBtn = document.createElement("button");
+          saveDaysBtn.type = "button";
+          saveDaysBtn.className = "btn btn-gold btn-sm";
+          saveDaysBtn.textContent = "حفظ المدة";
+          saveDaysBtn.addEventListener("click", async () => {
+            const newDays = Number(selectDays.value) || 7;
+            try {
+              await updateDoc(doc(db, "polls", poll.id), {
+                durationDays: newDays,
+                expiresAt: computeExpiresAt(newDays)
+              });
+              openPollEditors.delete(poll.id);
+              showToast("تم تحديث مدة التصويت");
+            } catch {
+              showToast("تعذر تحديث المدة");
+            }
+          });
+
+          editorPanel.append(selectDays, saveDaysBtn);
+          card.appendChild(editorPanel);
+        }
+
+        if (poll.imageData) {
+          const imgEl = document.createElement("img");
+          imgEl.className = "post-image";
+          imgEl.src = poll.imageData;
+          imgEl.alt = poll.question || "صورة التصويت";
+          card.appendChild(imgEl);
+        }
+
         const votedOptionId = localStorage.getItem("voted_poll_" + poll.id);
-        const options = Array.isArray(poll.options) ? poll.options : [];
+        const options = Array.isArray(poll.options) ? poll.options.slice(0, 4) : [];
 
         options.forEach((opt, idx) => {
           const optBtn = document.createElement("button");
           optBtn.type = "button";
-          optBtn.className = "poll-option" + (votedOptionId === opt.id ? " voted" : "");
+          const isChosen = votedOptionId === opt.id;
+          optBtn.className = "poll-option" + (isChosen ? " voted" : "");
+          if (votedOptionId || expiryInfo.expired) {
+            optBtn.disabled = true;
+          }
 
           const labelSpan = document.createElement("span");
-          labelSpan.textContent = opt.label;
+          labelSpan.textContent = opt.label + (isChosen ? " ✓" : "");
 
           const countSpan = document.createElement("span");
           countSpan.style.color = "#f5cb4c";
@@ -1143,8 +1496,12 @@
           optBtn.append(labelSpan, countSpan);
 
           optBtn.addEventListener("click", async () => {
-            if (votedOptionId) {
-              showToast("لقد قمت بالتصويت مسبقاً في هذا الاستطلاع");
+            if (expiryInfo.expired) {
+              showToast("انتهت مدة هذا التصويت");
+              return;
+            }
+            if (localStorage.getItem("voted_poll_" + poll.id)) {
+              showToast("يمكنك التصويت لخيار واحد فقط في هذا الاستطلاع");
               return;
             }
             try {
@@ -1209,41 +1566,6 @@
         `الموافقة على القوانين: نعم`;
 
       const { whatsappUrl, gmailUrl } = buildSendLinks("طلب مشاركة في مسابقة - GEDR CLAN", summaryText);
-      document.getElementById("contestWhatsappLink").href = whatsappUrl;
-      document.getElementById("contestGmailLink").href = gmailUrl;
-      document.getElementById("contestSendChannels").classList.remove("hidden");
-
-      try {
-        await addDoc(collection(db, "contest_registrations"), {
-          uid,
-          country,
-          ageGroup,
-          agreedToRules,
-          userEmail: currentUser?.email || "guest",
-          createdAt: serverTimestamp()
-        });
-        showToast("تم إرسال الطلب وحفظه — يمكنك أيضاً إرساله عبر واتساب أو Gmail");
-      } catch {
-        showToast("تم تجهيز أزرار واتساب وGmail للإرسال المباشر");
-      }
-    });
-
-    // إرسال نموذج مشاركة في اختبار كلان
-    document.getElementById("tryoutForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const uid = document.getElementById("tryoutUid").value.trim();
-      const country = document.getElementById("tryoutCountry").value;
-      const ageGroup = document.getElementById("tryoutAge").value;
-      const skill = document.getElementById("tryoutSkill").value;
-
-      const summaryText =
-        `طلب مشاركة في اختبار كلان — GEDR CLAN\n` +
-        `معرف اللاعب UID: ${uid}\n` +
-        `الدولة: ${country}\n` +
-        `عمر اللاعب: ${ageGroup}\n` +
-        `المهارة: ${skill}`;
-
-      const { whatsappUrl, gmailUrl } = buildSendLinks("طلب مشاركة في اختبار كلان - GEDR CLAN", summaryText);
       document.getElementById("tryoutWhatsappLink").href = whatsappUrl;
       document.getElementById("tryoutGmailLink").href = gmailUrl;
       document.getElementById("tryoutSendChannels").classList.remove("hidden");
