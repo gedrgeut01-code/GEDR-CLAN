@@ -796,14 +796,14 @@
       sel.innerHTML = ARAB_COUNTRIES.map((c) => `<option value="${c}">${c}</option>`).join("");
     });
 
-    // ضع هنا بيانات مشروعك الحقيقية من Firebase (gedr-clan)
     const firebaseConfig = {
-      apiKey: "PUT_YOUR_REAL_API_KEY_HERE",
+      apiKey: "AIzaSyBUijUAh2S9rHKHjRapBFBk3wx5U2UpXBI",
       authDomain: "gedr-clan.firebaseapp.com",
       projectId: "gedr-clan",
-      storageBucket: "gedr-clan.appspot.com",
-      messagingSenderId: "PUT_YOUR_REAL_SENDER_ID_HERE",
-      appId: "PUT_YOUR_REAL_APP_ID_HERE"
+      storageBucket: "gedr-clan.firebasestorage.app",
+      messagingSenderId: "598369314873",
+      appId: "1:598369314873:web:a858a6a34e3fe8a6cdc5e8",
+      measurementId: "G-L5XD96SSSC"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -898,17 +898,13 @@
     await setPersistence(auth, browserLocalPersistence).catch(() => {});
 
     getRedirectResult(auth).catch((err) => {
-      if (err?.code && err.code !== "auth/invalid-api-key") {
+      if (err?.code) {
         showError("تعذر إتمام تسجيل الدخول (" + err.code + ")");
       }
     });
 
     async function handleGoogleSignIn() {
       clearError();
-      if (firebaseConfig.apiKey.startsWith("PUT_YOUR_REAL_")) {
-        showError("لا يمكنك تسجيل الدخول الآن: ضع بيانات Firebase الحقيقية (apiKey وmessagingSenderId وappId) في الكود أولاً.");
-        return;
-      }
       try {
         await signInWithPopup(auth, provider);
       } catch (err) {
@@ -1170,32 +1166,27 @@
       });
     }
 
-    if (!firebaseConfig.apiKey.startsWith("PUT_YOUR_REAL_")) {
-      onSnapshot(
-        query(collection(db, "news"), orderBy("createdAt", "desc")),
-        (snap) => {
-          latestNewsDocs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-          renderNews(latestNewsDocs);
-        },
-        () => {
-          newsList.innerHTML = `<p class="empty-msg">لا توجد أخبار منشورة حالياً.</p>`;
-        }
-      );
+    onSnapshot(
+      query(collection(db, "news"), orderBy("createdAt", "desc")),
+      (snap) => {
+        latestNewsDocs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        renderNews(latestNewsDocs);
+      },
+      () => {
+        newsList.innerHTML = `<p class="empty-msg">لا توجد أخبار منشورة حالياً.</p>`;
+      }
+    );
 
-      onSnapshot(
-        query(collection(db, "polls"), orderBy("createdAt", "desc")),
-        (snap) => {
-          latestPollDocs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-          renderPolls(latestPollDocs);
-        },
-        () => {
-          pollsList.innerHTML = `<p class="empty-msg">لا توجد تصويتات متاحة حالياً.</p>`;
-        }
-      );
-    } else {
-      renderNews([]);
-      renderPolls([]);
-    }
+    onSnapshot(
+      query(collection(db, "polls"), orderBy("createdAt", "desc")),
+      (snap) => {
+        latestPollDocs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        renderPolls(latestPollDocs);
+      },
+      () => {
+        pollsList.innerHTML = `<p class="empty-msg">لا توجد تصويتات متاحة حالياً.</p>`;
+      }
+    );
 
     // إرسال نموذج مشاركة في مسابقة
     document.getElementById("contestForm").addEventListener("submit", async (e) => {
@@ -1222,20 +1213,19 @@
       document.getElementById("contestGmailLink").href = gmailUrl;
       document.getElementById("contestSendChannels").classList.remove("hidden");
 
-      if (!firebaseConfig.apiKey.startsWith("PUT_YOUR_REAL_")) {
-        try {
-          await addDoc(collection(db, "contest_registrations"), {
-            uid,
-            country,
-            ageGroup,
-            agreedToRules,
-            userEmail: currentUser?.email || "guest",
-            createdAt: serverTimestamp()
-          });
-        } catch {}
+      try {
+        await addDoc(collection(db, "contest_registrations"), {
+          uid,
+          country,
+          ageGroup,
+          agreedToRules,
+          userEmail: currentUser?.email || "guest",
+          createdAt: serverTimestamp()
+        });
+        showToast("تم إرسال الطلب وحفظه — يمكنك أيضاً إرساله عبر واتساب أو Gmail");
+      } catch {
+        showToast("تم تجهيز أزرار واتساب وGmail للإرسال المباشر");
       }
-
-      showToast("تم تجهيز الاستمارة — اختر واتساب أو Gmail للإرسال");
     });
 
     // إرسال نموذج مشاركة في اختبار كلان
@@ -1258,20 +1248,19 @@
       document.getElementById("tryoutGmailLink").href = gmailUrl;
       document.getElementById("tryoutSendChannels").classList.remove("hidden");
 
-      if (!firebaseConfig.apiKey.startsWith("PUT_YOUR_REAL_")) {
-        try {
-          await addDoc(collection(db, "clan_tryouts"), {
-            uid,
-            country,
-            ageGroup,
-            skill,
-            userEmail: currentUser?.email || "guest",
-            createdAt: serverTimestamp()
-          });
-        } catch {}
+      try {
+        await addDoc(collection(db, "clan_tryouts"), {
+          uid,
+          country,
+          ageGroup,
+          skill,
+          userEmail: currentUser?.email || "guest",
+          createdAt: serverTimestamp()
+        });
+        showToast("تم إرسال الطلب وحفظه — يمكنك أيضاً إرساله عبر واتساب أو Gmail");
+      } catch {
+        showToast("تم تجهيز أزرار واتساب وGmail للإرسال المباشر");
       }
-
-      showToast("تم تجهيز الاستمارة — اختر واتساب أو Gmail للإرسال");
     });
   </script>
 </body>
