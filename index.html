@@ -502,7 +502,7 @@
     <div class="avatar-ring">
       <img
         id="clanAvatar"
-        src="./IMG_20261112_133428_146.png"
+        src="https://gedrgeut01-code.github.io/GEDR-CLAN/IMG_20261112_133428_146.png"
         alt="شعار GEDR CLAN"
       />
     </div>
@@ -767,21 +767,23 @@
     const LOGO_IMAGE_FILE = "IMG_20261112_133428_146.png";
 
     const LOGO_CANDIDATES = [
+      `https://gedrgeut01-code.github.io/GEDR-CLAN/${LOGO_IMAGE_FILE}`,
+      `https://raw.githubusercontent.com/gedrgeut01-code/GEDR-CLAN/main/${LOGO_IMAGE_FILE}`,
       `./${LOGO_IMAGE_FILE}`,
-      LOGO_IMAGE_FILE,
-      `https://gedrgeut01-code.github.io/${LOGO_IMAGE_FILE}`,
-      `https://raw.githubusercontent.com/gedrgeut01-code/GEDR-CLAN/main/${LOGO_IMAGE_FILE}`
+      `https://gedrgeut01-code.github.io/${LOGO_IMAGE_FILE}`
     ];
 
     const clanAvatar = document.getElementById("clanAvatar");
     let logoIdx = 0;
-    clanAvatar.src = LOGO_CANDIDATES[0];
-    clanAvatar.onerror = () => {
+
+    function loadNextLogo() {
+      if (logoIdx >= LOGO_CANDIDATES.length) return;
+      clanAvatar.src = LOGO_CANDIDATES[logoIdx];
       logoIdx += 1;
-      if (logoIdx < LOGO_CANDIDATES.length) {
-        clanAvatar.src = LOGO_CANDIDATES[logoIdx];
-      }
-    };
+    }
+
+    clanAvatar.onerror = loadNextLogo;
+    loadNextLogo();
 
     const ARAB_COUNTRIES = [
       "الجزائر", "السعودية", "مصر", "العراق", "المغرب", "تونس",
