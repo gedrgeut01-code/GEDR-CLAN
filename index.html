@@ -14,15 +14,13 @@
       color-scheme: dark only;
       --bg: #09090b;
       --surface: #15151b;
-      --surface-hover: #1e1e27;
-      --input-bg: #101015;
+      --surface-2: #1c1c25;
       --gold: #e5b83b;
       --gold-bright: #f5cb4c;
       --gold-soft: rgba(229, 184, 59, 0.18);
       --gold-border: rgba(229, 184, 59, 0.55);
       --text: #ffffff;
-      --text-soft: #d4d4dc;
-      --muted: #a1a1aa;
+      --muted: #b4b4be;
       --danger-bg: #3b1216;
       --danger-border: #ef4444;
       --danger-text: #fecaca;
@@ -42,7 +40,6 @@
       color: #ffffff !important;
       min-height: 100vh;
       line-height: 1.65;
-      -webkit-text-size-adjust: 100%;
     }
 
     body {
@@ -111,7 +108,6 @@
       margin-top: 8px;
     }
 
-    /* الأزرار */
     .btn {
       border-radius: 12px;
       padding: 13px 18px;
@@ -121,12 +117,23 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      transition: transform 0.14s ease, background-color 0.14s ease, border-color 0.14s ease;
+      gap: 10px;
+      transition: transform 0.14s ease, background-color 0.14s ease;
     }
 
     .btn:active {
       transform: scale(0.98);
+    }
+
+    .btn-google-white {
+      background-color: #ffffff !important;
+      color: #111111 !important;
+      border: 1.5px solid #e5e7eb !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+    }
+
+    .btn-google-white:hover {
+      background-color: #f3f4f6 !important;
     }
 
     .btn-gold {
@@ -135,19 +142,10 @@
       border: 1px solid #f5cb4c !important;
     }
 
-    .btn-gold:hover {
-      background-color: #f5cb4c !important;
-    }
-
     .btn-dark {
       background-color: #1c1c24 !important;
       color: #ffffff !important;
       border: 1px solid rgba(255, 255, 255, 0.22) !important;
-    }
-
-    .btn-dark:hover {
-      background-color: #262632 !important;
-      border-color: var(--gold-border) !important;
     }
 
     .btn-outline-gold {
@@ -185,6 +183,17 @@
       font-weight: 700;
     }
 
+    .warning-box {
+      background-color: #3a1215 !important;
+      border: 1.5px solid #ef4444 !important;
+      color: #fecaca !important;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 0.94rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
     .notice-banner {
       background-color: #261e09 !important;
       border: 1px solid var(--gold-border) !important;
@@ -196,7 +205,6 @@
       margin-bottom: 14px;
     }
 
-    /* شريط المستخدم */
     .user-bar {
       background-color: #15151b !important;
       border: 1px solid rgba(255, 255, 255, 0.18) !important;
@@ -227,13 +235,6 @@
       flex-shrink: 0;
     }
 
-    .user-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* خانات الصفحة الرئيسية */
     .grid-4 {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -254,7 +255,6 @@
       text-align: center;
       gap: 12px;
       cursor: pointer;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
     }
 
     .tile-card:hover {
@@ -273,7 +273,6 @@
       color: #ffffff !important;
     }
 
-    /* الصفحات الفرعية */
     .subpage-header {
       display: flex;
       align-items: center;
@@ -304,14 +303,14 @@
     }
 
     .form-group {
-      margin-bottom: 14px;
+      margin-bottom: 15px;
     }
 
-    label {
+    label.field-label {
       display: block;
-      margin-bottom: 6px;
-      font-weight: 700;
-      font-size: 0.94rem;
+      margin-bottom: 7px;
+      font-weight: 800;
+      font-size: 0.95rem;
       color: #ffffff !important;
     }
 
@@ -340,8 +339,30 @@
     }
 
     textarea {
-      min-height: 100px;
+      min-height: 95px;
       resize: vertical;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: #0d0d12 !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      color: #ffffff !important;
+      font-weight: 700;
+      font-size: 0.94rem;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 19px;
+      height: 19px;
+      accent-color: #e5b83b;
+      cursor: pointer;
+      flex-shrink: 0;
     }
 
     .post-item {
@@ -365,10 +386,6 @@
       font-size: 1.08rem;
       font-weight: 800;
       color: #f5cb4c !important;
-    }
-
-    .post-body {
-      color: #f5f5f7 !important;
     }
 
     .post-date {
@@ -453,7 +470,16 @@
     <p class="brand-sub">مرحباً بك في بوابة الكلان الرسمية — مسابقات، اختبارات، أخبار وتصويتات.</p>
 
     <div class="login-actions">
-      <button id="googleLoginBtn" class="btn btn-gold" type="button">تسجيل الدخول عبر جوجل</button>
+      <button id="googleLoginBtn" class="btn btn-google-white" type="button">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.5-1.14 2.76-2.4 3.61v3.05h3.88c2.27-2.09 3.54-5.17 3.54-8.8z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.26v3.14C3.23 21.3 7.31 24 12 24z"/>
+          <path fill="#FBBC05" d="M5.28 14.24c-.24-.72-.38-1.49-.38-2.24s.14-1.52.38-2.24V6.62H1.26C.46 8.21 0 10.05 0 12s.46 3.79 1.26 5.38l4.02-3.14z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.23 2.7 1.26 6.62l4.02 3.14c.95-2.85 3.6-4.96 6.72-4.96z"/>
+        </svg>
+        <span>تسجيل الدخول عبر جوجل</span>
+      </button>
+
       <button id="guestLoginBtn" class="btn btn-dark" type="button">المتابعة كزائر</button>
     </div>
 
@@ -510,11 +536,11 @@
 
         <form id="createNewsForm" class="hidden">
           <div class="form-group">
-            <label for="newsTitleInput">عنوان الخبر</label>
-            <input id="newsTitleInput" type="text" placeholder="مثال: انطلاق بطولة الكلان الأسبوعية" required />
+            <label class="field-label" for="newsTitleInput">عنوان الخبر</label>
+            <input id="newsTitleInput" type="text" placeholder="اكتب عنوان الخبر" required />
           </div>
           <div class="form-group">
-            <label for="newsBodyInput">تفاصيل الخبر</label>
+            <label class="field-label" for="newsBodyInput">تفاصيل الخبر</label>
             <textarea id="newsBodyInput" placeholder="اكتب تفاصيل الخبر هنا..." required></textarea>
           </div>
           <button class="btn btn-gold" type="submit">نشر الخبر الآن</button>
@@ -541,12 +567,12 @@
 
         <form id="createPollForm" class="hidden">
           <div class="form-group">
-            <label for="pollQuestionInput">سؤال التصويت</label>
-            <input id="pollQuestionInput" type="text" placeholder="مثال: من أفضل لاعب في الجولة؟" required />
+            <label class="field-label" for="pollQuestionInput">سؤال التصويت</label>
+            <input id="pollQuestionInput" type="text" placeholder="اكتب سؤال التصويت" required />
           </div>
           <div class="form-group">
-            <label for="pollOptionsInput">خيارات التصويت (كل خيار في سطر)</label>
-            <textarea id="pollOptionsInput" placeholder="اللاعب الأول&#10;اللاعب الثاني&#10;اللاعب الثالث" required></textarea>
+            <label class="field-label" for="pollOptionsInput">خيارات التصويت (كل خيار في سطر)</label>
+            <textarea id="pollOptionsInput" placeholder="الخيار الأول&#10;الخيار الثاني&#10;الخيار الثالث" required></textarea>
           </div>
           <button class="btn btn-gold" type="submit">نشر التصويت الآن</button>
         </form>
@@ -567,25 +593,30 @@
       <div class="panel">
         <form id="contestForm">
           <div class="form-group">
-            <label for="contestName">الاسم داخل اللعبة / اللقب</label>
-            <input id="contestName" type="text" placeholder="مثال: ⱽⁱᵖ『GEDR』ツ" required />
+            <label class="field-label" for="contestUid">معرف اللاعب UID:</label>
+            <input id="contestUid" type="text" placeholder="أدخل معرف اللاعب UID" required />
           </div>
+
           <div class="form-group">
-            <label for="contestUid">رقم UID</label>
-            <input id="contestUid" type="text" placeholder="أدخل رقم UID الخاص بك" required />
+            <label class="field-label" for="contestCountry">الدولة:</label>
+            <select id="contestCountry" class="arab-countries-select" required></select>
           </div>
+
           <div class="form-group">
-            <label for="contestCategory">فئة المسابقة</label>
-            <select id="contestCategory">
-              <option value="بطولة فردية (Solo)">بطولة فردية (Solo)</option>
-              <option value="بطولة ثنائية (Duo)">بطولة ثنائية (Duo)</option>
-              <option value="بطولة فرق (Squad)">بطولة فرق (Squad)</option>
+            <label class="field-label" for="contestAge">عمر اللاعب:</label>
+            <select id="contestAge" required>
+              <option value="أصغر من 18 سنة">أصغر من 18 سنة</option>
+              <option value="أكبر من 18 سنة">أكبر من 18 سنة</option>
             </select>
           </div>
+
           <div class="form-group">
-            <label for="contestNotes">ملاحظات إضافية</label>
-            <textarea id="contestNotes" placeholder="أي ملاحظة تود إضافتها..."></textarea>
+            <label class="checkbox-row" for="contestRulesAgree">
+              <input id="contestRulesAgree" type="checkbox" required />
+              <span>الموافقة على القوانين</span>
+            </label>
           </div>
+
           <button class="btn btn-gold" type="submit">إرسال طلب المشاركة في المسابقة</button>
         </form>
       </div>
@@ -598,29 +629,40 @@
         <button class="btn btn-dark btn-sm back-btn" type="button">← رجوع</button>
       </div>
 
+      <div class="warning-box">
+        تحذير: إذا لم تكن تملك بطاقة تغيير الاسم قد يتم رفضك
+      </div>
+
       <div class="panel">
         <form id="tryoutForm">
           <div class="form-group">
-            <label for="tryoutNick">اسم اللاعب في الكلان / اللعبة</label>
-            <input id="tryoutNick" type="text" placeholder="اكتب اسمك أو لقبك" required />
+            <label class="field-label" for="tryoutUid">معرف اللاعب UID:</label>
+            <input id="tryoutUid" type="text" placeholder="أدخل معرف اللاعب UID" required />
           </div>
+
           <div class="form-group">
-            <label for="tryoutUid">رقم UID</label>
-            <input id="tryoutUid" type="text" placeholder="أدخل رقم UID الخاص بك" required />
+            <label class="field-label" for="tryoutCountry">الدولة:</label>
+            <select id="tryoutCountry" class="arab-countries-select" required></select>
           </div>
+
           <div class="form-group">
-            <label for="tryoutRole">أسلوب اللعب الأساسي</label>
-            <select id="tryoutRole">
+            <label class="field-label" for="tryoutAge">عمر اللاعب:</label>
+            <select id="tryoutAge" required>
+              <option value="أصغر من 18 سنة">أصغر من 18 سنة</option>
+              <option value="أكبر من 18 سنة">أكبر من 18 سنة</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="field-label" for="tryoutSkill">المهارة:</label>
+            <select id="tryoutSkill" required>
               <option value="هجومي">هجومي</option>
               <option value="قناص">قناص</option>
               <option value="ريفايفر">ريفايفر</option>
               <option value="لاعب حبل">لاعب حبل</option>
             </select>
           </div>
-          <div class="form-group">
-            <label for="tryoutHours">ساعات اللعب اليومية</label>
-            <input id="tryoutHours" type="text" placeholder="مثال: 3 إلى 5 ساعات يومياً" required />
-          </div>
+
           <button class="btn btn-gold" type="submit">إرسال طلب اختبار الكلان</button>
         </form>
       </div>
@@ -657,6 +699,17 @@
 
     const ADMIN_EMAIL = "gedrgeut01@gmail.com";
     const LOGO_URL = "https://gedrgeut01-code.github.io/IMG_20261112_133428_146.png";
+
+    const ARAB_COUNTRIES = [
+      "الجزائر", "السعودية", "مصر", "العراق", "المغرب", "تونس",
+      "الأردن", "الإمارات", "الكويت", "قطر", "البحرين", "عُمان",
+      "لبنان", "سوريا", "فلسطين", "ليبيا", "السودان", "اليمن",
+      "موريتانيا", "الصومال", "جيبوتي", "جزر القمر"
+    ];
+
+    document.querySelectorAll(".arab-countries-select").forEach((sel) => {
+      sel.innerHTML = ARAB_COUNTRIES.map((c) => `<option value="${c}">${c}</option>`).join("");
+    });
 
     // ضع هنا بيانات مشروعك الحقيقية من Firebase (gedr-clan)
     const firebaseConfig = {
@@ -758,7 +811,7 @@
     async function handleGoogleSignIn() {
       clearError();
       if (firebaseConfig.apiKey.startsWith("PUT_YOUR_REAL_")) {
-        showError("ضع بيانات Firebase الحقيقية (apiKey وmessagingSenderId وappId) في الكود أولاً.");
+        showError("لا يمكنك تسجيل الدخول الآن: ضع بيانات Firebase الحقيقية (apiKey وmessagingSenderId وappId) في الكود أولاً.");
         return;
       }
       try {
@@ -768,10 +821,10 @@
           try {
             await signInWithRedirect(auth, provider);
           } catch (redirErr) {
-            showError("تعذر تسجيل الدخول عبر جوجل: " + (redirErr.code || ""));
+            showError("لا يمكنك تسجيل الدخول الآن: " + (redirErr.code || ""));
           }
         } else {
-          showError("تعذر تسجيل الدخول عبر جوجل: " + (err.code || ""));
+          showError("لا يمكنك تسجيل الدخول الآن: " + (err.code || ""));
         }
       }
     }
@@ -931,7 +984,6 @@
         }
 
         const bodyEl = document.createElement("p");
-        bodyEl.className = "post-body";
         bodyEl.textContent = item.body || "";
 
         const dateEl = document.createElement("div");
@@ -1050,42 +1102,49 @@
       renderPolls([]);
     }
 
+    // إرسال نموذج مشاركة في مسابقة
     document.getElementById("contestForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const playerName = document.getElementById("contestName").value.trim();
       const uid = document.getElementById("contestUid").value.trim();
-      const category = document.getElementById("contestCategory").value;
-      const notes = document.getElementById("contestNotes").value.trim();
+      const country = document.getElementById("contestCountry").value;
+      const ageGroup = document.getElementById("contestAge").value;
+      const agreedToRules = document.getElementById("contestRulesAgree").checked;
+
+      if (!agreedToRules) {
+        showToast("يرجى الموافقة على القوانين أولاً");
+        return;
+      }
 
       try {
         await addDoc(collection(db, "contest_registrations"), {
-          playerName,
           uid,
-          category,
-          notes,
+          country,
+          ageGroup,
+          agreedToRules,
           userEmail: currentUser?.email || "guest",
           createdAt: serverTimestamp()
         });
         e.target.reset();
-        showToast("تم إرسال مشاركتك في المسابقة بنجاح");
+        showToast("تم إرسال طلب المشاركة في المسابقة بنجاح");
       } catch {
         showToast("تعذر إرسال طلب المسابقة");
       }
     });
 
+    // إرسال نموذج مشاركة في اختبار كلان
     document.getElementById("tryoutForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const nickname = document.getElementById("tryoutNick").value.trim();
       const uid = document.getElementById("tryoutUid").value.trim();
-      const playstyle = document.getElementById("tryoutRole").value;
-      const hours = document.getElementById("tryoutHours").value.trim();
+      const country = document.getElementById("tryoutCountry").value;
+      const ageGroup = document.getElementById("tryoutAge").value;
+      const skill = document.getElementById("tryoutSkill").value;
 
       try {
         await addDoc(collection(db, "clan_tryouts"), {
-          nickname,
           uid,
-          playstyle,
-          hours,
+          country,
+          ageGroup,
+          skill,
           userEmail: currentUser?.email || "guest",
           createdAt: serverTimestamp()
         });
