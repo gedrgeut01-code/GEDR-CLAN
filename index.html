@@ -1040,6 +1040,20 @@
       return { whatsappUrl, gmailUrl };
     }
 
+    function revealSendChannels(boxId, whatsappId, gmailId, subject, summaryText) {
+      const { whatsappUrl, gmailUrl } = buildSendLinks(subject, summaryText);
+      const waEl = document.getElementById(whatsappId);
+      const gmEl = document.getElementById(gmailId);
+      const boxEl = document.getElementById(boxId);
+      if (waEl) waEl.href = whatsappUrl;
+      if (gmEl) gmEl.href = gmailUrl;
+      if (boxEl) {
+        boxEl.classList.remove("hidden");
+        boxEl.style.display = "block";
+        boxEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    }
+
     function compressImageFile(file, maxWidth = 900, quality = 0.72) {
       return new Promise((resolve, reject) => {
         if (!file) {
@@ -1549,7 +1563,8 @@
     document.getElementById("contestForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const uid = document.getElementById("contestUid").value.trim();
-      const country = document.getElementById("contestCountry").value;
+      const country = document.getElemen
+tById("contestCountry").value;
       const ageGroup = document.getElementById("contestAge").value;
       const agreedToRules = document.getElementById("contestRulesAgree").checked;
 
@@ -1565,10 +1580,51 @@
         `عمر اللاعب: ${ageGroup}\n` +
         `الموافقة على القوانين: نعم`;
 
-      const { whatsappUrl, gmailUrl } = buildSendLinks("طلب مشاركة في مسابقة - GEDR CLAN", summaryText);
-      document.getElementById("tryoutWhatsappLink").href = whatsappUrl;
-      document.getElementById("tryoutGmailLink").href = gmailUrl;
-      document.getElementById("tryoutSendChannels").classList.remove("hidden");
+      revealSendChannels(
+        "contestSendChannels",
+        "contestWhatsappLink",
+        "contestGmailLink",
+        "طلب مشاركة في مسابقة - GEDR CLAN",
+        summaryText
+      );
+
+      try {
+        await addDoc(collection(db, "contest_registrations"), {
+          uid,
+          country,
+          ageGroup,
+          agreedToRules,
+          userEmail: currentUser?.email || "guest",
+          createdAt: serverTimestamp()
+        });
+        showToast("تم إرسال الطلب وحفظه — يمكنك أيضاً إرساله عبر واتساب أو Gmail");
+      } catch {
+        showToast("تم تجهيز أزرار واتساب وGmail للإرسال المباشر");
+      }
+    });
+
+    // إرسال نموذج مشاركة في اختبار كلان
+    document.getElementById("tryoutForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const uid = document.getElementById("tryoutUid").value.trim();
+      const country = document.getElementById("tryoutCountry").value;
+      const ageGroup = document.getElementById("tryoutAge").value;
+      const skill = document.getElementById("tryoutSkill").value;
+
+      const summaryText =
+        `طلب مشاركة في اختبار كلان — GEDR CLAN\n` +
+        `معرف اللاعب UID: ${uid}\n` +
+        `الدولة: ${country}\n` +
+        `عمر اللاعب: ${ageGroup}\n` +
+        `المهارة: ${skill}`;
+
+      revealSendChannels(
+        "tryoutSendChannels",
+        "tryoutWhatsappLink",
+        "tryoutGmailLink",
+        "طلب مشاركة في اختبار كلان - GEDR CLAN",
+        summaryText
+      );
 
       try {
         await addDoc(collection(db, "clan_tryouts"), {
