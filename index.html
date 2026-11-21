@@ -610,7 +610,7 @@
 
   <script>
     // =========================================================================
-    // إعدادات المشروع والروابط (ضع بيانات مشروعك الحالية هنا)
+    // إعدادات المشروع والروابط
     // =========================================================================
     const ADMIN_EMAIL = "gedrgeut01@gmail.com";
     const AUTHOR_NAME = "GEDR GEUT";
@@ -621,14 +621,14 @@
     const COMPETITION_URL = "#competition";
     const CLAN_TEST_URL = "#clan-test";
 
-    // استبدل هذه القيم ببيانات firebaseConfig الخاصة بمشروعك gedr-clan
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyBUijUAh2S9rHKHjRapBFBk3wx5U2UpXBI",
+      authDomain: "gedr-clan.firebaseapp.com",
+      projectId: "gedr-clan",
+      storageBucket: "gedr-clan.firebasestorage.app",
+      messagingSenderId: "598369314873",
+      appId: "1:598369314873:web:a858a6a34e3fe8a6cdc5e8",
+      measurementId: "G-L5XD96SSSC"
     };
 
     if (!firebase.apps.length) {
@@ -841,7 +841,6 @@
           document.getElementById("optD").value.trim()
         ].filter(Boolean);
 
-        // منع النشر إذا كانت خانة واحدة فقط أو أقل من خانتين
         if (rawOpts.length < 2) {
           adminMsg.classList.add("msg-err");
           adminMsg.textContent = "يجب إدخال خانتين على الأقل لإطلاق التصويت (يُمنع النشر بخانة واحدة).";
@@ -922,7 +921,6 @@
       return `متبقي: ${days} يوم و ${hours} ساعة`;
     }
 
-    // تتبع التفاعلات والتصويت محلياً لمنع التكرار بدون تراجع
     function getLocalReaction(postId) {
       return localStorage.getItem(`gedr_react_${postId}`) || "";
     }
@@ -939,10 +937,9 @@
       localStorage.setItem(`gedr_vote_${postId}`, optionId);
     }
 
-    // التفاعل بـ ❤️ أو 😂
     async function handleReaction(postId, type) {
       const current = getLocalReaction(postId);
-      if (current === type) return; // منع تكرار نفس التفاعل
+      if (current === type) return;
 
       const postRef = db.collection("posts").doc(postId);
       await db.runTransaction(async (tx) => {
@@ -965,10 +962,9 @@
       renderFeeds();
     }
 
-    // التصويت على خيار واحد فقط بدون تراجع ولمدة 7 أيام
     async function handleVote(postId, optionId) {
       const existingVote = getLocalVote(postId);
-      if (existingVote) return; // تصويت واحد فقط بدون تراجع
+      if (existingVote) return;
 
       const post = allPosts.find((p) => p.id === postId);
       if (!post) return;
@@ -990,19 +986,16 @@
       renderFeeds();
     }
 
-    // حذف منشور للمالك فقط
     async function handleDeletePost(postId) {
       if (!isAdmin()) return;
       if (!confirm("هل تريد حذف هذا المنشور نهائياً؟")) return;
       await db.collection("posts").doc(postId).delete();
     }
 
-    // عرض منشورات الأخبار والتصويت
     function renderFeeds() {
       const newsPosts = allPosts.filter((p) => p.type === "news");
       const pollPosts = allPosts.filter((p) => p.type === "poll");
 
-      // قسم آخر الأخبار
       if (!newsPosts.length) {
         newsFeed.innerHTML = `<div class="empty-state">لا توجد أخبار منشورة حالياً.</div>`;
       } else {
@@ -1040,7 +1033,6 @@
         }).join("");
       }
 
-      // قسم تصويت على الأفضل
       if (!pollPosts.length) {
         votingFeed.innerHTML = `<div class="empty-state">لا توجد تصويتات نشطة حالياً.</div>`;
       } else {
@@ -1117,7 +1109,6 @@
         });
     }
 
-    // تحديث عداد الوقت كل دقيقة
     setInterval(() => {
       if (allPosts.length) renderFeeds();
     }, 60000);
