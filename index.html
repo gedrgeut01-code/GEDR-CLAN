@@ -804,7 +804,7 @@
 
           <div class="form-group">
             <label class="checkbox-row" for="contestRulesAgree">
-              <input id="contestRulesAgree" type="checkbox" required />
+              <input id="contestRulesAgree" type="checkbox" />
               <span>الموافقة على القوانين</span>
             </label>
           </div>
@@ -1274,6 +1274,45 @@
       }
     });
 
+    async function handleSingleChoiceReaction(item, chosenType) {
+      const choiceKey = "reacted_news_choice_" + item.id;
+      const prevChoice = localStorage.getItem(choiceKey);
+
+      if (prevChoice === chosenType) {
+        showToast("تفاعلك محدد بالفعل على هذا الخيار");
+        return;
+      }
+
+      const currentLikes = Math.max(0, Number(item.likesCount) || 0);
+      const currentFunny = Math.max(0, Number(item.funnyCount) || 0);
+
+      let nextLikes = currentLikes;
+      let nextFunny = currentFunny;
+
+      if (chosenType === "heart") {
+        nextLikes = currentLikes + 1;
+        if (prevChoice === "funny") {
+          nextFunny = Math.max(0, currentFunny - 1);
+        }
+      } else if (chosenType === "funny") {
+        nextFunny = currentFunny + 1;
+        if (prevChoice === "heart") {
+          nextLikes = Math.max(0, currentLikes - 1);
+        }
+      }
+
+      try {
+        await updateDoc(doc(db, "news", item.id), {
+          likesCount: nextLikes,
+          funnyCount: nextFunny
+        });
+        localStorage.setItem(choiceKey, chosenType);
+        showToast(prevChoice ? "تم تغيير تفاعلك" : "تم تسجيل تفاعلك");
+      } catch {
+        showToast("تعذر تحديث التفاعل");
+      }
+    }
+
     function renderNews(docs) {
       if (!docs || docs.length === 0) {
         newsList.innerHTML = `<p class="empty-msg">لا توجد أخبار منشورة حالياً.</p>`;
@@ -1323,10 +1362,9 @@
         bodyEl.textContent = item.body || "";
         card.appendChild(bodyEl);
 
-        const likedKey = "reacted_news_like_" + item.id;
-        const funnyKey = "reacted_news_funny_" + item.id;
-        const hasLiked = localStorage.getItem(likedKey) === "1";
-        const hasFunny = localStorage.getItem(funnyKey) === "1";
+        const activeChoice = localStorage.getItem("reacted_news_choice_" + item.id);
+        const hasLiked = activeChoice === "heart";
+        const hasFunny = activeChoice === "funny";
 
         const reactionsRow = document.createElement("div");
         reactionsRow.className = "reactions-row";
@@ -1335,41 +1373,13 @@
         heartBtn.type = "button";
         heartBtn.className = "reaction-btn" + (hasLiked ? " active" : "");
         heartBtn.innerHTML = `<span>❤</span><span class="reaction-count">${item.likesCount || 0}</span>`;
-        heartBtn.addEventListener("click", async () => {
-          if (hasLiked) {
-            showToast("لقد تفاعلت بـ ❤ مسبقاً");
-            return;
-          }
-          try {
-            await updateDoc(doc(db, "news", item.id), {
-              likesCount: (item.likesCount || 0) + 1
-            });
-            localStorage.setItem(likedKey, "1");
-            showToast("تم تسجيل إعجابك");
-          } catch {
-            showToast("تعذر تحديث التفاعل");
-          }
-        });
+        heartBtn.addEventListener("click", () => handleSingleChoiceReaction(item, "heart"));
 
         const funnyBtn = document.createElement("button");
         funnyBtn.type = "button";
         funnyBtn.className = "reaction-btn" + (hasFunny ? " active" : "");
         funnyBtn.innerHTML = `<span>😂</span><span class="reaction-count">${item.funnyCount || 0}</span>`;
-        funnyBtn.addEventListener("click", async () => {
-          if (hasFunny) {
-            showToast("لقد تفاعلت بـ 😂 مسبقاً");
-            return;
-          }
-          try {
-            await updateDoc(doc(db, "news", item.id), {
-              funnyCount: (item.funnyCount || 0) + 1
-            });
-            localStorage.setItem(funnyKey, "1");
-            showToast("تم تسجيل تفاعلك");
-          } catch {
-            showToast("تعذر تحديث التفاعل");
-          }
-        });
+        funnyBtn.addEventListener("click", () => handleSingleChoiceReaction(item, "funny"));
 
         reactionsRow.append(heartBtn, funnyBtn);
         card.appendChild(reactionsRow);
@@ -1563,8 +1573,7 @@
     document.getElementById("contestForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const uid = document.getElementById("contestUid").value.trim();
-      const country = document.getElemen
-tById("contestCountry").value;
+      const country = document.getElementById("contestCountry").value;
       const ageGroup = document.getElementById("contestAge").value;
       const agreedToRules = document.getElementById("contestRulesAgree").checked;
 
