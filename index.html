@@ -3,24 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="supported-color-schemes" content="dark" />
   <title>GEDR CLAN — البوابة الرسمية</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0a0a0c;
-      --card: #131317;
-      --card-2: #19191f;
-      --gold: #e0b238;
-      --gold-soft: rgba(224, 178, 56, 0.14);
-      --gold-border: rgba(224, 178, 56, 0.35);
-      --text: #f5f5f7;
+      color-scheme: dark only;
+      --bg: #09090b;
+      --surface: #15151b;
+      --surface-hover: #1e1e27;
+      --input-bg: #101015;
+      --gold: #e5b83b;
+      --gold-bright: #f5cb4c;
+      --gold-soft: rgba(229, 184, 59, 0.18);
+      --gold-border: rgba(229, 184, 59, 0.55);
+      --text: #ffffff;
+      --text-soft: #d4d4dc;
       --muted: #a1a1aa;
-      --danger: #ef4444;
-      --danger-soft: rgba(239, 68, 68, 0.14);
-      --success: #22c55e;
-      --border: rgba(255, 255, 255, 0.09);
+      --danger-bg: #3b1216;
+      --danger-border: #ef4444;
+      --danger-text: #fecaca;
+      --border: rgba(255, 255, 255, 0.18);
       --radius: 16px;
     }
 
@@ -31,11 +37,16 @@
       font-family: 'Cairo', sans-serif;
     }
 
-    body {
-      background: radial-gradient(circle at top, rgba(224, 178, 56, 0.09), transparent 45%), var(--bg);
-      color: var(--text);
+    html, body {
+      background-color: #09090b !important;
+      color: #ffffff !important;
       min-height: 100vh;
       line-height: 1.65;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background-image: radial-gradient(circle at top, rgba(229, 184, 59, 0.12), transparent 45%);
     }
 
     .hidden {
@@ -45,10 +56,10 @@
     .container {
       max-width: 780px;
       margin: 0 auto;
-      padding: 20px 16px 48px;
+      padding: 18px 16px 48px;
     }
 
-    /* شاشة تسجيل الدخول */
+    /* شاشة الدخول */
     .login-screen {
       min-height: 92vh;
       display: flex;
@@ -61,12 +72,13 @@
     }
 
     .avatar-ring {
-      width: 124px;
-      height: 124px;
+      width: 136px;
+      height: 136px;
       border-radius: 50%;
       padding: 4px;
-      background: linear-gradient(135deg, #f3cb5b, #9b6e0d);
-      box-shadow: 0 0 35px rgba(224, 178, 56, 0.25);
+      background: linear-gradient(135deg, #f7d367, #9c6f0e);
+      box-shadow: 0 0 36px rgba(229, 184, 59, 0.28);
+      overflow: hidden;
     }
 
     .avatar-ring img {
@@ -74,19 +86,19 @@
       height: 100%;
       object-fit: cover;
       border-radius: 50%;
-      background: #141418;
+      background-color: #141419;
+      display: block;
     }
 
     .brand-title {
-      font-size: 2rem;
+      font-size: 2.05rem;
       font-weight: 800;
-      letter-spacing: 1px;
-      color: var(--text);
+      color: #ffffff !important;
     }
 
     .brand-sub {
-      color: var(--muted);
-      max-width: 420px;
+      color: #d4d4dc !important;
+      max-width: 430px;
       font-size: 0.98rem;
     }
 
@@ -99,18 +111,18 @@
       margin-top: 8px;
     }
 
+    /* الأزرار */
     .btn {
-      border: none;
       border-radius: 12px;
       padding: 13px 18px;
       font-size: 1rem;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
-      transition: transform 0.14s ease, opacity 0.14s ease, background 0.14s ease;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      transition: transform 0.14s ease, background-color 0.14s ease, border-color 0.14s ease;
     }
 
     .btn:active {
@@ -118,29 +130,41 @@
     }
 
     .btn-gold {
-      background: var(--gold);
-      color: #111;
+      background-color: #e5b83b !important;
+      color: #09090b !important;
+      border: 1px solid #f5cb4c !important;
+    }
+
+    .btn-gold:hover {
+      background-color: #f5cb4c !important;
     }
 
     .btn-dark {
-      background: var(--card-2);
-      color: var(--text);
-      border: 1px solid var(--border);
+      background-color: #1c1c24 !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    }
+
+    .btn-dark:hover {
+      background-color: #262632 !important;
+      border-color: var(--gold-border) !important;
     }
 
     .btn-outline-gold {
-      background: var(--gold-soft);
-      color: var(--gold);
-      border: 1px solid var(--gold-border);
+      background-color: rgba(229, 184, 59, 0.18) !important;
+      color: #f5cb4c !important;
+      border: 1px solid rgba(229, 184, 59, 0.55) !important;
     }
 
     .btn-danger {
-      background: var(--danger-soft);
-      color: #fca5a5;
-      border: 1px solid rgba(239, 68, 68, 0.35);
-      padding: 7px 12px;
+      background-color: #3b1216 !important;
+      color: #fecaca !important;
+      border: 1px solid #ef4444 !important;
+      padding: 7px 13px;
       font-size: 0.85rem;
+      font-weight: 800;
       border-radius: 10px;
+      cursor: pointer;
     }
 
     .btn-sm {
@@ -152,30 +176,32 @@
     .error-banner {
       margin-top: 6px;
       max-width: 420px;
-      background: var(--danger-soft);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      color: #fecaca;
+      background-color: var(--danger-bg) !important;
+      border: 1px solid var(--danger-border) !important;
+      color: var(--danger-text) !important;
       padding: 12px 14px;
       border-radius: 12px;
       font-size: 0.9rem;
+      font-weight: 700;
     }
 
     .notice-banner {
-      background: rgba(224, 178, 56, 0.12);
-      border: 1px solid var(--gold-border);
-      color: #fde68a;
+      background-color: #261e09 !important;
+      border: 1px solid var(--gold-border) !important;
+      color: #fde68a !important;
       padding: 12px 14px;
       border-radius: 12px;
       font-size: 0.9rem;
+      font-weight: 600;
       margin-bottom: 14px;
     }
 
-    /* شريط المستخدم العلوي */
+    /* شريط المستخدم */
     .user-bar {
-      background: var(--card);
-      border: 1px solid var(--border);
+      background-color: #15151b !important;
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
       border-radius: var(--radius);
-      padding: 16px;
+      padding: 15px 16px;
       margin-bottom: 18px;
       display: flex;
       flex-wrap: wrap;
@@ -188,15 +214,16 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 0.96rem;
+      color: #ffffff !important;
     }
 
     .status-dot {
       width: 11px;
       height: 11px;
       border-radius: 50%;
-      background: var(--gold);
+      background-color: #f5cb4c !important;
       flex-shrink: 0;
     }
 
@@ -206,7 +233,7 @@
       gap: 10px;
     }
 
-    /* شبكة الأقسام الرئيسية */
+    /* خانات الصفحة الرئيسية */
     .grid-4 {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -214,10 +241,11 @@
     }
 
     .tile-card {
-      background: var(--card);
-      border: 1px solid var(--border);
+      background-color: #15151b !important;
+      color: #ffffff !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
       border-radius: var(--radius);
-      min-height: 175px;
+      min-height: 170px;
       padding: 22px 16px;
       display: flex;
       flex-direction: column;
@@ -226,54 +254,53 @@
       text-align: center;
       gap: 12px;
       cursor: pointer;
-      transition: border-color 0.16s ease, transform 0.16s ease, background 0.16s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
     }
 
     .tile-card:hover {
-      border-color: var(--gold-border);
-      background: var(--card-2);
-      transform: translateY(-2px);
+      background-color: #1e1e28 !important;
+      border-color: #e5b83b !important;
     }
 
     .tile-icon {
-      font-size: 2.3rem;
+      font-size: 2.35rem;
       line-height: 1;
     }
 
     .tile-title {
       font-size: 1.15rem;
       font-weight: 800;
+      color: #ffffff !important;
     }
 
-    /* الصفحات الفرعية المستقلة */
+    /* الصفحات الفرعية */
     .subpage-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
       margin-bottom: 18px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
+      padding: 10px 4px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
       position: sticky;
       top: 0;
       z-index: 20;
-      background: rgba(10, 10, 12, 0.92);
-      backdrop-filter: blur(8px);
-      padding-top: 8px;
+      background-color: #09090b !important;
     }
 
     .subpage-title {
       font-size: 1.3rem;
       font-weight: 800;
-      color: var(--gold);
+      color: #f5cb4c !important;
     }
 
     .panel {
-      background: var(--card);
-      border: 1px solid var(--border);
+      background-color: #15151b !important;
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
       border-radius: var(--radius);
       padding: 18px;
       margin-bottom: 16px;
+      color: #ffffff !important;
     }
 
     .form-group {
@@ -284,27 +311,32 @@
       display: block;
       margin-bottom: 6px;
       font-weight: 700;
-      font-size: 0.92rem;
-      color: #e4e4e7;
+      font-size: 0.94rem;
+      color: #ffffff !important;
     }
 
     input[type="text"],
     textarea,
     select {
       width: 100%;
-      background: var(--bg);
-      color: var(--text);
-      border: 1px solid var(--border);
+      background-color: #0d0d12 !important;
+      color: #ffffff !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
       border-radius: 12px;
       padding: 11px 13px;
-      font-size: 0.95rem;
+      font-size: 0.96rem;
       outline: none;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #9ca3af !important;
     }
 
     input:focus,
     textarea:focus,
     select:focus {
-      border-color: var(--gold);
+      border-color: #e5b83b !important;
     }
 
     textarea {
@@ -313,11 +345,12 @@
     }
 
     .post-item {
-      background: var(--card-2);
-      border: 1px solid var(--border);
+      background-color: #1c1c25 !important;
+      border: 1px solid rgba(255, 255, 255, 0.16) !important;
       border-radius: 14px;
       padding: 16px;
       margin-bottom: 12px;
+      color: #ffffff !important;
     }
 
     .post-top {
@@ -331,24 +364,28 @@
     .post-title {
       font-size: 1.08rem;
       font-weight: 800;
-      color: var(--gold);
+      color: #f5cb4c !important;
+    }
+
+    .post-body {
+      color: #f5f5f7 !important;
     }
 
     .post-date {
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-top: 6px;
+      font-size: 0.8rem;
+      color: #b4b4be !important;
+      margin-top: 8px;
     }
 
     .poll-option {
       width: 100%;
       text-align: right;
-      background: var(--bg);
-      border: 1px solid var(--border);
+      background-color: #101016 !important;
+      color: #ffffff !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
       border-radius: 12px;
       padding: 11px 14px;
       margin-top: 8px;
-      color: var(--text);
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -359,15 +396,16 @@
 
     .poll-option:hover,
     .poll-option.voted {
-      border-color: var(--gold);
-      background: var(--gold-soft);
+      border-color: #e5b83b !important;
+      background-color: rgba(229, 184, 59, 0.18) !important;
     }
 
     .empty-msg {
       text-align: center;
-      color: var(--muted);
+      color: #c4c4ce !important;
       padding: 24px 12px;
-      font-size: 0.95rem;
+      font-size: 0.96rem;
+      font-weight: 600;
     }
 
     .toast {
@@ -375,15 +413,14 @@
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background: #18181b;
-      color: var(--text);
-      border: 1px solid var(--gold-border);
+      background-color: #1c1c24 !important;
+      color: #ffffff !important;
+      border: 1.5px solid #e5b83b !important;
       padding: 10px 18px;
       border-radius: 999px;
-      font-size: 0.9rem;
-      font-weight: 700;
+      font-size: 0.92rem;
+      font-weight: 800;
       z-index: 999;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     }
 
     @media (max-width: 540px) {
@@ -391,13 +428,12 @@
         grid-template-columns: 1fr;
       }
       .tile-card {
-        min-height: 135px;
+        min-height: 132px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- تنبيه متصفح إنستغرام الداخلي -->
   <div id="inAppWarning" class="container hidden" style="padding-bottom: 0;">
     <div class="notice-banner">
       أنت تتصفح من متصفح تطبيق داخلي قد يمنع تسجيل الدخول عبر Google. للحصول على أفضل تجربة، افتح الرابط مباشرة في <strong>Google Chrome</strong>.
@@ -408,9 +444,9 @@
   <section id="loginView" class="login-screen">
     <div class="avatar-ring">
       <img
-        src="https://gedrgeut01-code.github.io/logo.png"
-        alt="GEDR CLAN"
-        onerror="this.src='https://api.dicebear.com/9.x/shapes/svg?seed=GEDR-CLAN'"
+        id="clanAvatar"
+        src="https://gedrgeut01-code.github.io/IMG_20261112_133428_146.png"
+        alt="شعار GEDR CLAN"
       />
     </div>
     <h1 class="brand-title">GEDR CLAN</h1>
@@ -426,7 +462,6 @@
 
   <!-- التطبيق بعد الدخول -->
   <main id="appView" class="container hidden">
-    <!-- شريط الحساب الثابت في الأعلى -->
     <div class="user-bar">
       <div class="user-meta">
         <span class="status-dot"></span>
@@ -437,7 +472,7 @@
       </div>
     </div>
 
-    <!-- القائمة الرئيسية (تختفي تماماً عند فتح أي صفحة فرعية) -->
+    <!-- القائمة الرئيسية -->
     <section id="homePage" class="grid-4">
       <button class="tile-card" type="button" data-page="contestPage">
         <span class="tile-icon">🏆</span>
@@ -460,17 +495,16 @@
       </button>
     </section>
 
-    <!-- الصفحة 1: آخر الأخبار -->
+    <!-- صفحة آخر الأخبار -->
     <section id="newsPage" class="hidden">
       <div class="subpage-header">
         <h2 class="subpage-title">📰 آخر الأخبار</h2>
         <button class="btn btn-dark btn-sm back-btn" type="button">← رجوع</button>
       </div>
 
-      <!-- يظهر للأدمن فقط -->
       <div id="adminNewsControls" class="panel hidden">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-          <strong style="color:var(--gold);">إدارة الأخبار</strong>
+          <strong style="color:#f5cb4c;">إدارة الأخبار</strong>
           <button id="toggleCreateNewsBtn" class="btn btn-outline-gold btn-sm" type="button">+ إنشاء منشور</button>
         </div>
 
@@ -492,17 +526,16 @@
       </div>
     </section>
 
-    <!-- الصفحة 2: تصويت على الأفضل -->
+    <!-- صفحة تصويت على الأفضل -->
     <section id="pollsPage" class="hidden">
       <div class="subpage-header">
         <h2 class="subpage-title">📊 تصويت على الأفضل</h2>
         <button class="btn btn-dark btn-sm back-btn" type="button">← رجوع</button>
       </div>
 
-      <!-- يظهر للأدمن فقط -->
       <div id="adminPollControls" class="panel hidden">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-          <strong style="color:var(--gold);">إدارة التصويتات</strong>
+          <strong style="color:#f5cb4c;">إدارة التصويتات</strong>
           <button id="toggleCreatePollBtn" class="btn btn-outline-gold btn-sm" type="button">+ إنشاء منشور</button>
         </div>
 
@@ -524,7 +557,7 @@
       </div>
     </section>
 
-    <!-- الصفحة 3: مشاركة في مسابقة -->
+    <!-- صفحة مشاركة في مسابقة -->
     <section id="contestPage" class="hidden">
       <div class="subpage-header">
         <h2 class="subpage-title">🏆 مشاركة في مسابقة</h2>
@@ -558,7 +591,7 @@
       </div>
     </section>
 
-    <!-- الصفحة 4: مشاركة في اختبار كلان -->
+    <!-- صفحة مشاركة في اختبار كلان -->
     <section id="tryoutPage" class="hidden">
       <div class="subpage-header">
         <h2 class="subpage-title">🎯 مشاركة في اختبار كلان</h2>
@@ -619,28 +652,30 @@
       query,
       orderBy,
       serverTimestamp,
-      updateDoc,
-      increment
+      updateDoc
     } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
     const ADMIN_EMAIL = "gedrgeut01@gmail.com";
+    const LOGO_URL = "https://gedrgeut01-code.github.io/IMG_20261112_133428_146.png";
 
-    // إعدادات مشروع Firebase الخاص بك
+    // ضع هنا بيانات مشروعك الحقيقية من Firebase (gedr-clan)
     const firebaseConfig = {
-      apiKey: "AIzaSyD-PLACEHOLDER-KEY",
+      apiKey: "PUT_YOUR_REAL_API_KEY_HERE",
       authDomain: "gedr-clan.firebaseapp.com",
       projectId: "gedr-clan",
       storageBucket: "gedr-clan.appspot.com",
-      messagingSenderId: "000000000000",
-      appId: "1:000000000000:web:0000000000000000"
+      messagingSenderId: "PUT_YOUR_REAL_SENDER_ID_HERE",
+      appId: "PUT_YOUR_REAL_APP_ID_HERE"
     };
+
+    const clanAvatar = document.getElementById("clanAvatar");
+    clanAvatar.src = LOGO_URL;
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
 
-    // العناصر
     const inAppWarning = document.getElementById("inAppWarning");
     const loginView = document.getElementById("loginView");
     const appView = document.getElementById("appView");
@@ -665,6 +700,8 @@
     let currentUser = null;
     let isGuest = false;
     let isAdmin = false;
+    let latestNewsDocs = [];
+    let latestPollDocs = [];
 
     const isInAppBrowser = /Instagram|FBAN|FBAV|TikTok|Line|Snapchat/i.test(navigator.userAgent);
     if (isInAppBrowser) {
@@ -688,7 +725,6 @@
       authError.classList.add("hidden");
     }
 
-    // التنقل بين القائمة الرئيسية والصفحات الفرعية المستقلة
     function openPage(pageId) {
       homePage.classList.add("hidden");
       subPages.forEach((id) => {
@@ -711,15 +747,20 @@
       btn.addEventListener("click", goHome);
     });
 
-    // حفظ جلسة الدخول محلياً
     await setPersistence(auth, browserLocalPersistence).catch(() => {});
 
     getRedirectResult(auth).catch((err) => {
-      if (err?.message) showError("تعذر إتمام تسجيل الدخول: " + err.message);
+      if (err?.code && err.code !== "auth/invalid-api-key") {
+        showError("تعذر إتمام تسجيل الدخول (" + err.code + ")");
+      }
     });
 
     async function handleGoogleSignIn() {
       clearError();
+      if (firebaseConfig.apiKey.startsWith("PUT_YOUR_REAL_")) {
+        showError("ضع بيانات Firebase الحقيقية (apiKey وmessagingSenderId وappId) في الكود أولاً.");
+        return;
+      }
       try {
         await signInWithPopup(auth, provider);
       } catch (err) {
@@ -727,10 +768,10 @@
           try {
             await signInWithRedirect(auth, provider);
           } catch (redirErr) {
-            showError("تعذر تسجيل الدخول عبر جوجل. افتح الموقع في متصفح Chrome وتأكد من تفعيل Google Sign-In في Firebase.");
+            showError("تعذر تسجيل الدخول عبر جوجل: " + (redirErr.code || ""));
           }
         } else {
-          showError("تعذر تسجيل الدخول عبر جوجل. تأكد من تفعيل Google Sign-In في Firebase.");
+          showError("تعذر تسجيل الدخول عبر جوجل: " + (err.code || ""));
         }
       }
     }
@@ -749,7 +790,7 @@
       localStorage.removeItem("gedr_guest_mode");
       goHome();
       if (auth.currentUser) {
-        await signOut(auth);
+        await signOut(auth).catch(() => {});
       }
       syncUIState();
     });
@@ -793,7 +834,6 @@
       syncUIState();
     });
 
-    // إظهار/إخفاء نماذج الإنشاء للأدمن
     toggleCreateNewsBtn.addEventListener("click", () => {
       createNewsForm.classList.toggle("hidden");
     });
@@ -802,11 +842,9 @@
       createPollForm.classList.toggle("hidden");
     });
 
-    // إنشاء خبر جديد (الأدمن فقط)
     createNewsForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!isAdmin) return;
-
       const title = document.getElementById("newsTitleInput").value.trim();
       const body = document.getElementById("newsBodyInput").value.trim();
       if (!title || !body) return;
@@ -826,11 +864,9 @@
       }
     });
 
-    // إنشاء تصويت جديد (الأدمن فقط)
     createPollForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!isAdmin) return;
-
       const question = document.getElementById("pollQuestionInput").value.trim();
       const options = document
         .getElementById("pollOptionsInput")
@@ -859,8 +895,6 @@
       }
     });
 
-    // عرض وحذف الأخبار
-    let latestNewsDocs = [];
     function renderNews(docs) {
       if (!docs || docs.length === 0) {
         newsList.innerHTML = `<p class="empty-msg">لا توجد أخبار منشورة حالياً.</p>`;
@@ -897,6 +931,7 @@
         }
 
         const bodyEl = document.createElement("p");
+        bodyEl.className = "post-body";
         bodyEl.textContent = item.body || "";
 
         const dateEl = document.createElement("div");
@@ -910,19 +945,6 @@
       });
     }
 
-    onSnapshot(
-      query(collection(db, "news"), orderBy("createdAt", "desc")),
-      (snap) => {
-        latestNewsDocs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-        renderNews(latestNewsDocs);
-      },
-      () => {
-        newsList.innerHTML = `<p class="empty-msg">لا توجد أخبار منشورة حالياً.</p>`;
-      }
-    );
-
-    // عرض وحذف والتصويت في الاستطلاعات
-    let latestPollDocs = [];
     function renderPolls(docs) {
       if (!docs || docs.length === 0) {
         pollsList.innerHTML = `<p class="empty-msg">لا توجد تصويتات متاحة حالياً.</p>`;
@@ -972,7 +994,7 @@
           labelSpan.textContent = opt.label;
 
           const countSpan = document.createElement("span");
-          countSpan.style.color = "var(--gold)";
+          countSpan.style.color = "#f5cb4c";
           countSpan.textContent = `${opt.votes || 0} صوت`;
 
           optBtn.append(labelSpan, countSpan);
@@ -1001,18 +1023,33 @@
       });
     }
 
-    onSnapshot(
-      query(collection(db, "polls"), orderBy("createdAt", "desc")),
-      (snap) => {
-        latestPollDocs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-        renderPolls(latestPollDocs);
-      },
-      () => {
-        pollsList.innerHTML = `<p class="empty-msg">لا توجد تصويتات متاحة حالياً.</p>`;
-      }
-    );
+    if (!firebaseConfig.apiKey.startsWith("PUT_YOUR_REAL_")) {
+      onSnapshot(
+        query(collection(db, "news"), orderBy("createdAt", "desc")),
+        (snap) => {
+          latestNewsDocs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+          renderNews(latestNewsDocs);
+        },
+        () => {
+          newsList.innerHTML = `<p class="empty-msg">لا توجد أخبار منشورة حالياً.</p>`;
+        }
+      );
 
-    // نموذج مشاركة في مسابقة
+      onSnapshot(
+        query(collection(db, "polls"), orderBy("createdAt", "desc")),
+        (snap) => {
+          latestPollDocs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+          renderPolls(latestPollDocs);
+        },
+        () => {
+          pollsList.innerHTML = `<p class="empty-msg">لا توجد تصويتات متاحة حالياً.</p>`;
+        }
+      );
+    } else {
+      renderNews([]);
+      renderPolls([]);
+    }
+
     document.getElementById("contestForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const playerName = document.getElementById("contestName").value.trim();
@@ -1036,7 +1073,6 @@
       }
     });
 
-    // نموذج مشاركة في اختبار كلان
     document.getElementById("tryoutForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const nickname = document.getElementById("tryoutNick").value.trim();
