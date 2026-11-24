@@ -206,8 +206,8 @@
     }
 
     .btn-sm {
-      padding: 8px 14px;
-      font-size: 0.9rem;
+      padding: 8px 13px;
+      font-size: 0.88rem;
       border-radius: 10px;
     }
 
@@ -232,6 +232,13 @@
       font-size: 0.94rem;
       font-weight: 800;
       margin-bottom: 16px;
+    }
+
+    .field-hint-danger {
+      color: #fca5a5 !important;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-top: 6px;
     }
 
     .rules-box {
@@ -260,6 +267,13 @@
       margin-top: 10px;
     }
 
+    .send-channels-single {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
     .notice-banner {
       background-color: #261e09 !important;
       border: 1px solid var(--gold-border) !important;
@@ -271,11 +285,12 @@
       margin-bottom: 14px;
     }
 
+    /* الشريط العلوي الدائم */
     .user-bar {
       background-color: #15151b !important;
       border: 1px solid rgba(255, 255, 255, 0.18) !important;
       border-radius: var(--radius);
-      padding: 15px 16px;
+      padding: 14px 16px;
       margin-bottom: 18px;
       display: flex;
       flex-wrap: wrap;
@@ -288,9 +303,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-weight: 800;
-      font-size: 0.96rem;
-      color: #ffffff !important;
+      min-width: 0;
     }
 
     .status-dot {
@@ -299,6 +312,77 @@
       border-radius: 50%;
       background-color: #f5cb4c !important;
       flex-shrink: 0;
+    }
+
+    .user-identity {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.35;
+      min-width: 0;
+    }
+
+    .user-display-name {
+      font-weight: 800;
+      font-size: 1.02rem;
+      color: #ffffff !important;
+      word-break: break-word;
+    }
+
+    .user-email-sub {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #b4b4be !important;
+      direction: ltr;
+      text-align: right;
+      word-break: break-all;
+    }
+
+    .user-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* مربع زخرفة الأسماء */
+    .decorator-box {
+      background-color: #101016 !important;
+      border: 1.5px solid var(--gold-border) !important;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    .decorator-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .decorator-row input[type="text"] {
+      flex: 1;
+    }
+
+    .decorated-result-wrap {
+      margin-top: 12px;
+      background-color: #181822 !important;
+      border: 1px dashed #e5b83b !important;
+      border-radius: 12px;
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .decorated-output {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: #f5cb4c !important;
+      user-select: all;
+      -webkit-user-select: all;
+      cursor: text;
+      direction: ltr;
     }
 
     .grid-4 {
@@ -407,7 +491,7 @@
     }
 
     textarea {
-      min-height: 95px;
+      min-height: 110px;
       resize: vertical;
     }
 
@@ -619,7 +703,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background-color: rgba(0, 0, 0, 0.75);
+      background-color: rgba(0, 0, 0, 0.78);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -629,13 +713,13 @@
 
     .modal-card {
       width: 100%;
-      max-width: 390px;
+      max-width: 400px;
       background-color: #15151b !important;
       border: 1.5px solid var(--gold-border) !important;
       border-radius: var(--radius);
       padding: 22px 18px;
       text-align: center;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65);
     }
 
     .modal-title {
@@ -648,7 +732,7 @@
     .modal-text {
       font-size: 0.96rem;
       color: #ffffff !important;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       line-height: 1.7;
     }
 
@@ -665,6 +749,9 @@
       }
       .tile-card {
         min-height: 132px;
+      }
+      .decorator-row {
+        flex-direction: column;
       }
     }
   </style>
@@ -740,9 +827,14 @@
     <div class="user-bar">
       <div class="user-meta">
         <span class="status-dot"></span>
-        <span id="userLabel">زائر</span>
+        <div class="user-identity">
+          <span id="userDisplayName" class="user-display-name">زائر</span>
+          <span id="userEmailSub" class="user-email-sub hidden"></span>
+        </div>
       </div>
       <div class="user-controls">
+        <button id="openFeedbackBtn" class="btn btn-outline-gold btn-sm" type="button">تقديم ملاحظة</button>
+        <button id="changeNameBtn" class="btn btn-dark btn-sm hidden" type="button">تغيير الاسم</button>
         <button id="logoutBtn" class="btn btn-dark btn-sm" type="button">خروج</button>
       </div>
     </div>
@@ -768,6 +860,39 @@
         <span class="tile-icon">📊</span>
         <span class="tile-title">تصويت على الأفضل</span>
       </button>
+    </section>
+
+    <!-- صفحة تقديم ملاحظة -->
+    <section id="feedbackPage" class="hidden">
+      <div class="subpage-header">
+        <h2 class="subpage-title">📝 تقديم ملاحظة</h2>
+        <button class="btn btn-dark btn-sm back-btn" type="button">← رجوع</button>
+      </div>
+
+      <div class="panel">
+        <form id="feedbackForm">
+          <div class="form-group">
+            <label class="field-label" for="feedbackMessageInput">اكتب ملاحظاتك أو اقتراحاتك حول الموقع:</label>
+            <textarea id="feedbackMessageInput" style="min-height: 150px;" placeholder="اكتب ملاحظتك هنا بالتفصيل..." required></textarea>
+          </div>
+          <button class="btn btn-gold" type="submit">إرسال الملاحظة</button>
+        </form>
+
+        <div id="feedbackSendChannels" class="send-channels-box hidden">
+          <strong style="color:#f5cb4c;">إرسال الملاحظة مباشرة عبر البريد:</strong>
+          <div class="send-channels-single">
+            <a id="feedbackGmailLink" class="btn btn-gmail btn-sm">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#4285F4" d="M2 6.5v11c0 .83.67 1.5 1.5 1.5H6v-8.5l6 4.5 6-4.5V19h2.5c.83 0 1.5-.67 1.5-1.5v-11c0-1.25-1.43-1.96-2.42-1.2L12 11 4.42 5.3C3.43 4.54 2 5.25 2 6.5z"/>
+                <path fill="#EA4335" d="M18 10.5V19h2.5c.83 0 1.5-.67 1.5-1.5v-11c0-1.25-1.43-1.96-2.42-1.2L18 6.5v4z"/>
+                <path fill="#34A853" d="M2 6.5v11c0 .83.67 1.5 1.5 1.5H6v-8.5L2 7.5v-1z"/>
+                <path fill="#FBBC05" d="M18 6.5l-6 4.5-6-4.5L4.42 5.3 12 11l7.58-5.7L18 6.5z"/>
+              </svg>
+              <span>التواصل عبر الجيمايل</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- صفحة آخر الأخبار -->
@@ -880,6 +1005,19 @@
           </div>
 
           <div class="form-group">
+            <label class="field-label" for="contestLevel">مستوى الحساب:</label>
+            <select id="contestLevel" class="account-level-select" required></select>
+          </div>
+
+          <div class="form-group">
+            <label class="field-label" for="contestDevice">نوع الجهاز:</label>
+            <select id="contestDevice" required>
+              <option value="هاتف 📱">هاتف 📱</option>
+              <option value="محاكي 🖥">محاكي 🖥</option>
+            </select>
+          </div>
+
+          <div class="form-group">
             <label class="field-label" for="contestCountry">الدولة:</label>
             <select id="contestCountry" class="arab-countries-select" required></select>
           </div>
@@ -945,11 +1083,40 @@
         تحذير: إذا لم تكن تملك بطاقة تغيير الاسم قد يتم رفضك
       </div>
 
+      <!-- أداة زخرفة الأسماء الخاصة بالكلان -->
+      <div class="decorator-box">
+        <label class="field-label" for="rawClanNameInput" style="color:#f5cb4c !important; margin-bottom:2px;">
+          ✨ زخرفة الأسماء (شعار الكلان الرسمي):
+        </label>
+        <div class="decorator-row">
+          <input id="rawClanNameInput" type="text" placeholder="اكتب اسمك هنا (مثال: ADAM)" />
+          <button id="convertNameBtn" class="btn btn-gold btn-sm" type="button">تحويل الاسم</button>
+        </div>
+        <div id="decoratedResultWrap" class="decorated-result-wrap hidden">
+          <span id="decoratedNameOutput" class="decorated-output">あ┋ADAM ジ</span>
+          <button id="copyDecoratedBtn" class="btn btn-outline-gold btn-sm" type="button">نسخ</button>
+        </div>
+      </div>
+
       <div class="panel">
         <form id="tryoutForm">
           <div class="form-group">
             <label class="field-label" for="tryoutUid">معرف اللاعب UID:</label>
             <input id="tryoutUid" type="text" placeholder="أدخل معرف اللاعب UID" required />
+          </div>
+
+          <div class="form-group">
+            <label class="field-label" for="tryoutLevel">مستوى الحساب:</label>
+            <select id="tryoutLevel" class="account-level-select" required></select>
+            <div class="field-hint-danger">أقل من مستوى 60 لا يمكنه الانضمام للكلان</div>
+          </div>
+
+          <div class="form-group">
+            <label class="field-label" for="tryoutDevice">نوع الجهاز:</label>
+            <select id="tryoutDevice" required>
+              <option value="هاتف 📱">هاتف 📱</option>
+              <option value="محاكي 🖥">محاكي 🖥</option>
+            </select>
           </div>
 
           <div class="form-group">
@@ -1001,6 +1168,23 @@
       </div>
     </section>
   </main>
+
+  <!-- نافذة اختيار / تغيير الاسم لحساب جوجل -->
+  <div id="nicknameModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-title">اختر اسمك في الموقع</div>
+      <p class="modal-text">أدخل الاسم الذي تريد أن يظهر للجميع في بوابة الكلان:</p>
+      <form id="nicknameForm">
+        <div class="form-group">
+          <input id="nicknameInput" type="text" placeholder="مثال: GEDR GEUT" required maxlength="32" />
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-gold btn-sm" type="submit">حفظ الاسم</button>
+          <button id="cancelNicknameBtn" class="btn btn-dark btn-sm hidden" type="button">إلغاء</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- نافذة تنبيه الزائر عند محاولة التفاعل أو المشاركة -->
   <div id="guestPromptModal" class="modal-backdrop hidden">
@@ -1070,6 +1254,16 @@
     clanAvatar.onerror = loadNextLogo;
     loadNextLogo();
 
+    // تعبئة مستويات الحساب من 60 إلى 100
+    const levelOptionsHtml = Array.from({ length: 41 }, (_, i) => {
+      const lvl = 60 + i;
+      return `<option value="${lvl}">${lvl}</option>`;
+    }).join("");
+
+    document.querySelectorAll(".account-level-select").forEach((sel) => {
+      sel.innerHTML = levelOptionsHtml;
+    });
+
     const ARAB_COUNTRIES = [
       "الجزائر", "السعودية", "مصر", "العراق", "المغرب", "تونس",
       "الأردن", "الإمارات", "الكويت", "قطر", "البحرين", "عُمان",
@@ -1100,12 +1294,20 @@
     const loginView = document.getElementById("loginView");
     const appView = document.getElementById("appView");
     const homePage = document.getElementById("homePage");
-    const userLabel = document.getElementById("userLabel");
+    const userDisplayName = document.getElementById("userDisplayName");
+    const userEmailSub = document.getElementById("userEmailSub");
     const authError = document.getElementById("authError");
     const googleLoginBtn = document.getElementById("googleLoginBtn");
     const guestLoginBtn = document.getElementById("guestLoginBtn");
     const logoutBtn = document.getElementById("logoutBtn");
+    const changeNameBtn = document.getElementById("changeNameBtn");
+    const openFeedbackBtn = document.getElementById("openFeedbackBtn");
     const toastEl = document.getElementById("toast");
+
+    const nicknameModal = document.getElementById("nicknameModal");
+    const nicknameForm = document.getElementById("nicknameForm");
+    const nicknameInput = document.getElementById("nicknameInput");
+    const cancelNicknameBtn = document.getElementById("cancelNicknameBtn");
 
     const guestPromptModal = document.getElementById("guestPromptModal");
     const guestGoGoogleLoginBtn = document.getElementById("guestGoGoogleLoginBtn");
@@ -1123,7 +1325,40 @@
     const toggleRulesBtn = document.getElementById("toggleRulesBtn");
     const rulesContent = document.getElementById("rulesContent");
 
-    const subPages = ["newsPage", "pollsPage", "contestPage", "tryoutPage"];
+    // أداة زخرفة الأسماء
+    const rawClanNameInput = document.getElementById("rawClanNameInput");
+    const convertNameBtn = document.getElementById("convertNameBtn");
+    const decoratedResultWrap = document.getElementById("decoratedResultWrap");
+    const decoratedNameOutput = document.getElementById("decoratedNameOutput");
+    const copyDecoratedBtn = document.getElementById("copyDecoratedBtn");
+
+    convertNameBtn.addEventListener("click", () => {
+      const rawName = rawClanNameInput.value.trim();
+      if (!rawName) {
+        showToast("اكتب اسمك أولاً للتحويل");
+        return;
+      }
+      const decorated = `あ┋${rawName} ジ`;
+      decoratedNameOutput.textContent = decorated;
+      decoratedResultWrap.classList.remove("hidden");
+    });
+
+    copyDecoratedBtn.addEventListener("click", async () => {
+      const textToCopy = decoratedNameOutput.textContent;
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+        showToast("تم نسخ الاسم المزخرف");
+      } catch {
+        const range = document.createRange();
+        range.selectNodeContents(decoratedNameOutput);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        showToast("تم تحديد الاسم — اضغط نسخ");
+      }
+    });
+
+    const subPages = ["newsPage", "pollsPage", "contestPage", "tryoutPage", "feedbackPage"];
     let currentUser = null;
     let isGuest = false;
     let isAdmin = false;
@@ -1142,6 +1377,51 @@
       clearTimeout(showToast._t);
       showToast._t = setTimeout(() => toastEl.classList.add("hidden"), 2800);
     }
+
+    function getCustomNickname(uid) {
+      if (!uid) return "";
+      return (localStorage.getItem("gedr_custom_name_" + uid) || "").trim();
+    }
+
+    function setCustomNickname(uid, name) {
+      if (!uid) return;
+      localStorage.setItem("gedr_custom_name_" + uid, name.trim());
+    }
+
+    function openNicknameModal(allowCancel) {
+      if (!currentUser) return;
+      const existing = getCustomNickname(currentUser.uid);
+      nicknameInput.value = existing || currentUser.displayName || "";
+      cancelNicknameBtn.classList.toggle("hidden", !allowCancel);
+      nicknameModal.classList.remove("hidden");
+      setTimeout(() => nicknameInput.focus(), 60);
+    }
+
+    nicknameForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!currentUser) return;
+      const chosen = nicknameInput.value.trim();
+      if (!chosen) {
+        showToast("يرجى إدخال اسم صالح");
+        return;
+      }
+      setCustomNickname(currentUser.uid, chosen);
+      nicknameModal.classList.add("hidden");
+      syncUIState();
+      showToast("تم حفظ الاسم بنجاح");
+    });
+
+    cancelNicknameBtn.addEventListener("click", () => {
+      nicknameModal.classList.add("hidden");
+    });
+
+    changeNameBtn.addEventListener("click", () => {
+      openNicknameModal(true);
+    });
+
+    openFeedbackBtn.addEventListener("click", () => {
+      openPage("feedbackPage");
+    });
 
     function requireGoogleAccount() {
       if (currentUser) return true;
@@ -1208,8 +1488,8 @@
 
     function revealSendChannels(boxId, whatsappId, gmailId, subject, summaryText) {
       const { whatsappUrl, gmailUrl } = buildSendLinks(subject, summaryText);
-      const waEl = document.getElementById(whatsappId);
-      const gmEl = document.getElementById(gmailId);
+      const waEl = whatsappId ? document.getElementById(whatsappId) : null;
+      const gmEl = gmailId ? document.getElementById(gmailId) : null;
       const boxEl = document.getElementById(boxId);
       if (waEl) waEl.href = whatsappUrl;
       if (gmEl) gmEl.href = gmailUrl;
@@ -1314,6 +1594,7 @@
     logoutBtn.addEventListener("click", async () => {
       isGuest = false;
       localStorage.removeItem("gedr_guest_mode");
+      nicknameModal.classList.add("hidden");
       goHome();
       if (auth.currentUser) {
         await signOut(auth).catch(() => {});
@@ -1330,10 +1611,21 @@
         appView.classList.remove("hidden");
 
         if (currentUser) {
-          const displayName = currentUser.displayName || currentUser.email;
-          userLabel.textContent = `${displayName} (${currentUser.email})`;
+          const savedName = getCustomNickname(currentUser.uid);
+          const shownName = savedName || currentUser.displayName || currentUser.email;
+          userDisplayName.textContent = shownName;
+          userEmailSub.textContent = currentUser.email || "";
+          userEmailSub.classList.remove("hidden");
+          changeNameBtn.classList.remove("hidden");
+
+          if (!savedName) {
+            openNicknameModal(false);
+          }
         } else {
-          userLabel.textContent = "المتابعة كزائر (للتصفح فقط)";
+          userDisplayName.textContent = "المتابعة كزائر (للتصفح فقط)";
+          userEmailSub.textContent = "";
+          userEmailSub.classList.add("hidden");
+          changeNameBtn.classList.add("hidden");
         }
 
         adminNewsControls.classList.toggle("hidden", !isAdmin);
@@ -1744,6 +2036,8 @@
       if (!requireGoogleAccount()) return;
 
       const uid = document.getElementById("contestUid").value.trim();
+      const accountLevel = document.getElementById("contestLevel").value;
+      const deviceType = document.getElementById("contestDevice").value;
       const country = document.getElementById("contestCountry").value;
       const ageGroup = document.getElementById("contestAge").value;
       const agreedToRules = document.getElementById("contestRulesAgree").checked;
@@ -1756,6 +2050,8 @@
       const summaryText =
         `طلب مشاركة في مسابقة — GEDR CLAN\n` +
         `معرف اللاعب UID: ${uid}\n` +
+        `مستوى الحساب: ${accountLevel}\n` +
+        `نوع الجهاز: ${deviceType}\n` +
         `الدولة: ${country}\n` +
         `عمر اللاعب: ${ageGroup}\n` +
         `الموافقة على القوانين: نعم`;
@@ -1771,6 +2067,8 @@
       try {
         await addDoc(collection(db, "contest_registrations"), {
           uid,
+          accountLevel: Number(accountLevel),
+          deviceType,
           country,
           ageGroup,
           agreedToRules,
@@ -1789,6 +2087,8 @@
       if (!requireGoogleAccount()) return;
 
       const uid = document.getElementById("tryoutUid").value.trim();
+      const accountLevel = document.getElementById("tryoutLevel").value;
+      const deviceType = document.getElementById("tryoutDevice").value;
       const country = document.getElementById("tryoutCountry").value;
       const ageGroup = document.getElementById("tryoutAge").value;
       const skill = document.getElementById("tryoutSkill").value;
@@ -1796,6 +2096,8 @@
       const summaryText =
         `طلب مشاركة في اختبار كلان — GEDR CLAN\n` +
         `معرف اللاعب UID: ${uid}\n` +
+        `مستوى الحساب: ${accountLevel}\n` +
+        `نوع الجهاز: ${deviceType}\n` +
         `الدولة: ${country}\n` +
         `عمر اللاعب: ${ageGroup}\n` +
         `المهارة: ${skill}`;
@@ -1811,6 +2113,8 @@
       try {
         await addDoc(collection(db, "clan_tryouts"), {
           uid,
+          accountLevel: Number(accountLevel),
+          deviceType,
           country,
           ageGroup,
           skill,
@@ -1821,6 +2125,31 @@
       } catch {
         showToast("تم تجهيز أزرار واتساب وGmail للإرسال المباشر");
       }
+    });
+
+    // إرسال نموذج تقديم ملاحظة
+    document.getElementById("feedbackForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const noteText = document.getElementById("feedbackMessageInput").value.trim();
+      if (!noteText) return;
+
+      const senderName = currentUser
+        ? (getCustomNickname(currentUser.uid) || currentUser.displayName || currentUser.email)
+        : "زائر";
+
+      const summaryText =
+        `ملاحظة جديدة حول موقع GEDR CLAN\n` +
+        `المرسل: ${senderName}\n` +
+        `الملاحظة:\n${noteText}`;
+
+      revealSendChannels(
+        "feedbackSendChannels",
+        null,
+        "feedbackGmailLink",
+        "ملاحظة حول موقع GEDR CLAN",
+        summaryText
+      );
+      showToast("تم تجهيز زر المراسلة عبر الجيمايل");
     });
   </script>
 </body>
