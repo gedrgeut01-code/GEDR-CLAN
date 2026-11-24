@@ -245,11 +245,17 @@
       background-color: #111117 !important;
       border: 1px solid var(--gold-border) !important;
       color: #e4e4e7 !important;
-      padding: 13px 15px;
+      padding: 15px 16px;
       border-radius: 12px;
       font-size: 0.9rem;
       margin-top: 10px;
-      line-height: 1.75;
+      line-height: 1.85;
+      max-height: 360px;
+      overflow-y: auto;
+    }
+
+    .rules-box strong {
+      color: #f5cb4c !important;
     }
 
     .send-channels-box {
@@ -1006,7 +1012,7 @@
 
           <div class="form-group">
             <label class="field-label" for="contestLevel">مستوى الحساب:</label>
-            <select id="contestLevel" class="account-level-select" required></select>
+            <select id="contestLevel" required></select>
           </div>
 
           <div class="form-group">
@@ -1033,9 +1039,22 @@
           <div class="form-group">
             <button id="toggleRulesBtn" class="btn btn-outline-gold btn-sm" type="button">قراءة القوانين</button>
             <div id="rulesContent" class="rules-box hidden">
-              • الالتزام بالأخلاق والاحترام وعدم استخدام أي برامج أو ثغرات مخالفة.<br />
-              • إدخال معرف اللاعب UID الصحيح الخاص بحسابك.<br />
-              • التواجد في الموعد المحدد للمسابقة وقرارات الإدارة نهائية.
+              <strong>قوانين بوابة GEDR CLAN والمسابقات:</strong><br />
+              1. <strong>التسجيل الرسمي:</strong> التفاعل، التصويت، والمشاركة في المسابقات أو اختبارات الكلان متاحة فقط للمسجلين بحساب Google، بينما وضع الزائر مخصص للتصفح فقط.<br />
+              2. <strong>دقة المعلومات:</strong> يجب إدخال معرف اللاعب (UID) الصحيح، ومستوى الحساب الفعلي، ونوع الجهاز بدقة؛ أي بيانات وهمية تؤدي لإلغاء الطلب فوراً.<br />
+              3. <strong>الحد الأدنى للمستوى:</strong> الحد الأدنى للمشاركة في المسابقات هو مستوى 55، والحد الأدنى للانضمام واختبار الكلان هو مستوى 60.<br />
+              4. <strong>اللعب النظيف:</strong> يُمنع منعاً باتاً استخدام أي برامج غش، هاكات، ملفات معدّلة، أو استغلال ثغرات اللعبة.<br />
+              5. <strong>الالتزام بنوع الجهاز:</strong> يجب اللعب بنفس نوع الجهاز الذي اخترته في الاستمارة (هاتف أو محاكي) دون تبديل أثناء البطولة.<br />
+              6. <strong>الاحترام المتبادل:</strong> الالتزام بالأخلاق العالية واحترام الإدارة والمنافسين؛ أي سب أو شتم أو استفزاز يعرض صاحبه للحظر النهائي.<br />
+              7. <strong>الالتزام بالموعد:</strong> التواجد قبل موعد الروم أو المباراة بـ 10 دقائق على الأقل، والتأخر يعني استبعاد اللاعب تلقائياً.<br />
+              8. <strong>حساب واحد لكل لاعب:</strong> يُمنع التسجيل بأكثر من حساب لنفس الشخص في نفس المسابقة لزيادة فرص الفوز.<br />
+              9. <strong>عدم مشاركة كود الروم:</strong> يُمنع نشر معرف الروم أو كلمة المرور لأي شخص غير مسجّل ومقبول في قائمة المشاركين.<br />
+              10. <strong>التحالف الممنوع:</strong> يُمنع التحالف (Teaming) بين الخصوم في المسابقات الفردية أو السكوادات.<br />
+              11. <strong>الاسم اللائق:</strong> يُشترط أن يكون اسمك في الموقع وداخل اللعبة محترماً وخالياً من أي عبارات مسيئة.<br />
+              12. <strong>استخدام قسم الأخبار والتصويت:</strong> التفاعل والتصويت حق لكل عضو مسجل مرة واحدة فقط لكل منشور، ويُمنع محاولة التلاعب بالأصوات.<br />
+              13. <strong>تقديم الملاحظات:</strong> يُستخدم قسم "تقديم ملاحظة" للاقتراحات البناءة أو الإبلاغ عن المشكلات التقنية بأسلوب محترم.<br />
+              14. <strong>متابعة الإعلانات:</strong> اللاعب مسؤول عن متابعة آخر الأخبار ومجموعة الواتساب الرسمية لمعرفة مواعيد المباريات والنتائج.<br />
+              15. <strong>قرارات الإدارة:</strong> قرارات إدارة GEDR CLAN نهائية في جميع الحالات التنظيمية والتحكيمية لضمان العدالة للجميع.
             </div>
           </div>
 
@@ -1107,7 +1126,7 @@
 
           <div class="form-group">
             <label class="field-label" for="tryoutLevel">مستوى الحساب:</label>
-            <select id="tryoutLevel" class="account-level-select" required></select>
+            <select id="tryoutLevel" required></select>
             <div class="field-hint-danger">أقل من مستوى 60 لا يمكنه الانضمام للكلان</div>
           </div>
 
@@ -1254,15 +1273,16 @@
     clanAvatar.onerror = loadNextLogo;
     loadNextLogo();
 
-    // تعبئة مستويات الحساب من 60 إلى 100
-    const levelOptionsHtml = Array.from({ length: 41 }, (_, i) => {
-      const lvl = 60 + i;
-      return `<option value="${lvl}">${lvl}</option>`;
-    }).join("");
+    function buildLevelOptions(minLvl, maxLvl) {
+      return Array.from({ length: maxLvl - minLvl + 1 }, (_, i) => {
+        const lvl = minLvl + i;
+        return `<option value="${lvl}">${lvl}</option>`;
+      }).join("");
+    }
 
-    document.querySelectorAll(".account-level-select").forEach((sel) => {
-      sel.innerHTML = levelOptionsHtml;
-    });
+    // مستويات الحساب: 55 إلى 100 للمسابقة، و60 إلى 100 لاختبار الكلان
+    document.getElementById("contestLevel").innerHTML = buildLevelOptions(55, 100);
+    document.getElementById("tryoutLevel").innerHTML = buildLevelOptions(60, 100);
 
     const ARAB_COUNTRIES = [
       "الجزائر", "السعودية", "مصر", "العراق", "المغرب", "تونس",
@@ -2154,3 +2174,4 @@
   </script>
 </body>
 </html>
+
