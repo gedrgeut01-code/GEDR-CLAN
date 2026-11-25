@@ -581,13 +581,16 @@
     }
 
     .podium-player-name {
-      font-size: 0.92rem;
+      font-size: 0.85rem;
       font-weight: 800;
       color: #ffffff;
       margin-bottom: 4px;
-      word-break: break-word;
       padding: 0 4px;
       direction: rtl;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
 
     .podium-player-name.empty {
@@ -601,6 +604,7 @@
       color: #f5cb4c;
       margin-bottom: 8px;
       direction: rtl;
+      white-space: nowrap;
     }
 
     .podium-step {
@@ -674,6 +678,7 @@
       color: #ffffff;
       font-weight: 700;
       vertical-align: middle;
+      white-space: nowrap;
     }
 
     .clan-table tr:last-child td {
@@ -684,11 +689,13 @@
       color: #9ca3af;
       font-style: italic;
       font-weight: 600;
+      white-space: nowrap;
     }
 
     .slot-available-text {
       color: #4ade80;
       font-weight: 700;
+      white-space: nowrap;
     }
 
     .leaderboard-note-box {
@@ -1000,6 +1007,9 @@
       .admin-rank-row {
         grid-template-columns: 1fr;
       }
+      .podium-player-name {
+        font-size: 0.76rem;
+      }
     }
   </style>
 </head>
@@ -1178,7 +1188,7 @@
 
         <!-- لوحة تعديل الإدارة للمتصدرين في الكلان -->
         <div id="adminClanLeaderboardEditor" class="admin-edit-card hidden">
-          <strong style="color:#f5cb4c;">⚙️ إدارة المتصدرين في الكلان (المراكز 1 - 3):</strong>
+          <strong style="color:#f5cb4c;">⚙️ إدارة المتصدرين في الكلان (المراكز 1 - 3 — أقصى حد 8 أحرف للاسم):</strong>
           <div id="adminClanRankRows"></div>
         </div>
       </div>
@@ -1218,7 +1228,7 @@
 
         <!-- لوحة تعديل الإدارة للمتصدرين في المسابقات -->
         <div id="adminContestLeaderboardEditor" class="admin-edit-card hidden">
-          <strong style="color:#f5cb4c;">⚙️ إدارة المتصدرين في المسابقات (المراكز 1 - 3):</strong>
+          <strong style="color:#f5cb4c;">⚙️ إدارة المتصدرين في المسابقات (المراكز 1 - 3 — أقصى حد 8 أحرف للاسم):</strong>
           <div id="adminContestRankRows"></div>
         </div>
       </div>
@@ -2067,17 +2077,20 @@
     // ==========================================
     // 2) نظام المتصدرين (الكلان + المسابقات)
     // ==========================================
+    function capNameTo8Chars(val) {
+      return (val || "").trim().slice(0, 8);
+    }
+
     function normalizeTop3(rawArr) {
       return [0, 1, 2].map((idx) => {
         const item = Array.isArray(rawArr) && rawArr[idx] ? rawArr[idx] : {};
-        const name = (item.name || "").trim();
+        const name = capNameTo8Chars(item.name || "");
         const points = name ? Math.max(0, Number(item.points) || 0) : 0;
         return { name, points };
       });
     }
 
     function renderPodium(containerEl, list, unitLabel) {
-      // ترتيب العرض البصري للمدرج: المركز 2 يسار، المركز 1 وسط مرتفع، المركز 3 يمين
       const visualOrder = [
         { rank: 2, data: list[1], stepClass: "rank-2" },
         { rank: 1, data: list[0], stepClass: "rank-1" },
@@ -2086,8 +2099,9 @@
 
       containerEl.innerHTML = "";
       visualOrder.forEach(({ rank, data, stepClass }) => {
-        const isEmpty = !data.name;
-        const displayName = isEmpty ? "لا يوجد" : data.name;
+        const cleanName = capNameTo8Chars(data.name);
+        const isEmpty = !cleanName;
+        const displayName = isEmpty ? "لا يوجد" : cleanName;
         const displayPts = isEmpty ? 0 : data.points;
 
         const col = document.createElement("div");
@@ -2096,6 +2110,7 @@
         const nameDiv = document.createElement("div");
         nameDiv.className = "podium-player-name" + (isEmpty ? " empty" : "");
         nameDiv.textContent = displayName;
+        if (!isEmpty) nameDiv.title = displayName;
 
         const ptsDiv = document.createElement("div");
         ptsDiv.className = "podium-player-pts";
@@ -2119,7 +2134,8 @@
       tbodyEl.innerHTML = "";
 
       list.forEach((item, idx) => {
-        const isEmpty = !item.name;
+        const cleanName = capNameTo8Chars(item.name);
+        const isEmpty = !cleanName;
         const tr = document.createElement("tr");
 
         const tdRank = document.createElement("td");
@@ -2130,7 +2146,7 @@
         if (isEmpty) {
           tdName.innerHTML = `<span class="slot-empty-text">لا يوجد</span>`;
         } else {
-          tdName.textContent = item.name;
+          tdName.textContent = cleanName;
         }
 
         const tdPts = document.createElement("td");
@@ -2156,8 +2172,9 @@
 
         const nameInput = document.createElement("input");
         nameInput.type = "text";
-        nameInput.placeholder = "اسم اللاعب (أو فارغ = لا يوجد)";
-        nameInput.value = item.name || "";
+        nameInput.maxLength = 8;
+        nameInput.placeholder = "الاسم (أقصى حد 8 أحرف)";
+        nameInput.value = capNameTo8Chars(item.name || "");
 
         const ptsInput = document.createElement("input");
         ptsInput.type = "number";
@@ -2175,7 +2192,8 @@
         saveBtn.textContent = "حفظ";
         saveBtn.addEventListener("click", async () => {
           if (!isAdmin) return;
-          const cleanName = nameInput.value.trim();
+          const cleanName = capNameTo8Chars(nameInput.value);
+          nameInput.value = cleanName;
           const cleanPts = cleanName ? Math.max(0, Number(ptsInput.value) || 0) : 0;
           const updated = currentList.map((entry, i) =>
             i === idx ? { name: cleanName, points: cleanPts } : entry
