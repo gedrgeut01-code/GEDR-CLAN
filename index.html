@@ -53,7 +53,7 @@
     .container {
       max-width: 780px;
       margin: 0 auto;
-      padding: 18px 16px 48px;
+      padding: 18px 16px 76px;
     }
 
     /* شاشة الدخول */
@@ -180,6 +180,12 @@
       background-color: rgba(229, 184, 59, 0.18) !important;
       color: #f5cb4c !important;
       border: 1px solid rgba(229, 184, 59, 0.55) !important;
+    }
+
+    .btn-security {
+      background-color: #2a1215 !important;
+      color: #fca5a5 !important;
+      border: 1px solid rgba(239, 68, 68, 0.65) !important;
     }
 
     .btn-whatsapp {
@@ -746,6 +752,59 @@
       border: 1px solid rgba(255, 255, 255, 0.16);
     }
 
+    /* قسم إدارة الأمان الحصري */
+    .security-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .security-stat-card {
+      background-color: #101016;
+      border: 1px solid rgba(229, 184, 59, 0.35);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .security-stat-num {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #f5cb4c;
+    }
+
+    .security-stat-label {
+      font-size: 0.8rem;
+      color: #d4d4dc;
+      font-weight: 700;
+    }
+
+    .security-status-card {
+      background-color: #0d1612;
+      border: 1px solid rgba(34, 197, 94, 0.45);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      font-size: 0.88rem;
+      color: #bbf7d0;
+      line-height: 1.75;
+    }
+
+    .submission-card {
+      background-color: #101016;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.88rem;
+    }
+
     .poll-options-boxes {
       display: grid;
       grid-template-columns: 1fr;
@@ -993,6 +1052,160 @@
       gap: 10px;
     }
 
+    /* البوت العائم في الزاوية السفلية اليسرى (للمسجلين فقط وبحجم صغير مدمج) */
+    .gedr-bot-fab {
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f5cb4c, #b45309);
+      color: #09090b;
+      border: 2px solid #fef08a;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.65), 0 0 12px rgba(229, 184, 59, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      cursor: pointer;
+      z-index: 950;
+      transition: transform 0.15s ease;
+    }
+
+    .gedr-bot-fab:hover {
+      transform: scale(1.06);
+    }
+
+    .gedr-bot-panel {
+      position: fixed;
+      bottom: 70px;
+      left: 16px;
+      width: 295px;
+      max-width: calc(100vw - 32px);
+      background-color: #14141b;
+      border: 1.5px solid var(--gold-border);
+      border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
+      z-index: 951;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gedr-bot-header {
+      background-color: #1c1c26;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(229, 184, 59, 0.3);
+    }
+
+    .gedr-bot-title {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #f5cb4c;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gedr-bot-close {
+      background: transparent;
+      border: none;
+      color: #d4d4dc;
+      font-size: 1.15rem;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
+    .gedr-bot-messages {
+      padding: 10px;
+      max-height: 225px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.82rem;
+    }
+
+    .bot-msg {
+      padding: 8px 10px;
+      border-radius: 11px;
+      line-height: 1.55;
+      max-width: 92%;
+      word-break: break-word;
+    }
+
+    .bot-msg.ai {
+      background-color: #1e1e29;
+      border: 1px solid rgba(229, 184, 59, 0.28);
+      color: #ffffff;
+      align-self: flex-start;
+    }
+
+    .bot-msg.user {
+      background-color: rgba(229, 184, 59, 0.2);
+      border: 1px solid rgba(229, 184, 59, 0.5);
+      color: #fef08a;
+      align-self: flex-end;
+    }
+
+    .bot-gemini-link {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 4px 9px;
+      border-radius: 8px;
+      background-color: #e5b83b;
+      color: #09090b !important;
+      font-weight: 800;
+      font-size: 0.78rem;
+      text-decoration: none;
+    }
+
+    .gedr-bot-quick {
+      padding: 6px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background-color: #101016;
+    }
+
+    .bot-chip {
+      background-color: #1c1c26;
+      color: #f5cb4c;
+      border: 1px solid rgba(229, 184, 59, 0.35);
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .gedr-bot-form {
+      display: flex;
+      gap: 6px;
+      padding: 8px;
+      background-color: #0d0d12;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .gedr-bot-form input {
+      padding: 7px 10px;
+      font-size: 0.82rem;
+      border-radius: 10px;
+    }
+
+    .gedr-bot-form button {
+      padding: 7px 11px;
+      font-size: 0.8rem;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
     @media (max-width: 540px) {
       .grid-4,
       .send-channels-grid {
@@ -1009,6 +1222,9 @@
       }
       .podium-player-name {
         font-size: 0.72rem;
+      }
+      .security-stats-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -1100,6 +1316,7 @@
         </div>
       </div>
       <div class="user-controls">
+        <button id="openSecurityBtn" class="btn btn-security btn-sm hidden" type="button">🛡️ إدارة الأمان</button>
         <button id="openFeedbackBtn" class="btn btn-outline-gold btn-sm" type="button">تقديم ملاحظة</button>
         <button id="changeNameBtn" class="btn btn-dark btn-sm hidden" type="button">تغيير الاسم</button>
         <button id="logoutBtn" class="btn btn-dark btn-sm" type="button">خروج</button>
@@ -1134,6 +1351,51 @@
       </button>
     </section>
 
+    <!-- صفحة إدارة الأمان الحصرية للمطور فقط -->
+    <section id="securityPage" class="hidden">
+      <div class="subpage-header">
+        <h2 class="subpage-title">🛡️ إدارة الأمان (حصري للمطور)</h2>
+        <button class="btn btn-dark btn-sm back-btn" type="button">← رجوع</button>
+      </div>
+
+      <div class="panel">
+        <div class="security-status-card">
+          <strong>حالة الحماية النشطة:</strong><br />
+          • حساب الإدارة المصرح له: <span style="direction:ltr; display:inline-block; color:#f5cb4c; font-weight:800;">gedrgeut01@gmail.com</span><br />
+          • جميع عمليات التعديل على المتصدرين، قائمة الـ 55 عضواً، إنشاء/حذف الأخبار والتصويتات، وقراءة الطلبات مقفلة برمجياً على مستوى Firestore Rules ولا يراها أي زائر أو مستخدم آخر.
+        </div>
+
+        <div class="security-stats-grid">
+          <div class="security-stat-card">
+            <div id="secOnlineCount" class="security-stat-num">0</div>
+            <div class="security-stat-label">متواجدون الآن 🟢</div>
+          </div>
+          <div class="security-stat-card">
+            <div id="secTotalUsersCount" class="security-stat-num">0</div>
+            <div class="security-stat-label">إجمالي المسجلين 🔴</div>
+          </div>
+          <div class="security-stat-card">
+            <div id="secTotalSubsCount" class="security-stat-num">0</div>
+            <div class="security-stat-label">طلبات واردة 📥</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <strong style="color:#f5cb4c;">🏆 طلبات المسابقات الواردة:</strong>
+          <div id="secContestList">
+            <p class="empty-msg">جاري تحميل الطلبات...</p>
+          </div>
+        </div>
+
+        <div>
+          <strong style="color:#f5cb4c;">🎯 طلبات اختبار الكلان الواردة:</strong>
+          <div id="secTryoutList">
+            <p class="empty-msg">جاري تحميل الطلبات...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- صفحة اختيار نوع المتصدرين -->
     <section id="leaderboardMenuPage" class="hidden">
       <div class="subpage-header">
@@ -1162,12 +1424,10 @@
       </div>
 
       <div class="panel">
-        <!-- مدرج التتويج -->
         <div class="podium-wrapper">
           <div id="clanPodiumStage" class="podium-stage"></div>
         </div>
 
-        <!-- جدول المراكز الثلاثة -->
         <div class="clan-table-wrap">
           <table class="clan-table">
             <thead>
@@ -1181,12 +1441,10 @@
           </table>
         </div>
 
-        <!-- ملاحظة المتصدرين في الكلان -->
         <div class="leaderboard-note-box">
           صاحب أعلى نقاط قلوري يحصل على المرتبة الأولى في التصدير ويليه بعده الأقل منه ليأخذ المرتبة الثانية وبعده الثالث. يمكنك التصدر عن طريق اللعب مع أعضاء الكلان وجمع قلوري والتنافس مع اللاعبين على المرتبة الأولى في التصدير. هذه الواجهة مخصصة لأعضاء الكلان فقط.
         </div>
 
-        <!-- لوحة تعديل الإدارة للمتصدرين في الكلان -->
         <div id="adminClanLeaderboardEditor" class="admin-edit-card hidden">
           <strong style="color:#f5cb4c;">⚙️ إدارة المتصدرين في الكلان (المراكز 1 - 3 — أقصى حد 15 حرفاً للاسم):</strong>
           <div id="adminClanRankRows"></div>
@@ -1202,12 +1460,10 @@
       </div>
 
       <div class="panel">
-        <!-- مدرج التتويج -->
         <div class="podium-wrapper">
           <div id="contestPodiumStage" class="podium-stage"></div>
         </div>
 
-        <!-- جدول المراكز الثلاثة -->
         <div class="clan-table-wrap">
           <table class="clan-table">
             <thead>
@@ -1221,12 +1477,10 @@
           </table>
         </div>
 
-        <!-- ملاحظة المتصدرين في المسابقات -->
         <div class="leaderboard-note-box">
           يمكنك أن تصبح في المرتبة الأولى عن طريق مشاركتك في المسابقات؛ كل مباراة تفوز فيها ستحصل على 3 نقاط ومادام فوزك يزيد زادت نقاطك أكثر فأكثر. هنا يوجد فقط أقوى اللاعبين، إن كنت منهم أثبت وجودك في المرتبة الأولى.
         </div>
 
-        <!-- لوحة تعديل الإدارة للمتصدرين في المسابقات -->
         <div id="adminContestLeaderboardEditor" class="admin-edit-card hidden">
           <strong style="color:#f5cb4c;">⚙️ إدارة المتصدرين في المسابقات (المراكز 1 - 3 — أقصى حد 15 حرفاً للاسم):</strong>
           <div id="adminContestRankRows"></div>
@@ -1586,6 +1840,26 @@
     </section>
   </main>
 
+  <!-- البوت العائم في الزاوية السفلية اليسرى (يظهر للمسجلين فقط) -->
+  <button id="gedrBotFab" class="gedr-bot-fab hidden" type="button" title="GEDR BOT" aria-label="GEDR BOT">🤖</button>
+
+  <div id="gedrBotPanel" class="gedr-bot-panel hidden" role="dialog" aria-label="GEDR BOT">
+    <div class="gedr-bot-header">
+      <div class="gedr-bot-title">🤖 GEDR BOT</div>
+      <button id="gedrBotCloseBtn" class="gedr-bot-close" type="button" aria-label="إغلاق">×</button>
+    </div>
+    <div id="gedrBotMessages" class="gedr-bot-messages"></div>
+    <div class="gedr-bot-quick">
+      <button class="bot-chip" type="button" data-bot-q="شروط دخول الكلان">شروط الكلان</button>
+      <button class="bot-chip" type="button" data-bot-q="شروط المسابقات">المسابقات</button>
+      <button class="bot-chip" type="button" data-bot-q="طريقة التصدر">التصدر</button>
+    </div>
+    <form id="gedrBotForm" class="gedr-bot-form">
+      <input id="gedrBotInput" type="text" placeholder="اسأل عن الموقع والكلان..." required maxlength="180" />
+      <button class="btn btn-gold" type="submit">إرسال</button>
+    </form>
+  </div>
+
   <!-- نافذة تعديل عضو في قائمة الكلان (للإدارة فقط) -->
   <div id="rosterEditModal" class="modal-backdrop hidden">
     <div class="modal-card">
@@ -1706,7 +1980,6 @@
       }).join("");
     }
 
-    // مستويات الحساب: 55 إلى 100 للمسابقة، و60 إلى 100 لاختبار الكلان
     document.getElementById("contestLevel").innerHTML = buildLevelOptions(55, 100);
     document.getElementById("tryoutLevel").innerHTML = buildLevelOptions(60, 100);
 
@@ -1750,6 +2023,7 @@
     const logoutBtn = document.getElementById("logoutBtn");
     const changeNameBtn = document.getElementById("changeNameBtn");
     const openFeedbackBtn = document.getElementById("openFeedbackBtn");
+    const openSecurityBtn = document.getElementById("openSecurityBtn");
     const toastEl = document.getElementById("toast");
 
     const nicknameModal = document.getElementById("nicknameModal");
@@ -1772,6 +2046,13 @@
 
     const toggleRulesBtn = document.getElementById("toggleRulesBtn");
     const rulesContent = document.getElementById("rulesContent");
+
+    // عناصر إدارة الأمان
+    const secOnlineCount = document.getElementById("secOnlineCount");
+    const secTotalUsersCount = document.getElementById("secTotalUsersCount");
+    const secTotalSubsCount = document.getElementById("secTotalSubsCount");
+    const secContestList = document.getElementById("secContestList");
+    const secTryoutList = document.getElementById("secTryoutList");
 
     // عناصر المتصدرين
     const clanPodiumStage = document.getElementById("clanPodiumStage");
@@ -1796,6 +2077,14 @@
     const rosterPlayerBadgeSelect = document.getElementById("rosterPlayerBadgeSelect");
     const clearRosterSlotBtn = document.getElementById("clearRosterSlotBtn");
     const cancelRosterEditBtn = document.getElementById("cancelRosterEditBtn");
+
+    // عناصر GEDR BOT العائم
+    const gedrBotFab = document.getElementById("gedrBotFab");
+    const gedrBotPanel = document.getElementById("gedrBotPanel");
+    const gedrBotCloseBtn = document.getElementById("gedrBotCloseBtn");
+    const gedrBotMessages = document.getElementById("gedrBotMessages");
+    const gedrBotForm = document.getElementById("gedrBotForm");
+    const gedrBotInput = document.getElementById("gedrBotInput");
 
     // أداة زخرفة الأسماء
     const rawClanNameInput = document.getElementById("rawClanNameInput");
@@ -1838,7 +2127,8 @@
       "feedbackPage",
       "leaderboardMenuPage",
       "clanLeaderboardPage",
-      "contestLeaderboardPage"
+      "contestLeaderboardPage",
+      "securityPage"
     ];
 
     let currentUser = null;
@@ -1846,9 +2136,12 @@
     let isAdmin = false;
     let latestNewsDocs = [];
     let latestPollDocs = [];
+    let latestContestSubs = [];
+    let latestTryoutSubs = [];
+    let securityUnsubContest = null;
+    let securityUnsubTryout = null;
     const openPollEditors = new Set();
 
-    // بيانات المتصدرين وقائمة الأعضاء
     let clanTop3 = [
       { name: "", points: 0 },
       { name: "", points: 0 },
@@ -1862,7 +2155,6 @@
     let clanRosterSlots = Array.from({ length: 55 }, () => ({ name: "", badge: "" }));
     let editingRosterIndex = null;
 
-    // متغيرات تتبع حضور المسجلين (الأخضر والأحمر)
     let presenceHeartbeatTimer = null;
     let registeredUsersSnapshot = [];
 
@@ -1923,6 +2215,11 @@
       openPage("feedbackPage");
     });
 
+    openSecurityBtn.addEventListener("click", () => {
+      if (!isAdmin) return;
+      openPage("securityPage");
+    });
+
     function requireGoogleAccount() {
       if (currentUser) return true;
       showToast("يرجى التسجيل عبر قوقل اولا");
@@ -1955,6 +2252,7 @@
     }
 
     function openPage(pageId) {
+      if (pageId === "securityPage" && !isAdmin) return;
       homePage.classList.add("hidden");
       subPages.forEach((id) => {
         document.getElementById(id).classList.toggle("hidden", id !== pageId);
@@ -2000,6 +2298,8 @@
 
       onlineUsersCountEl.textContent = String(activeOnline);
       totalRegisteredCountEl.textContent = String(totalUnique);
+      secOnlineCount.textContent = String(activeOnline);
+      secTotalUsersCount.textContent = String(totalUnique);
     }
 
     async function markUserOnline(user) {
@@ -2075,7 +2375,111 @@
     setInterval(updatePresenceCounters, 15000);
 
     // ==========================================
-    // 2) نظام المتصدرين (الكلان + المسابقات)
+    // 2) نظام إدارة الأمان الحصري للأدمن
+    // ==========================================
+    function renderSecuritySubmissions() {
+      secTotalSubsCount.textContent = String(latestContestSubs.length + latestTryoutSubs.length);
+
+      if (latestContestSubs.length === 0) {
+        secContestList.innerHTML = `<p class="empty-msg" style="padding:10px;">لا توجد طلبات مسابقات حالياً.</p>`;
+      } else {
+        secContestList.innerHTML = "";
+        latestContestSubs.forEach((sub) => {
+          const item = document.createElement("div");
+          item.className = "submission-card";
+
+          const info = document.createElement("div");
+          info.innerHTML =
+            `<strong style="color:#f5cb4c;">UID: ${sub.uid || "-"}</strong> | مستوى ${sub.accountLevel || "-"} | ${sub.deviceType || "-"}<br>` +
+            `<span style="color:#b4b4be;">الدولة: ${sub.country || "-"} | العمر: ${sub.ageGroup || "-"} | البريد: ${sub.userEmail || "-"}</span>`;
+
+          const delBtn = document.createElement("button");
+          delBtn.type = "button";
+          delBtn.className = "btn-danger";
+          delBtn.textContent = "حذف";
+          delBtn.addEventListener("click", async () => {
+            if (!isAdmin) return;
+            try {
+              await deleteDoc(doc(db, "contest_registrations", sub.id));
+              showToast("تم حذف طلب المسابقة");
+            } catch {
+              showToast("تعذر حذف الطلب");
+            }
+          });
+
+          item.append(info, delBtn);
+          secContestList.appendChild(item);
+        });
+      }
+
+      if (latestTryoutSubs.length === 0) {
+        secTryoutList.innerHTML = `<p class="empty-msg" style="padding:10px;">لا توجد طلبات اختبار كلان حالياً.</p>`;
+      } else {
+        secTryoutList.innerHTML = "";
+        latestTryoutSubs.forEach((sub) => {
+          const item = document.createElement("div");
+          item.className = "submission-card";
+
+          const info = document.createElement("div");
+          info.innerHTML =
+            `<strong style="color:#f5cb4c;">UID: ${sub.uid || "-"}</strong> | مستوى ${sub.accountLevel || "-"} | المهارة: ${sub.skill || "-"}<br>` +
+            `<span style="color:#b4b4be;">الجهاز: ${sub.deviceType || "-"} | الدولة: ${sub.country || "-"} | البريد: ${sub.userEmail || "-"}</span>`;
+
+          const delBtn = document.createElement("button");
+          delBtn.type = "button";
+          delBtn.className = "btn-danger";
+          delBtn.textContent = "حذف";
+          delBtn.addEventListener("click", async () => {
+            if (!isAdmin) return;
+            try {
+              await deleteDoc(doc(db, "clan_tryouts", sub.id));
+              showToast("تم حذف طلب اختبار الكلان");
+            } catch {
+              showToast("تعذر حذف الطلب");
+            }
+          });
+
+          item.append(info, delBtn);
+          secTryoutList.appendChild(item);
+        });
+      }
+    }
+
+    function startSecurityListeners() {
+      if (securityUnsubContest || securityUnsubTryout) return;
+      securityUnsubContest = onSnapshot(
+        query(collection(db, "contest_registrations"), orderBy("createdAt", "desc")),
+        (snap) => {
+          latestContestSubs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+          renderSecuritySubmissions();
+        },
+        () => {}
+      );
+      securityUnsubTryout = onSnapshot(
+        query(collection(db, "clan_tryouts"), orderBy("createdAt", "desc")),
+        (snap) => {
+          latestTryoutSubs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+          renderSecuritySubmissions();
+        },
+        () => {}
+      );
+    }
+
+    function stopSecurityListeners() {
+      if (securityUnsubContest) {
+        securityUnsubContest();
+        securityUnsubContest = null;
+      }
+      if (securityUnsubTryout) {
+        securityUnsubTryout();
+        securityUnsubTryout = null;
+      }
+      latestContestSubs = [];
+      latestTryoutSubs = [];
+    }
+
+    // ==========================================
+    // 3) نظام المتصدرين (الكلان + المسابقات)
     // ==========================================
     function capNameTo15Chars(val) {
       return (val || "").trim().slice(0, 15);
@@ -2264,7 +2668,7 @@
     );
 
     // ==========================================
-    // 3) قائمة أعضاء الكلان (55 خانة)
+    // 4) قائمة أعضاء الكلان (55 خانة)
     // ==========================================
     toggleRosterBtn.addEventListener("click", () => {
       clanRosterContent.classList.toggle("hidden");
@@ -2372,6 +2776,118 @@
       },
       () => renderClanRoster()
     );
+
+    // ==========================================
+    // 5) منطق البوت العائم (GEDR BOT) للمسجلين فقط
+    // ==========================================
+    function appendBotMessage(text, sender = "ai", includeGeminiButton = false) {
+      const bubble = document.createElement("div");
+      bubble.className = `bot-msg ${sender}`;
+      bubble.textContent = text;
+
+      if (includeGeminiButton) {
+        const link = document.createElement("a");
+        link.href = "https://gemini.google.com";
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.className = "bot-gemini-link";
+        link.textContent = "فتح Gemini للإجابة الشاملة ↗";
+        bubble.appendChild(document.createElement("br"));
+        bubble.appendChild(link);
+      }
+
+      gedrBotMessages.appendChild(bubble);
+      gedrBotMessages.scrollTop = gedrBotMessages.scrollHeight;
+    }
+
+    function initBotWelcomeIfNeeded() {
+      if (gedrBotMessages.children.length > 0) return;
+      appendBotMessage(
+        "أهلاً بك في GEDR BOT! أنا مساعدك الخاص ببوابة GEDR CLAN. اسألني عن شروط الكلان، المسابقات، المتصدرين، أو زخرفة الأسماء.",
+        "ai",
+        false
+      );
+    }
+
+    function getGedrBotReply(rawQuery) {
+      const q = rawQuery.toLowerCase();
+
+      if (/كلان|اختبار|انضمام|بطاقة|تغيير الاسم/.test(q)) {
+        return {
+          text: "للانضمام إلى GEDR CLAN: يجب أن يكون مستوى حسابك 60 على الأقل، وتملك بطاقة تغيير الاسم لوضع شعار الكلان (あ┋الاسم ジ)، ثم ملء استمارة «مشاركة في اختبار كلان» وإرسالها.",
+          external: false
+        };
+      }
+      if (/مسابق|بطول|روم/.test(q)) {
+        return {
+          text: "للمشاركة في المسابقات: الحد الأدنى لمستوى الحساب هو 55، مع الالتزام باللعب النظيف ونوع الجهاز المسجل والموافقة على القوانين في قسم «مشاركة في مسابقة».",
+          external: false
+        };
+      }
+      if (/متصدر|تصدر|قلوري|نقاط/.test(q)) {
+        return {
+          text: "في قسم «المتصدرين» يوجد قائمتان: متصدرو الكلان (حسب أعلى نقاط قلوري مع الأعضاء) ومتصدرو المسابقات (3 نقاط لكل فوز في مباراة مسابقة).",
+          external: false
+        };
+      }
+      if (/زخرف|شعار|اسم/.test(q)) {
+        return {
+          text: "يمكنك زخرفة اسمك بشعار الكلان الرسمي من داخل صفحة «مشاركة في اختبار كلان» عبر كتابة اسمك والضغط على تحويل الاسم ثم نسخ.",
+          external: false
+        };
+      }
+      if (/اخبار|خبر|تصويت|ملاحظ/.test(q)) {
+        return {
+          text: "يمكنك متابعة آخر الأخبار والتفاعل معها، والتصويت في الاستطلاعات المتاحة، أو إرسال ملاحظتك للإدارة عبر زر «تقديم ملاحظة» بالأعلى.",
+          external: false
+        };
+      }
+      if (/واتساب|قروب|مجموع|تواصل/.test(q)) {
+        return {
+          text: "يمكنك الانضمام لمجموعة GEDR GROUP من شاشة الدخول، أو إرسال استمارات المسابقة والاختبار مباشرة للإدارة عبر واتساب أو Gmail بعد تعبئة الاستمارة.",
+          external: false
+        };
+      }
+
+      return {
+        text: "أنا مخصص فقط للإجابة عن موقع GEDR CLAN وقوانينه ومسابقاته. للأسئلة العامة أو المواضيع الأخرى، يمكنك التوجه إلى Gemini:",
+        external: true
+      };
+    }
+
+    gedrBotFab.addEventListener("click", () => {
+      if (!currentUser) return;
+      initBotWelcomeIfNeeded();
+      gedrBotPanel.classList.toggle("hidden");
+      if (!gedrBotPanel.classList.contains("hidden")) {
+        setTimeout(() => gedrBotInput.focus(), 50);
+      }
+    });
+
+    gedrBotCloseBtn.addEventListener("click", () => {
+      gedrBotPanel.classList.add("hidden");
+    });
+
+    document.querySelectorAll(".bot-chip[data-bot-q]").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        if (!currentUser) return;
+        const question = chip.dataset.botQ;
+        appendBotMessage(question, "user", false);
+        const res = getGedrBotReply(question);
+        appendBotMessage(res.text, "ai", res.external);
+      });
+    });
+
+    gedrBotForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!currentUser) return;
+      const q = gedrBotInput.value.trim();
+      if (!q) return;
+      appendBotMessage(q, "user", false);
+      gedrBotInput.value = "";
+      const res = getGedrBotReply(q);
+      appendBotMessage(res.text, "ai", res.external);
+    });
 
     // ==========================================
     // روابط الإرسال المباشر ومعالجة الصور
@@ -2490,12 +3006,14 @@
     logoutBtn.addEventListener("click", async () => {
       const leavingUid = currentUser?.uid;
       stopUserPresence();
+      stopSecurityListeners();
       if (leavingUid) {
         await markUserOffline(leavingUid);
       }
       isGuest = false;
       localStorage.removeItem("gedr_guest_mode");
       nicknameModal.classList.add("hidden");
+      gedrBotPanel.classList.add("hidden");
       goHome();
       if (auth.currentUser) {
         await signOut(auth).catch(() => {});
@@ -2518,6 +3036,7 @@
           userEmailSub.textContent = currentUser.email || "";
           userEmailSub.classList.remove("hidden");
           changeNameBtn.classList.remove("hidden");
+          gedrBotFab.classList.remove("hidden");
 
           if (!savedName) {
             openNicknameModal(false);
@@ -2527,15 +3046,31 @@
           userEmailSub.textContent = "";
           userEmailSub.classList.add("hidden");
           changeNameBtn.classList.add("hidden");
+          gedrBotFab.classList.add("hidden");
+          gedrBotPanel.classList.add("hidden");
         }
 
+        openSecurityBtn.classList.toggle("hidden", !isAdmin);
         adminNewsControls.classList.toggle("hidden", !isAdmin);
         adminPollControls.classList.toggle("hidden", !isAdmin);
+
+        if (isAdmin) {
+          startSecurityListeners();
+        } else {
+          stopSecurityListeners();
+          if (!document.getElementById("securityPage").classList.contains("hidden")) {
+            goHome();
+          }
+        }
       } else {
         appView.classList.add("hidden");
         loginView.classList.remove("hidden");
+        openSecurityBtn.classList.add("hidden");
         adminNewsControls.classList.add("hidden");
         adminPollControls.classList.add("hidden");
+        gedrBotFab.classList.add("hidden");
+        gedrBotPanel.classList.add("hidden");
+        stopSecurityListeners();
       }
 
       renderNews(latestNewsDocs);
