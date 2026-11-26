@@ -359,7 +359,7 @@
       color: #b4b4be !important;
       direction: ltr;
       text-align: right;
-      word-break: break-all;
+      overflow-wrap: anywhere;
     }
 
     .user-controls {
@@ -832,6 +832,7 @@
 
     .account-meta {
       min-width: 0;
+      flex: 1;
       line-height: 1.5;
     }
 
@@ -842,9 +843,11 @@
     }
 
     .account-sub {
-      font-size: 0.78rem;
+      font-size: 0.77rem;
       color: #b4b4be;
-      word-break: break-all;
+      direction: ltr;
+      text-align: right;
+      overflow-wrap: anywhere;
     }
 
     .account-last-seen {
@@ -2059,7 +2062,7 @@
 
     let presenceHeartbeatTimer = null;
     let registeredUsersSnapshot = [];
-    let bannedUsersMap = new Map();
+    let bannedUsersList = [];
 
     const isInAppBrowser = /Instagram|FBAN|FBAV|TikTok|Line|Snapchat/i.test(navigator.userAgent);
     if (isInAppBrowser) {
@@ -2081,6 +2084,22 @@
     function setCustomNickname(uid, name) {
       if (!uid) return;
       localStorage.setItem("gedr_custom_name_" + uid, name.trim());
+    }
+
+    function resolveAccountDisplayName(acc) {
+      const explicitName = (acc?.displayName || acc?.name || "").trim();
+      if (explicitName && explicitName !== "مستخدم") {
+        return explicitName;
+      }
+      if (acc?.uid && currentUser?.uid === acc.uid) {
+        const localSaved = getCustomNickname(acc.uid);
+        if (localSaved) return localSaved;
+        if (currentUser.displayName) return currentUser.displayName;
+      }
+      if (acc?.email && acc.email.includes("@")) {
+        return acc.email.split("@")[0];
+      }
+      return "عضو مسجل";
     }
 
     function openNicknameModal(allowCancel) {
@@ -2209,11 +2228,17 @@
       return "آخر ظهور: " + new Date(lastSeenMs).toLocaleString("ar");
     }
 
-    function isAccountBanned(uid, email) {
-      if (uid && bannedUsersMap.has(uid)) return true;
+    function findBannedDoc(uid, email) {
       const cleanEmail = (email || "").toLowerCase();
-      if (cleanEmail && bannedUsersMap.has(cleanEmail)) return true;
-      return false;
+      return bannedUsersList.find((b) => {
+        if (uid && (b.docId === uid || b.uid === uid)) return true;
+        if (cleanEmail && b.email && String(b.email).toLowerCase() === cleanEmail) return true;
+        return false;
+      }) || null;
+    }
+
+    function isAccountBanned(uid, email) {
+      return Boolean(findBannedDoc(uid, email));
     }
 
     function updatePresenceCounters() {
@@ -2229,7 +2254,7 @@
       totalRegisteredCountEl.textContent = String(totalUnique);
       secOnlineCount.textContent = String(activeOnline);
       secTotalUsersCount.textContent = String(totalUnique);
-      secBannedCount.textContent = String(bannedUsersMap.size);
+      secBannedCount.textContent = String(bannedUsersList.length);
     }
 
     async function markUserOnline(user) {
@@ -2237,7 +2262,7 @@
       const chosenName =
         getCustomNickname(user.uid) ||
         user.displayName ||
-        (user.email ? user.email.split("@")[0] : "مستخدم");
+        (user.email ? user.email.split("@")[0] : "عضو");
       try {
         await setDoc(
           doc(db, "registered_users", user.uid),
@@ -2304,11 +2329,12 @@
         showToast("لا يمكن حظر حساب المطور");
         return;
       }
+      const resolvedName = resolveAccountDisplayName(account);
       try {
         await setDoc(doc(db, "banned_users", account.uid), {
           uid: account.uid,
           email: account.email || "",
-          displayName: account.displayName || "مستخدم",
+          displayName: resolvedName,
           bannedAt: serverTimestamp()
         });
         showToast("تم حظر الحساب من دخول الموقع");
@@ -2337,7 +2363,9 @@
         secRegisteredAccountsList.innerHTML = "";
         registeredUsersSnapshot.forEach((acc) => {
           const isSelfAdmin = (acc.email || "").toLowerCase() === ADMIN_EMAIL.toLowerCase();
-          const alreadyBanned = isAccountBanned(acc.uid, acc.email);
+          const bannedEntry = findBannedDoc(acc.uid, acc.email);
+          const alreadyBanned = Boolean(bannedEntry);
+          const shownName = resolveAccountDisplayName(acc);
 
           const row = document.createElement("div");
           row.className = "account-row-card" + (alreadyBanned ? " banned" : "");
@@ -2347,7 +2375,7 @@
 
           const nameDiv = document.createElement("div");
           nameDiv.className = "account-name";
-          nameDiv.textContent = (acc.displayName || "مستخدم") + (isSelfAdmin ? " (المطور)" : "");
+          nameDiv.textContent = shownName + (isSelfAdmin ? " (المطور)" : "");
 
           const subDiv = document.createElement("div");
           subDiv.className = "account-sub";
@@ -2366,7 +2394,7 @@
               unbanBtn.type = "button";
               unbanBtn.className = "btn-unban";
               unbanBtn.textContent = "إلغاء الحظر";
-              unbanBtn.addEventListener("click", () => unbanAccount(acc.uid));
+              unbanBtn.addEventListener("click", () => unbanAccount(bannedEntry.docId));
               row.appendChild(unbanBtn);
             } else {
               const banBtn = document.createElement("button");
@@ -2382,12 +2410,11 @@
         });
       }
 
-      const bannedEntries = Array.from(bannedUsersMap.entries());
-      if (bannedEntries.length === 0) {
+      if (bannedUsersList.length === 0) {
         secBannedAccountsList.innerHTML = `<p class="empty-msg">لا يوجد حسابات محظورة حالياً.</p>`;
       } else {
         secBannedAccountsList.innerHTML = "";
-        bannedEntries.forEach(([docId, bAcc]) => {
+        bannedUsersList.forEach((bAcc) => {
           const row = document.createElement("div");
           row.className = "account-row-card banned";
 
@@ -2396,11 +2423,11 @@
 
           const nameDiv = document.createElement("div");
           nameDiv.className = "account-name";
-          nameDiv.textContent = bAcc.displayName || "حساب محظور";
+          nameDiv.textContent = resolveAccountDisplayName(bAcc);
 
           const subDiv = document.createElement("div");
           subDiv.className = "account-sub";
-          subDiv.textContent = bAcc.email || bAcc.uid || docId;
+          subDiv.textContent = bAcc.email || bAcc.uid || bAcc.docId;
 
           meta.append(nameDiv, subDiv);
 
@@ -2408,7 +2435,7 @@
           unbanBtn.type = "button";
           unbanBtn.className = "btn-unban";
           unbanBtn.textContent = "إلغاء الحظر";
-          unbanBtn.addEventListener("click", () => unbanAccount(docId));
+          unbanBtn.addEventListener("click", () => unbanAccount(bAcc.docId));
 
           row.append(meta, unbanBtn);
           secBannedAccountsList.appendChild(row);
@@ -2419,7 +2446,7 @@
     onSnapshot(
       collection(db, "registered_users"),
       (snap) => {
-        registeredUsersSnapshot = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        registeredUsersSnapshot = snap.docs.map((d) => ({ id: d.id, uid: d.id, ...d.data() }));
         updatePresenceCounters();
         renderAccountsAndBans();
       },
@@ -2429,15 +2456,21 @@
     onSnapshot(
       collection(db, "banned_users"),
       (snap) => {
-        const nextMap = new Map();
+        const seenKeys = new Set();
+        const dedupedList = [];
         snap.docs.forEach((d) => {
           const data = d.data() || {};
-          nextMap.set(d.id, data);
-          if (data.email) {
-            nextMap.set(String(data.email).toLowerCase(), data);
-          }
+          const uniqueKey = (data.uid || data.email || d.id).toLowerCase();
+          if (seenKeys.has(uniqueKey)) return;
+          seenKeys.add(uniqueKey);
+          dedupedList.push({
+            docId: d.id,
+            uid: data.uid || d.id,
+            email: data.email || "",
+            displayName: data.displayName || ""
+          });
         });
-        bannedUsersMap = nextMap;
+        bannedUsersList = dedupedList;
         updatePresenceCounters();
         renderAccountsAndBans();
 
@@ -3591,4 +3624,3 @@
   </script>
 </body>
 </html>
-جج
