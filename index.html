@@ -5,27 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="dark" />
   <meta name="supported-color-schemes" content="dark" />
-  <title>GEDR CLAN — البوابة الرسمية</title>
+  <title>GEDR CLAN — البوابة الملكية الرسمية</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     :root {
       color-scheme: dark only;
-      --bg: #09090b;
-      --surface: #15151b;
-      --surface-2: #1c1c25;
+      --bg: #060609;
+      --surface: rgba(18, 18, 26, 0.86);
+      --surface-solid: #13131c;
+      --surface-2: rgba(26, 26, 38, 0.92);
       --gold: #e5b83b;
-      --gold-bright: #f5cb4c;
-      --gold-soft: rgba(229, 184, 59, 0.18);
-      --gold-border: rgba(229, 184, 59, 0.55);
+      --gold-bright: #ffd966;
+      --gold-deep: #9c6f0e;
+      --gold-soft: rgba(229, 184, 59, 0.14);
+      --gold-border: rgba(245, 203, 76, 0.48);
       --text: #ffffff;
-      --muted: #b4b4be;
-      --danger-bg: #3b1216;
+      --muted: #b4b6c4;
+      --danger-bg: rgba(59, 18, 22, 0.92);
       --danger-border: #ef4444;
       --danger-text: #fecaca;
-      --border: rgba(255, 255, 255, 0.18);
-      --radius: 16px;
+      --border: rgba(255, 255, 255, 0.14);
+      --radius: 18px;
     }
 
     * {
@@ -36,14 +38,26 @@
     }
 
     html, body {
-      background-color: #09090b !important;
-      color: #ffffff !important;
+      background-color: var(--bg) !important;
+      color: var(--text) !important;
       min-height: 100vh;
       line-height: 1.65;
+      overflow-x: hidden;
     }
 
-    body {
-      background-image: radial-gradient(circle at top, rgba(229, 184, 59, 0.12), transparent 45%);
+    /* خلفية حية شبكية مع توهج ذهبي */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 50% -10%, rgba(245, 203, 76, 0.18), transparent 52%),
+        radial-gradient(circle at 85% 80%, rgba(229, 184, 59, 0.08), transparent 45%),
+        linear-gradient(rgba(229, 184, 59, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(229, 184, 59, 0.035) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 34px 34px, 34px 34px;
     }
 
     .hidden {
@@ -51,30 +65,118 @@
     }
 
     .container {
-      max-width: 780px;
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
       margin: 0 auto;
-      padding: 18px 16px 56px;
+      padding: 18px 16px 64px;
     }
 
-    /* شاشة الدخول */
+    /* ==========================================
+       شاشة تسجيل الدخول الملكية
+       ========================================== */
     .login-screen {
-      min-height: 92vh;
+      position: relative;
+      z-index: 1;
+      min-height: 96vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      gap: 16px;
-      padding: 24px 16px;
+      padding: 26px 16px;
+    }
+
+    .login-glass-card {
+      position: relative;
+      width: 100%;
+      max-width: 470px;
+      background: linear-gradient(165deg, rgba(24, 24, 35, 0.92), rgba(10, 10, 15, 0.96));
+      border: 1.5px solid var(--gold-border);
+      border-radius: 26px;
+      padding: 32px 22px 26px;
+      box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.78),
+        0 0 40px rgba(229, 184, 59, 0.12),
+        inset 0 1px 0 rgba(255, 240, 170, 0.22);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    /* زخارف الزوايا الملكية */
+    .corner-ornament {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-color: #f5cb4c;
+      border-style: solid;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    .corner-ornament.tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; border-radius: 6px 0 0 0; }
+    .corner-ornament.tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; border-radius: 0 6px 0 0; }
+    .corner-ornament.bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; border-radius: 0 0 0 6px; }
+    .corner-ornament.br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; border-radius: 0 0 6px 0; }
+
+    /* هالة الشعار المتطورة */
+    .avatar-orbit-stage {
+      position: relative;
+      width: 184px;
+      height: 184px;
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .orbit-glow-back {
+      position: absolute;
+      inset: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 217, 102, 0.42), rgba(229, 184, 59, 0.06) 68%, transparent 75%);
+      animation: auraPulse 3.4s ease-in-out infinite;
+    }
+
+    .orbit-ring-outer {
+      position: absolute;
+      inset: 2px;
+      border-radius: 50%;
+      border: 2px dashed rgba(245, 203, 76, 0.72);
+      animation: spinClockwise 18s linear infinite;
+    }
+
+    .orbit-ring-outer::before,
+    .orbit-ring-outer::after {
+      content: "✦";
+      position: absolute;
+      color: #ffe066;
+      font-size: 13px;
+      text-shadow: 0 0 10px #f5cb4c;
+    }
+    .orbit-ring-outer::before { top: -10px; left: 50%; transform: translateX(-50%); }
+    .orbit-ring-outer::after { bottom: -10px; left: 50%; transform: translateX(-50%); }
+
+    .orbit-ring-mid {
+      position: absolute;
+      inset: 12px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      border-top-color: #ffe066;
+      border-bottom-color: #d97706;
+      box-shadow: 0 0 18px rgba(245, 203, 76, 0.25);
+      animation: spinCounter 9s linear infinite;
     }
 
     .avatar-ring {
-      width: 136px;
-      height: 136px;
+      position: relative;
+      z-index: 2;
+      width: 134px;
+      height: 134px;
       border-radius: 50%;
       padding: 4px;
-      background: linear-gradient(135deg, #f7d367, #9c6f0e);
-      box-shadow: 0 0 36px rgba(229, 184, 59, 0.28);
+      background: linear-gradient(135deg, #fff099 0%, #e5b83b 45%, #7c5206 100%);
+      box-shadow: 0 0 32px rgba(245, 203, 76, 0.45), inset 0 0 12px rgba(0, 0, 0, 0.8);
       overflow: hidden;
     }
 
@@ -83,8 +185,38 @@
       height: 100%;
       object-fit: cover;
       border-radius: 50%;
-      background-color: #141419;
+      background-color: #0b0b0f;
       display: block;
+    }
+
+    .avatar-crown-chip {
+      position: absolute;
+      bottom: 8px;
+      z-index: 3;
+      background: linear-gradient(90deg, #1b1608, #332609, #1b1608);
+      border: 1px solid #f5cb4c;
+      color: #ffe066;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.6px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7);
+    }
+
+    @keyframes spinClockwise {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes spinCounter {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+
+    @keyframes auraPulse {
+      0%, 100% { transform: scale(0.95); opacity: 0.75; }
+      50% { transform: scale(1.06); opacity: 1; }
     }
 
     .brand-title-wrap {
@@ -96,46 +228,107 @@
     }
 
     .brand-title {
-      font-size: 2.05rem;
-      font-weight: 800;
-      color: #ffffff !important;
+      font-size: 2.15rem;
+      font-weight: 900;
+      background: linear-gradient(180deg, #ffffff 15%, #fde68a 75%, #e5b83b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       line-height: 1.2;
+      letter-spacing: 0.5px;
     }
 
     .v-badge-icon {
       width: 34px;
       height: 36px;
       flex-shrink: 0;
-      filter: drop-shadow(0 0 10px rgba(245, 203, 76, 0.45));
+      filter: drop-shadow(0 0 12px rgba(245, 203, 76, 0.6));
+    }
+
+    .brand-ornament-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 8px auto 10px;
+      color: #f5cb4c;
+      font-size: 0.85rem;
+    }
+
+    .brand-ornament-line::before,
+    .brand-ornament-line::after {
+      content: "";
+      height: 1px;
+      width: 64px;
+      background: linear-gradient(90deg, transparent, #f5cb4c, transparent);
     }
 
     .brand-sub {
-      color: #d4d4dc !important;
-      max-width: 430px;
-      font-size: 0.98rem;
+      color: #d4d6e2 !important;
+      max-width: 390px;
+      margin: 0 auto 16px;
+      font-size: 0.94rem;
+    }
+
+    /* إحصائيات حية في شاشة الدخول */
+    .login-live-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .login-stat-pill {
+      background: rgba(11, 11, 16, 0.85);
+      border: 1px solid rgba(245, 203, 76, 0.28);
+      border-radius: 13px;
+      padding: 8px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .login-stat-val {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: #ffe066;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .login-stat-lbl {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #b4b6c4;
     }
 
     .login-actions {
       width: 100%;
-      max-width: 390px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-top: 8px;
+      gap: 11px;
     }
 
+    /* الأزرار العصرية */
     .btn {
-      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
       padding: 13px 18px;
-      font-size: 1rem;
+      font-size: 0.98rem;
       font-weight: 800;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      transition: transform 0.14s ease, background-color 0.14s ease;
+      transition: transform 0.16s ease, box-shadow 0.2s ease, border-color 0.2s ease;
       text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
     }
 
     .btn:active {
@@ -143,49 +336,46 @@
     }
 
     .btn-google-white {
-      background-color: #ffffff !important;
-      color: #111111 !important;
-      border: 1.5px solid #e5e7eb !important;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
-    }
-
-    .btn-google-white:hover {
-      background-color: #f3f4f6 !important;
+      background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%) !important;
+      color: #0f172a !important;
+      border: 1.5px solid #fde047 !important;
+      box-shadow: 0 6px 22px rgba(245, 203, 76, 0.24);
     }
 
     .btn-whatsapp-group {
-      background-color: #25D366 !important;
+      background: linear-gradient(135deg, #22c55e 0%, #15803d 100%) !important;
       color: #ffffff !important;
-      border: 1.5px solid #4ade80 !important;
-      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.28);
-    }
-
-    .btn-whatsapp-group:hover {
-      background-color: #1ebe5d !important;
+      border: 1.5px solid #86efac !important;
+      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.26);
     }
 
     .btn-gold {
-      background-color: #e5b83b !important;
+      background: linear-gradient(135deg, #fde047 0%, #e5b83b 55%, #ca8a04 100%) !important;
       color: #09090b !important;
-      border: 1px solid #f5cb4c !important;
+      border: 1px solid #fef08a !important;
+      box-shadow: 0 4px 16px rgba(229, 184, 59, 0.25);
     }
 
     .btn-dark {
-      background-color: #1c1c24 !important;
+      background: rgba(24, 24, 34, 0.92) !important;
       color: #ffffff !important;
-      border: 1px solid rgba(255, 255, 255, 0.22) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    .btn-dark:hover {
+      border-color: var(--gold-border) !important;
     }
 
     .btn-outline-gold {
-      background-color: rgba(229, 184, 59, 0.18) !important;
-      color: #f5cb4c !important;
-      border: 1px solid rgba(229, 184, 59, 0.55) !important;
+      background: rgba(229, 184, 59, 0.14) !important;
+      color: #fde047 !important;
+      border: 1px solid rgba(245, 203, 76, 0.55) !important;
     }
 
     .btn-security {
-      background-color: #2a1215 !important;
+      background: linear-gradient(135deg, #3b1216, #1f090c) !important;
       color: #fca5a5 !important;
-      border: 1px solid rgba(239, 68, 68, 0.65) !important;
+      border: 1px solid rgba(239, 68, 68, 0.7) !important;
     }
 
     .btn-unban {
@@ -193,7 +383,7 @@
       color: #86efac !important;
       border: 1px solid #22c55e !important;
       padding: 7px 12px;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       font-weight: 800;
       border-radius: 10px;
       cursor: pointer;
@@ -201,13 +391,13 @@
     }
 
     .btn-whatsapp {
-      background-color: #16a34a !important;
+      background: linear-gradient(135deg, #22c55e, #16a34a) !important;
       color: #ffffff !important;
-      border: 1px solid #22c55e !important;
+      border: 1px solid #4ade80 !important;
     }
 
     .btn-gmail {
-      background-color: #ffffff !important;
+      background: #ffffff !important;
       color: #111111 !important;
       border: 1px solid #e5e7eb !important;
     }
@@ -216,8 +406,8 @@
       background-color: #3b1216 !important;
       color: #fecaca !important;
       border: 1px solid #ef4444 !important;
-      padding: 7px 13px;
-      font-size: 0.85rem;
+      padding: 7px 12px;
+      font-size: 0.82rem;
       font-weight: 800;
       border-radius: 10px;
       cursor: pointer;
@@ -226,47 +416,421 @@
 
     .btn-sm {
       padding: 8px 13px;
-      font-size: 0.88rem;
-      border-radius: 10px;
+      font-size: 0.86rem;
+      border-radius: 11px;
     }
 
     .error-banner {
-      margin-top: 6px;
-      max-width: 420px;
+      margin-top: 12px;
+      width: 100%;
       background-color: var(--danger-bg) !important;
       border: 1px solid var(--danger-border) !important;
       color: var(--danger-text) !important;
-      padding: 12px 14px;
+      padding: 11px 14px;
       border-radius: 12px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
     }
 
+    /* ==========================================
+       الشريط العلوي وبطاقة هوية العضو
+       ========================================== */
+    .user-bar {
+      position: relative;
+      background: linear-gradient(145deg, rgba(22, 22, 32, 0.94), rgba(12, 12, 18, 0.96)) !important;
+      border: 1.5px solid var(--gold-border) !important;
+      border-radius: 20px;
+      padding: 15px 16px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(12px);
+    }
+
+    .user-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .user-mini-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      padding: 2px;
+      background: linear-gradient(135deg, #fde047, #9c6f0e);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .user-mini-avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #09090b;
+      display: block;
+    }
+
+    .user-identity {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.35;
+      min-width: 0;
+    }
+
+    .user-name-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .user-display-name {
+      font-weight: 900;
+      font-size: 1.04rem;
+      color: #ffffff !important;
+      word-break: break-word;
+    }
+
+    .role-chip {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: rgba(245, 203, 76, 0.16);
+      border: 1px solid rgba(245, 203, 76, 0.55);
+      color: #fde047;
+    }
+
+    .user-email-sub {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #b4b6c4 !important;
+      direction: ltr;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .presence-pills {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .presence-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      background-color: rgba(10, 10, 15, 0.9) !important;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #ffffff !important;
+    }
+
+    .presence-pill.online { border-color: rgba(34, 197, 94, 0.55); }
+    .presence-pill.total { border-color: rgba(239, 68, 68, 0.55); }
+    .presence-pill.tag-copy {
+      border-color: rgba(245, 203, 76, 0.5);
+      color: #fde047 !important;
+      cursor: pointer;
+    }
+
+    .dot-green {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background-color: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+      display: inline-block;
+    }
+
+    .dot-red {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background-color: #ef4444;
+      box-shadow: 0 0 8px #ef4444;
+      display: inline-block;
+    }
+
+    .user-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* شريط التنبيه العاجل / آخر خبر */
+    .announcement-ribbon {
+      background: linear-gradient(90deg, rgba(38, 29, 8, 0.95), rgba(22, 22, 32, 0.95), rgba(38, 29, 8, 0.95));
+      border: 1px solid var(--gold-border);
+      border-radius: 14px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(229, 184, 59, 0.12);
+    }
+
+    .announcement-badge {
+      background: #e5b83b;
+      color: #09090b;
+      font-size: 0.74rem;
+      font-weight: 900;
+      padding: 2px 9px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .announcement-text {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #fef3c7;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ==========================================
+       تخطيط وترتيب الخانات العصري المزخرف
+       ========================================== */
+    .hub-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .section-divider-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #f5cb4c;
+      letter-spacing: 0.4px;
+      margin-top: 2px;
+    }
+
+    .section-divider-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(245, 203, 76, 0.45), transparent);
+    }
+
+    .grid-2-modern {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    /* بطاقة عصريّة مزخرفة */
+    .fancy-tile {
+      position: relative;
+      background: linear-gradient(155deg, rgba(24, 24, 36, 0.92), rgba(12, 12, 18, 0.96)) !important;
+      color: #ffffff !important;
+      border: 1.5px solid rgba(245, 203, 76, 0.34) !important;
+      border-radius: 20px;
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: right;
+      gap: 12px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.18s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .fancy-tile::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 75px;
+      height: 75px;
+      background: radial-gradient(circle at top right, rgba(245, 203, 76, 0.22), transparent 70%);
+      pointer-events: none;
+    }
+
+    .fancy-tile::after {
+      content: "❖";
+      position: absolute;
+      bottom: 10px;
+      left: 12px;
+      font-size: 0.85rem;
+      color: rgba(245, 203, 76, 0.35);
+      pointer-events: none;
+    }
+
+    .fancy-tile:hover {
+      transform: translateY(-3px);
+      border-color: #fde047 !important;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.62), 0 0 22px rgba(229, 184, 59, 0.2);
+    }
+
+    .fancy-tile.hero-tile {
+      background: linear-gradient(135deg, rgba(44, 34, 12, 0.94), rgba(16, 16, 24, 0.97)) !important;
+      border: 1.5px solid #f5cb4c !important;
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.6), 0 0 26px rgba(229, 184, 59, 0.18);
+    }
+
+    .tile-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .tile-icon-frame {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(245, 203, 76, 0.2), rgba(245, 203, 76, 0.05));
+      border: 1px solid rgba(245, 203, 76, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.65rem;
+      flex-shrink: 0;
+      box-shadow: inset 0 0 12px rgba(245, 203, 76, 0.12);
+    }
+
+    .tile-status-badge {
+      font-size: 0.73rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.16);
+      border: 1px solid rgba(34, 197, 94, 0.55);
+      color: #86efac;
+    }
+
+    .tile-status-badge.closed {
+      background: rgba(239, 68, 68, 0.16);
+      border-color: rgba(239, 68, 68, 0.55);
+      color: #fca5a5;
+    }
+
+    .tile-status-badge.gold {
+      background: rgba(245, 203, 76, 0.18);
+      border-color: rgba(245, 203, 76, 0.6);
+      color: #fde047;
+    }
+
+    .tile-body-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .tile-title {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #ffffff !important;
+    }
+
+    .tile-desc {
+      font-size: 0.81rem;
+      font-weight: 600;
+      color: #b4b6c4;
+      line-height: 1.45;
+    }
+
+    .hero-mini-leaders {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 2px;
+      width: 100%;
+    }
+
+    .hero-mini-box {
+      background: rgba(9, 9, 14, 0.78);
+      border: 1px solid rgba(245, 203, 76, 0.3);
+      border-radius: 11px;
+      padding: 7px 10px;
+      font-size: 0.78rem;
+    }
+
+    /* رؤوس الصفحات الفرعية واللوحات */
+    .subpage-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding: 12px 14px;
+      border: 1px solid var(--gold-border);
+      border-radius: 16px;
+      position: sticky;
+      top: 8px;
+      z-index: 20;
+      background: rgba(12, 12, 18, 0.94) !important;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .subpage-title {
+      font-size: 1.18rem;
+      font-weight: 900;
+      color: #fde047 !important;
+    }
+
+    .panel {
+      position: relative;
+      background: var(--surface) !important;
+      border: 1px solid rgba(245, 203, 76, 0.26) !important;
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 16px;
+      color: #ffffff !important;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(10px);
+    }
+
     .warning-box {
-      background-color: #3a1215 !important;
+      background: linear-gradient(135deg, rgba(69, 16, 20, 0.95), rgba(38, 10, 13, 0.95)) !important;
       border: 1.5px solid #ef4444 !important;
       color: #fecaca !important;
       padding: 13px 15px;
-      border-radius: 12px;
-      font-size: 0.94rem;
+      border-radius: 14px;
+      font-size: 0.92rem;
       font-weight: 800;
       margin-bottom: 16px;
     }
 
     .field-hint-danger {
       color: #fca5a5 !important;
-      font-size: 0.85rem;
+      font-size: 0.83rem;
       font-weight: 700;
       margin-top: 6px;
     }
 
     .rules-box {
-      background-color: #111117 !important;
+      background-color: #0d0d14 !important;
       border: 1px solid var(--gold-border) !important;
       color: #e4e4e7 !important;
       padding: 15px 16px;
-      border-radius: 12px;
-      font-size: 0.9rem;
+      border-radius: 14px;
+      font-size: 0.89rem;
       margin-top: 10px;
       line-height: 1.85;
       max-height: 360px;
@@ -274,11 +838,11 @@
     }
 
     .rules-box strong {
-      color: #f5cb4c !important;
+      color: #fde047 !important;
     }
 
     .send-channels-box {
-      background-color: #121820 !important;
+      background-color: #101620 !important;
       border: 1.5px solid var(--gold-border) !important;
       border-radius: 14px;
       padding: 16px;
@@ -305,124 +869,17 @@
       color: #fde68a !important;
       padding: 12px 14px;
       border-radius: 12px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 600;
       margin-bottom: 14px;
     }
 
-    /* الشريط العلوي الدائم */
-    .user-bar {
-      background-color: #15151b !important;
-      border: 1px solid rgba(255, 255, 255, 0.18) !important;
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      margin-bottom: 18px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .user-meta {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-    }
-
-    .status-dot {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-      background-color: #f5cb4c !important;
-      flex-shrink: 0;
-    }
-
-    .user-identity {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.35;
-      min-width: 0;
-    }
-
-    .user-display-name {
-      font-weight: 800;
-      font-size: 1.02rem;
-      color: #ffffff !important;
-      word-break: break-word;
-    }
-
-    .user-email-sub {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #b4b4be !important;
-      direction: ltr;
-      text-align: right;
-      overflow-wrap: anywhere;
-    }
-
-    .user-controls {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* مؤشر النشطين وإجمالي المسجلين */
-    .presence-pills {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 6px;
-      flex-wrap: wrap;
-    }
-
-    .presence-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 10px;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 800;
-      background-color: #0e0e14 !important;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: #ffffff !important;
-    }
-
-    .presence-pill.online {
-      border-color: rgba(34, 197, 94, 0.55);
-    }
-
-    .presence-pill.total {
-      border-color: rgba(239, 68, 68, 0.55);
-    }
-
-    .dot-green {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: #22c55e;
-      box-shadow: 0 0 8px #22c55e;
-      display: inline-block;
-    }
-
-    .dot-red {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: #ef4444;
-      box-shadow: 0 0 8px #ef4444;
-      display: inline-block;
-    }
-
     /* مربع زخرفة الأسماء */
     .decorator-box {
-      background-color: #101016 !important;
+      background: linear-gradient(145deg, rgba(22, 20, 14, 0.95), rgba(14, 14, 20, 0.95)) !important;
       border: 1.5px solid var(--gold-border) !important;
-      border-radius: 14px;
-      padding: 14px;
+      border-radius: 16px;
+      padding: 15px;
       margin-bottom: 16px;
     }
 
@@ -438,8 +895,8 @@
 
     .decorated-result-wrap {
       margin-top: 12px;
-      background-color: #181822 !important;
-      border: 1px dashed #e5b83b !important;
+      background-color: #151520 !important;
+      border: 1px dashed #f5cb4c !important;
       border-radius: 12px;
       padding: 11px 14px;
       display: flex;
@@ -451,78 +908,11 @@
     .decorated-output {
       font-size: 1.12rem;
       font-weight: 800;
-      color: #f5cb4c !important;
+      color: #fde047 !important;
       user-select: all;
       -webkit-user-select: all;
       cursor: text;
       direction: ltr;
-    }
-
-    .grid-4 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    .tile-card {
-      background-color: #15151b !important;
-      color: #ffffff !important;
-      border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
-      border-radius: var(--radius);
-      min-height: 170px;
-      padding: 22px 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      gap: 12px;
-      cursor: pointer;
-    }
-
-    .tile-card:hover {
-      background-color: #1e1e28 !important;
-      border-color: #e5b83b !important;
-    }
-
-    .tile-icon {
-      font-size: 2.35rem;
-      line-height: 1;
-    }
-
-    .tile-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #ffffff !important;
-    }
-
-    .subpage-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
-      padding: 10px 4px 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background-color: #09090b !important;
-    }
-
-    .subpage-title {
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: #f5cb4c !important;
-    }
-
-    .panel {
-      background-color: #15151b !important;
-      border: 1px solid rgba(255, 255, 255, 0.18) !important;
-      border-radius: var(--radius);
-      padding: 18px;
-      margin-bottom: 16px;
-      color: #ffffff !important;
     }
 
     .form-group {
@@ -533,36 +923,33 @@
       display: block;
       margin-bottom: 7px;
       font-weight: 800;
-      font-size: 0.95rem;
+      font-size: 0.93rem;
       color: #ffffff !important;
     }
 
     input[type="text"],
+    input[type="email"],
     input[type="number"],
+    input[type="datetime-local"],
     input[type="file"],
     textarea,
     select {
       width: 100%;
-      background-color: #0d0d12 !important;
+      background-color: #0b0b11 !important;
       color: #ffffff !important;
-      border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
-      border-radius: 12px;
+      border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
+      border-radius: 13px;
       padding: 11px 13px;
-      font-size: 0.96rem;
+      font-size: 0.95rem;
       outline: none;
-    }
-
-    input::placeholder,
-    textarea::placeholder {
-      color: #9ca3af !important;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     input:focus,
-    input[type="number"]:focus,
-    input[type="file"]:focus,
     textarea:focus,
     select:focus {
-      border-color: #e5b83b !important;
+      border-color: #f5cb4c !important;
+      box-shadow: 0 0 0 3px rgba(245, 203, 76, 0.14);
     }
 
     textarea {
@@ -570,11 +957,76 @@
       resize: vertical;
     }
 
+    /* البطولات القادمة وقاعة الأساطير */
+    .tournament-card {
+      background: linear-gradient(155deg, rgba(26, 24, 18, 0.94), rgba(14, 14, 21, 0.96));
+      border: 1.5px solid rgba(245, 203, 76, 0.42);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .tournament-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .t-chip {
+      background: rgba(245, 203, 76, 0.14);
+      border: 1px solid rgba(245, 203, 76, 0.45);
+      color: #fde047;
+      padding: 4px 11px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .countdown-pill {
+      background: #09090e;
+      border: 1px solid #f5cb4c;
+      color: #ffe066;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-weight: 900;
+      font-size: 0.92rem;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .hall-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .hall-stat-card {
+      background: linear-gradient(160deg, rgba(34, 28, 12, 0.9), rgba(14, 14, 20, 0.95));
+      border: 1px solid var(--gold-border);
+      border-radius: 14px;
+      padding: 14px 10px;
+      text-align: center;
+    }
+
+    .hall-stat-num {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #ffe066;
+    }
+
+    .hall-stat-lbl {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #d4d6e2;
+    }
+
     /* منصة التتويج والجدول للمتصدرين */
     .podium-wrapper {
-      background: radial-gradient(circle at top, rgba(229, 184, 59, 0.16), #0d0d12 72%);
+      background: radial-gradient(circle at top, rgba(229, 184, 59, 0.2), #0b0b10 74%);
       border: 1.5px solid var(--gold-border);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 22px 10px 0;
       margin-bottom: 18px;
       overflow: hidden;
@@ -620,7 +1072,7 @@
     .podium-player-pts {
       font-size: 0.8rem;
       font-weight: 800;
-      color: #f5cb4c;
+      color: #fde047;
       margin-bottom: 8px;
       direction: rtl;
       white-space: nowrap;
@@ -628,63 +1080,55 @@
 
     .podium-step {
       width: 100%;
-      background: linear-gradient(180deg, #272730 0%, #09090d 100%);
+      background: linear-gradient(180deg, #272734 0%, #09090d 100%);
       border: 1.5px solid rgba(229, 184, 59, 0.65);
       border-bottom: none;
-      border-radius: 12px 12px 0 0;
+      border-radius: 14px 14px 0 0;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: inset 0 2px 10px rgba(255, 224, 102, 0.16);
-      position: relative;
     }
 
     .podium-step.rank-1 {
       height: 132px;
-      border-color: #f5cb4c;
-      background: linear-gradient(180deg, #322914 0%, #0a0a0e 100%);
-      box-shadow: 0 0 24px rgba(245, 203, 76, 0.22), inset 0 2px 12px rgba(255, 224, 102, 0.25);
+      border-color: #fde047;
+      background: linear-gradient(180deg, #3b2f14 0%, #0a0a0e 100%);
+      box-shadow: 0 0 26px rgba(245, 203, 76, 0.25), inset 0 2px 12px rgba(255, 224, 102, 0.28);
     }
 
-    .podium-step.rank-2 {
-      height: 98px;
-    }
-
-    .podium-step.rank-3 {
-      height: 76px;
-    }
+    .podium-step.rank-2 { height: 98px; }
+    .podium-step.rank-3 { height: 76px; }
 
     .podium-num {
       font-size: 2.1rem;
-      font-weight: 800;
+      font-weight: 900;
       background: linear-gradient(180deg, #fef08a 0%, #eab308 65%, #a16207 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       line-height: 1;
     }
 
-    .podium-step.rank-1 .podium-num {
-      font-size: 2.5rem;
-    }
+    .podium-step.rank-1 .podium-num { font-size: 2.5rem; }
 
     .clan-table-wrap {
       width: 100%;
       overflow-x: auto;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      background-color: #101016;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background-color: #0e0e15;
     }
 
     .clan-table {
       width: 100%;
       border-collapse: collapse;
       text-align: right;
-      font-size: 0.94rem;
+      font-size: 0.93rem;
     }
 
     .clan-table th {
-      background-color: #1c1c26;
-      color: #f5cb4c;
+      background-color: #191924;
+      color: #fde047;
       font-weight: 800;
       padding: 11px 12px;
       border-bottom: 1.5px solid var(--gold-border);
@@ -693,44 +1137,32 @@
 
     .clan-table td {
       padding: 10px 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       color: #ffffff;
       font-weight: 700;
       vertical-align: middle;
       white-space: nowrap;
     }
 
-    .clan-table tr:last-child td {
-      border-bottom: none;
-    }
+    .clan-table tr:last-child td { border-bottom: none; }
 
-    .slot-empty-text {
-      color: #9ca3af;
-      font-style: italic;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    .slot-available-text {
-      color: #4ade80;
-      font-weight: 700;
-      white-space: nowrap;
-    }
+    .slot-empty-text { color: #9ca3af; font-style: italic; font-weight: 600; white-space: nowrap; }
+    .slot-available-text { color: #4ade80; font-weight: 700; white-space: nowrap; }
 
     .leaderboard-note-box {
       margin-top: 16px;
-      background-color: #111117;
+      background-color: #0e0e15;
       border: 1px solid var(--gold-border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 14px 16px;
       color: #e4e4e7;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       line-height: 1.8;
     }
 
     .admin-edit-card {
       margin-top: 16px;
-      background-color: #101016;
+      background-color: #0e0e15;
       border: 1.5px dashed var(--gold-border);
       border-radius: 14px;
       padding: 14px;
@@ -750,9 +1182,9 @@
     }
 
     .roster-box {
-      background-color: #101016 !important;
+      background-color: #0e0e15 !important;
       border: 1.5px solid var(--gold-border) !important;
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 14px;
       margin-bottom: 16px;
     }
@@ -765,7 +1197,7 @@
       border: 1px solid rgba(255, 255, 255, 0.16);
     }
 
-    /* قسم إدارة الأمان الحصري */
+    /* إدارة الأمان */
     .security-stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -774,48 +1206,48 @@
     }
 
     .security-stat-card {
-      background-color: #101016;
+      background-color: #0e0e15;
       border: 1px solid rgba(229, 184, 59, 0.35);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 12px;
       text-align: center;
     }
 
     .security-stat-num {
       font-size: 1.35rem;
-      font-weight: 800;
-      color: #f5cb4c;
+      font-weight: 900;
+      color: #fde047;
     }
 
     .security-stat-label {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: #d4d4dc;
       font-weight: 700;
     }
 
     .security-status-card {
-      background-color: #0d1612;
+      background-color: #0d1713;
       border: 1px solid rgba(34, 197, 94, 0.45);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 12px 14px;
       margin-bottom: 14px;
-      font-size: 0.88rem;
+      font-size: 0.87rem;
       color: #bbf7d0;
       line-height: 1.75;
     }
 
     .security-section-box {
-      background-color: #101016;
+      background-color: #0e0e15;
       border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 14px;
       margin-bottom: 14px;
     }
 
     .account-row-card {
-      background-color: #16161f;
+      background-color: #161621;
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 12px;
+      border-radius: 13px;
       padding: 11px 12px;
       margin-top: 10px;
       display: flex;
@@ -826,8 +1258,8 @@
     }
 
     .account-row-card.banned {
-      border-color: rgba(239, 68, 68, 0.55);
-      background-color: #211013;
+      border-color: rgba(239, 68, 68, 0.6);
+      background-color: #231014;
     }
 
     .account-meta {
@@ -843,8 +1275,8 @@
     }
 
     .account-sub {
-      font-size: 0.77rem;
-      color: #b4b4be;
+      font-size: 0.78rem;
+      color: #b4b6c4;
       direction: ltr;
       text-align: right;
       overflow-wrap: anywhere;
@@ -858,7 +1290,7 @@
     }
 
     .submission-card {
-      background-color: #101016;
+      background-color: #14141e;
       border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 12px;
       padding: 12px;
@@ -868,7 +1300,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
     }
 
     .poll-options-boxes {
@@ -878,29 +1310,24 @@
     }
 
     .poll-option-box {
-      background-color: #101016 !important;
-      border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+      background-color: #0e0e15 !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
       border-radius: 12px;
       padding: 10px 12px;
-    }
-
-    .poll-option-box input[type="text"] {
-      padding: 9px 11px;
-      font-size: 0.93rem;
     }
 
     .checkbox-row {
       display: flex;
       align-items: center;
       gap: 10px;
-      background-color: #0d0d12 !important;
-      border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
-      border-radius: 12px;
+      background-color: #0b0b11 !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
+      border-radius: 13px;
       padding: 12px 14px;
       cursor: pointer;
       color: #ffffff !important;
       font-weight: 700;
-      font-size: 0.94rem;
+      font-size: 0.93rem;
     }
 
     .checkbox-row input[type="checkbox"] {
@@ -912,9 +1339,9 @@
     }
 
     .post-item {
-      background-color: #1c1c25 !important;
-      border: 1px solid rgba(255, 255, 255, 0.16) !important;
-      border-radius: 14px;
+      background-color: #171722 !important;
+      border: 1px solid rgba(245, 203, 76, 0.24) !important;
+      border-radius: 16px;
       padding: 16px;
       margin-bottom: 12px;
       color: #ffffff !important;
@@ -938,14 +1365,14 @@
     .post-title {
       font-size: 1.08rem;
       font-weight: 800;
-      color: #f5cb4c !important;
+      color: #fde047 !important;
     }
 
     .post-image {
       width: 100%;
       max-height: 340px;
       object-fit: cover;
-      border-radius: 12px;
+      border-radius: 13px;
       margin: 10px 0 12px;
       border: 1px solid rgba(255, 255, 255, 0.14);
       display: block;
@@ -959,9 +1386,9 @@
     }
 
     .reaction-btn {
-      background-color: #111117 !important;
+      background-color: #0e0e15 !important;
       color: #ffffff !important;
-      border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
       border-radius: 12px;
       padding: 9px 12px;
       font-weight: 800;
@@ -975,12 +1402,12 @@
 
     .reaction-btn:hover,
     .reaction-btn.active {
-      border-color: #e5b83b !important;
+      border-color: #f5cb4c !important;
       background-color: rgba(229, 184, 59, 0.18) !important;
     }
 
     .reaction-count {
-      color: #f5cb4c !important;
+      color: #fde047 !important;
       font-weight: 800;
     }
 
@@ -990,18 +1417,18 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      background-color: #121219 !important;
+      background-color: #101018 !important;
       border: 1px solid rgba(229, 184, 59, 0.35) !important;
       border-radius: 10px;
       padding: 8px 12px;
       margin-bottom: 10px;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       color: #fde68a !important;
       font-weight: 700;
     }
 
     .poll-edit-panel {
-      background-color: #111117 !important;
+      background-color: #0e0e15 !important;
       border: 1px solid var(--gold-border) !important;
       border-radius: 12px;
       padding: 12px;
@@ -1020,17 +1447,17 @@
     }
 
     .post-date {
-      font-size: 0.8rem;
-      color: #b4b4be !important;
+      font-size: 0.78rem;
+      color: #b4b6c4 !important;
       margin-top: 8px;
     }
 
     .poll-option {
       width: 100%;
       text-align: right;
-      background-color: #101016 !important;
+      background-color: #0e0e15 !important;
       color: #ffffff !important;
-      border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
       border-radius: 12px;
       padding: 11px 14px;
       margin-top: 8px;
@@ -1044,7 +1471,7 @@
 
     .poll-option:hover:not(:disabled),
     .poll-option.voted {
-      border-color: #e5b83b !important;
+      border-color: #f5cb4c !important;
       background-color: rgba(229, 184, 59, 0.18) !important;
     }
 
@@ -1056,8 +1483,8 @@
     .empty-msg {
       text-align: center;
       color: #c4c4ce !important;
-      padding: 20px 12px;
-      font-size: 0.92rem;
+      padding: 18px 12px;
+      font-size: 0.9rem;
       font-weight: 600;
     }
 
@@ -1066,47 +1493,49 @@
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background-color: #1c1c24 !important;
+      background-color: #161621 !important;
       color: #ffffff !important;
-      border: 1.5px solid #e5b83b !important;
-      padding: 10px 18px;
+      border: 1.5px solid #fde047 !important;
+      padding: 10px 20px;
       border-radius: 999px;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       font-weight: 800;
-      z-index: 999;
+      z-index: 1200;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.7);
     }
 
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background-color: rgba(0, 0, 0, 0.78);
+      background-color: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(6px);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 18px;
-      z-index: 1000;
+      z-index: 1100;
     }
 
     .modal-card {
       width: 100%;
-      max-width: 400px;
-      background-color: #15151b !important;
+      max-width: 410px;
+      background: linear-gradient(165deg, #191924, #0f0f16) !important;
       border: 1.5px solid var(--gold-border) !important;
-      border-radius: var(--radius);
+      border-radius: 20px;
       padding: 22px 18px;
       text-align: center;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65);
+      box-shadow: 0 18px 46px rgba(0, 0, 0, 0.78);
     }
 
     .modal-title {
       font-size: 1.15rem;
-      font-weight: 800;
-      color: #f5cb4c !important;
+      font-weight: 900;
+      color: #fde047 !important;
       margin-bottom: 10px;
     }
 
     .modal-text {
-      font-size: 0.96rem;
+      font-size: 0.95rem;
       color: #ffffff !important;
       margin-bottom: 16px;
       line-height: 1.7;
@@ -1118,13 +1547,11 @@
       gap: 10px;
     }
 
-    @media (max-width: 540px) {
-      .grid-4,
-      .send-channels-grid {
+    @media (max-width: 560px) {
+      .grid-2-modern,
+      .send-channels-grid,
+      .hero-mini-leaders {
         grid-template-columns: 1fr;
-      }
-      .tile-card {
-        min-height: 132px;
       }
       .decorator-row {
         flex-direction: column;
@@ -1135,7 +1562,8 @@
       .podium-player-name {
         font-size: 0.72rem;
       }
-      .security-stats-grid {
+      .security-stats-grid,
+      .hall-stats-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -1148,85 +1576,131 @@
     </div>
   </div>
 
-  <!-- شاشة الدخول -->
+  <!-- ==========================================
+       شاشة تسجيل الدخول الملكية
+       ========================================== -->
   <section id="loginView" class="login-screen">
-    <div class="avatar-ring">
-      <img
-        id="clanAvatar"
-        src="https://gedrgeut01-code.github.io/GEDR-CLAN/IMG_20261112_133428_146.png"
-        alt="شعار GEDR CLAN"
-      />
-    </div>
-    <div class="brand-title-wrap">
-      <h1 class="brand-title">GEDR CLAN</h1>
-      <svg class="v-badge-icon" viewBox="0 0 100 108" aria-label="شارة V" role="img">
-        <defs>
-          <linearGradient id="vHexOuter" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ffe066"/>
-            <stop offset="55%" stop-color="#f59e0b"/>
-            <stop offset="100%" stop-color="#b45309"/>
-          </linearGradient>
-          <linearGradient id="vHexInner" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#7f1d1d"/>
-            <stop offset="100%" stop-color="#2a0709"/>
-          </linearGradient>
-          <linearGradient id="vLetterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#fef08a"/>
-            <stop offset="65%" stop-color="#facc15"/>
-            <stop offset="100%" stop-color="#eab308"/>
-          </linearGradient>
-        </defs>
-        <polygon points="50,3 95,28.5 95,79.5 50,105 5,79.5 5,28.5" fill="url(#vHexOuter)"/>
-        <polygon points="50,13 86,33.5 86,74.5 50,95 14,74.5 14,33.5" fill="url(#vHexInner)" stroke="#fde047" stroke-width="2.5"/>
-        <path d="M27 31 H40.5 L50 65.5 L59.5 31 H73 L56.2 80 H43.8 Z" fill="url(#vLetterGrad)"/>
-      </svg>
-    </div>
-    <p class="brand-sub">مرحباً بك في بوابة الكلان الرسمية — مسابقات، اختبارات، أخبار وتصويتات.</p>
+    <div class="login-glass-card">
+      <span class="corner-ornament tl"></span>
+      <span class="corner-ornament tr"></span>
+      <span class="corner-ornament bl"></span>
+      <span class="corner-ornament br"></span>
 
-    <div class="login-actions">
-      <button id="googleLoginBtn" class="btn btn-google-white" type="button">
-        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.5-1.14 2.76-2.4 3.61v3.05h3.88c2.27-2.09 3.54-5.17 3.54-8.8z"/>
-          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.26v3.14C3.23 21.3 7.31 24 12 24z"/>
-          <path fill="#FBBC05" d="M5.28 14.24c-.24-.72-.38-1.49-.38-2.24s.14-1.52.38-2.24V6.62H1.26C.46 8.21 0 10.05 0 12s.46 3.79 1.26 5.38l4.02-3.14z"/>
-          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.23 2.7 1.26 6.62l4.02 3.14c.95-2.85 3.6-4.96 6.72-4.96z"/>
+      <div class="avatar-orbit-stage">
+        <div class="orbit-glow-back"></div>
+        <div class="orbit-ring-outer"></div>
+        <div class="orbit-ring-mid"></div>
+        <div class="avatar-ring">
+          <img
+            id="clanAvatar"
+            src="https://gedrgeut01-code.github.io/GEDR-CLAN/IMG_20261112_133428_146.png"
+            alt="شعار GEDR CLAN"
+          />
+        </div>
+        <span class="avatar-crown-chip">✦ OFFICIAL PORTAL ✦</span>
+      </div>
+
+      <div class="brand-title-wrap">
+        <h1 class="brand-title">GEDR CLAN</h1>
+        <svg class="v-badge-icon" viewBox="0 0 100 108" aria-label="شارة V" role="img">
+          <defs>
+            <linearGradient id="vHexOuter" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffe066"/>
+              <stop offset="55%" stop-color="#f59e0b"/>
+              <stop offset="100%" stop-color="#b45309"/>
+            </linearGradient>
+            <linearGradient id="vHexInner" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#7f1d1d"/>
+              <stop offset="100%" stop-color="#2a0709"/>
+            </linearGradient>
+            <linearGradient id="vLetterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#fef08a"/>
+              <stop offset="65%" stop-color="#facc15"/>
+              <stop offset="100%" stop-color="#eab308"/>
+            </linearGradient>
+          </defs>
+          <polygon points="50,3 95,28.5 95,79.5 50,105 5,79.5 5,28.5" fill="url(#vHexOuter)"/>
+          <polygon points="50,13 86,33.5 86,74.5 50,95 14,74.5 14,33.5" fill="url(#vHexInner)" stroke="#fde047" stroke-width="2.5"/>
+          <path d="M27 31 H40.5 L50 65.5 L59.5 31 H73 L56.2 80 H43.8 Z" fill="url(#vLetterGrad)"/>
         </svg>
-        <span>تسجيل الدخول عبر جوجل</span>
-      </button>
+      </div>
 
-      <button id="guestLoginBtn" class="btn btn-dark" type="button">المتابعة كزائر</button>
+      <div class="brand-ornament-line">❖ بوابة النخبة والبطولات ❖</div>
+      <p class="brand-sub">ساحة التحدي الرسمية — بطولات، اختبارات كلان، متصدرون، أخبار وتصويتات حية.</p>
 
-      <a href="https://chat.whatsapp.com/BO53qHAFzLNATxMJlmJ4ek" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp-group">
-        <svg width="21" height="21" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
-          <path d="M20.52 3.48A11.86 11.86 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.15 1.6 5.95L0 24l6.33-1.66a11.86 11.86 0 0 0 5.73 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.45-8.42zM12.07 21.8h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.76.99 1-3.66-.24-.38a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.89 9.9-9.89 2.64 0 5.13 1.03 7 2.9a9.82 9.82 0 0 1 2.9 7c0 5.46-4.44 9.89-9.89 9.89zm5.43-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35z"/>
-        </svg>
-        <span>الانضمام لمجموعة GEDR GROUP</span>
-      </a>
+      <!-- إحصائيات حية قبل الدخول -->
+      <div class="login-live-stats">
+        <div class="login-stat-pill">
+          <span class="login-stat-val"><span class="dot-green"></span><span id="loginOnlineCount">0</span></span>
+          <span class="login-stat-lbl">متصل الآن</span>
+        </div>
+        <div class="login-stat-pill">
+          <span class="login-stat-val"><span class="dot-red"></span><span id="loginTotalCount">0</span></span>
+          <span class="login-stat-lbl">عضو مسجل</span>
+        </div>
+        <div class="login-stat-pill">
+          <span class="login-stat-val">🛡️ <span id="loginOpenSeatsCount">55</span></span>
+          <span class="login-stat-lbl">مقعد متاح</span>
+        </div>
+      </div>
+
+      <div class="login-actions">
+        <button id="googleLoginBtn" class="btn btn-google-white" type="button">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.5-1.14 2.76-2.4 3.61v3.05h3.88c2.27-2.09 3.54-5.17 3.54-8.8z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.26v3.14C3.23 21.3 7.31 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.24c-.24-.72-.38-1.49-.38-2.24s.14-1.52.38-2.24V6.62H1.26C.46 8.21 0 10.05 0 12s.46 3.79 1.26 5.38l4.02-3.14z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.23 2.7 1.26 6.62l4.02 3.14c.95-2.85 3.6-4.96 6.72-4.96z"/>
+          </svg>
+          <span>تسجيل الدخول عبر جوجل</span>
+        </button>
+
+        <button id="guestLoginBtn" class="btn btn-dark" type="button">المتابعة كزائر</button>
+
+        <a href="https://chat.whatsapp.com/BO53qHAFzLNATxMJlmJ4ek" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp-group">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
+            <path d="M20.52 3.48A11.86 11.86 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.15 1.6 5.95L0 24l6.33-1.66a11.86 11.86 0 0 0 5.73 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.45-8.42zM12.07 21.8h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.76.99 1-3.66-.24-.38a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.89 9.9-9.89 2.64 0 5.13 1.03 7 2.9a9.82 9.82 0 0 1 2.9 7c0 5.46-4.44 9.89-9.89 9.89zm5.43-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35z"/>
+          </svg>
+          <span>الانضمام لمجموعة GEDR GROUP</span>
+        </a>
+      </div>
+
+      <div id="authError" class="error-banner hidden"></div>
     </div>
-
-    <div id="authError" class="error-banner hidden"></div>
   </section>
 
-  <!-- التطبيق بعد الدخول -->
+  <!-- ==========================================
+       البوابة الرئيسية بعد الدخول
+       ========================================== -->
   <main id="appView" class="container hidden">
+    <!-- بطاقة هوية العضو + الشريط العلوي -->
     <div class="user-bar">
       <div class="user-meta">
-        <span class="status-dot"></span>
+        <div class="user-mini-avatar">
+          <img id="barAvatarImg" src="https://gedrgeut01-code.github.io/GEDR-CLAN/IMG_20261112_133428_146.png" alt="GEDR" />
+        </div>
         <div class="user-identity">
-          <span id="userDisplayName" class="user-display-name">زائر</span>
+          <div class="user-name-row">
+            <span id="userDisplayName" class="user-display-name">زائر</span>
+            <span id="userRoleChip" class="role-chip">زائر</span>
+          </div>
           <span id="userEmailSub" class="user-email-sub hidden"></span>
-          <div class="presence-pills" aria-label="إحصائيات الأعضاء المسجلين">
+          <div class="presence-pills">
             <span class="presence-pill online" title="الأعضاء المسجلون المتواجدون حالياً">
               <span class="dot-green"></span>
               <span id="onlineUsersCount">0</span>
             </span>
-            <span class="presence-pill total" title="إجمالي الأعضاء المسجلين الذين دخلوا الموقع">
+            <span class="presence-pill total" title="إجمالي الأعضاء المسجلين">
               <span class="dot-red"></span>
               <span id="totalRegisteredCount">0</span>
             </span>
+            <button id="quickCopyClanTagBtn" type="button" class="presence-pill tag-copy hidden" title="نسخ اسمك بزخرفة الكلان">
+              ✨ نسخ اسم الكلان
+            </button>
           </div>
         </div>
       </div>
+
       <div class="user-controls">
         <button id="openSecurityBtn" class="btn btn-security btn-sm hidden" type="button">🛡️ إدارة الأمان</button>
         <button id="openFeedbackBtn" class="btn btn-outline-gold btn-sm" type="button">تقديم ملاحظة</button>
@@ -1235,46 +1709,129 @@
       </div>
     </div>
 
-    <!-- القائمة الرئيسية -->
-    <section id="homePage" class="grid-4">
-      <button class="tile-card" type="button" data-page="contestPage">
-        <span class="tile-icon">🏆</span>
-        <span class="tile-title">مشاركة في مسابقة</span>
+    <!-- شريط الإعلان العاجل / آخر خبر -->
+    <div id="topAnnouncementBar" class="announcement-ribbon">
+      <span class="announcement-badge">✦ عاجل</span>
+      <span id="topAnnouncementText" class="announcement-text">مرحباً بكم في بوابة GEDR CLAN الرسمية — تابعوا البطولات والمتصدرين!</span>
+      <span style="color:#fde047; font-size:0.82rem; font-weight:800;">عرض ←</span>
+    </div>
+
+    <!-- القائمة الرئيسية المرتبة والعصرية -->
+    <section id="homePage" class="hub-layout">
+      <div class="section-divider-label">✦ منصة الصدارة والتتويج</div>
+      <button class="fancy-tile hero-tile" type="button" data-page="leaderboardMenuPage">
+        <div class="tile-header-row">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div class="tile-icon-frame">🥇</div>
+            <div class="tile-body-text">
+              <span class="tile-title">المتصدرين</span>
+              <span class="tile-desc">منصة التتويج الرسمية لأقوى لاعبي الكلان وأبطال المسابقات</span>
+            </div>
+          </div>
+          <span class="tile-status-badge gold">TOP 3 👑</span>
+        </div>
+        <div class="hero-mini-leaders">
+          <div class="hero-mini-box">
+            <span style="color:#b4b6c4;">الأول في الكلان:</span>
+            <strong id="miniClanFirst" style="color:#fde047;">لا يوجد</strong>
+          </div>
+          <div class="hero-mini-box">
+            <span style="color:#b4b6c4;">الأول في المسابقات:</span>
+            <strong id="miniContestFirst" style="color:#fde047;">لا يوجد</strong>
+          </div>
+        </div>
       </button>
 
-      <button class="tile-card" type="button" data-page="tryoutPage">
-        <span class="tile-icon">🎯</span>
-        <span class="tile-title">مشاركة في اختبار كلان</span>
-      </button>
+      <div class="section-divider-label">✦ ساحة التنافس والتجنيد</div>
+      <div class="grid-2-modern">
+        <button class="fancy-tile" type="button" data-page="contestPage">
+          <div class="tile-header-row">
+            <div class="tile-icon-frame">🏆</div>
+            <span id="contestStatusBadge" class="tile-status-badge">مفتوح</span>
+          </div>
+          <div class="tile-body-text">
+            <span class="tile-title">مشاركة في مسابقة</span>
+            <span class="tile-desc">سجّل بياناتك للمنافسة وحصد النقاط في رومات الكلان</span>
+          </div>
+        </button>
 
-      <button class="tile-card" type="button" data-page="newsPage">
-        <span class="tile-icon">📰</span>
-        <span class="tile-title">آخر الأخبار</span>
-      </button>
+        <button class="fancy-tile" type="button" data-page="tryoutPage">
+          <div class="tile-header-row">
+            <div class="tile-icon-frame">🎯</div>
+            <span id="tryoutStatusBadge" class="tile-status-badge">متاح 55 مقعد</span>
+          </div>
+          <div class="tile-body-text">
+            <span class="tile-title">مشاركة في اختبار كلان</span>
+            <span class="tile-desc">زخرفة الاسم، قائمة الـ 55 عضواً، واستمارة الانضمام</span>
+          </div>
+        </button>
+      </div>
 
-      <button class="tile-card" type="button" data-page="pollsPage">
-        <span class="tile-icon">📊</span>
-        <span class="tile-title">تصويت على الأفضل</span>
-      </button>
+      <div class="section-divider-label">✦ البطولات والإنجازات</div>
+      <div class="grid-2-modern">
+        <button class="fancy-tile" type="button" data-page="tournamentsPage">
+          <div class="tile-header-row">
+            <div class="tile-icon-frame">⚔️</div>
+            <span id="tournamentsCountBadge" class="tile-status-badge gold">0 بطولة</span>
+          </div>
+          <div class="tile-body-text">
+            <span class="tile-title">البطولات والمباريات القادمة</span>
+            <span class="tile-desc">عدّاد تنازلي حي، نوع المود (سولو / ديو / سكواد) والجوائز</span>
+          </div>
+        </button>
 
-      <button class="tile-card" type="button" data-page="leaderboardMenuPage" style="grid-column: 1 / -1;">
-        <span class="tile-icon">🥇</span>
-        <span class="tile-title">المتصدرين</span>
-      </button>
+        <button class="fancy-tile" type="button" data-page="hallOfFamePage">
+          <div class="tile-header-row">
+            <div class="tile-icon-frame">👑</div>
+            <span class="tile-status-badge gold">سجل الشرف</span>
+          </div>
+          <div class="tile-body-text">
+            <span class="tile-title">قاعة الأساطير والإنجازات</span>
+            <span class="tile-desc">بطولات وألقاب GEDR CLAN وإحصائيات الانتصارات الرسمية</span>
+          </div>
+        </button>
+      </div>
+
+      <div class="section-divider-label">✦ المجتمع والأخبار</div>
+      <div class="grid-2-modern">
+        <button class="fancy-tile" type="button" data-page="newsPage">
+          <div class="tile-header-row">
+            <div class="tile-icon-frame">📰</div>
+            <span id="newsCountBadge" class="tile-status-badge gold">0 خبر</span>
+          </div>
+          <div class="tile-body-text">
+            <span class="tile-title">آخر الأخبار</span>
+            <span class="tile-desc">أحدث الإعلانات، النتائج، وتحديثات إدارة الكلان</span>
+          </div>
+        </button>
+
+        <button class="fancy-tile" type="button" data-page="pollsPage">
+          <div class="tile-header-row">
+            <div class="tile-icon-frame">📊</div>
+            <span id="pollsCountBadge" class="tile-status-badge gold">0 تصويت</span>
+          </div>
+          <div class="tile-body-text">
+            <span class="tile-title">تصويت على الأفضل</span>
+            <span class="tile-desc">شارك بصوتك لاختيار الأفضل في استطلاعات الكلان</span>
+          </div>
+        </button>
+      </div>
     </section>
 
-    <!-- صفحة إدارة الأمان الحصرية للمطور فقط -->
+    <!-- ==========================================
+         صفحة إدارة الأمان (حصرية للمطور فقط)
+         ========================================== -->
     <section id="securityPage" class="hidden">
       <div class="subpage-header">
-        <h2 class="subpage-title">🛡️ إدارة الأمان (حصري للمطور)</h2>
+        <h2 class="subpage-title">🛡️ إدارة الأمان والتحكم</h2>
         <button class="btn btn-dark btn-sm back-btn" type="button">← رجوع</button>
       </div>
 
       <div class="panel">
         <div class="security-status-card">
-          <strong>حالة الحماية النشطة:</strong><br />
-          • حساب الإدارة المصرح له: <span style="direction:ltr; display:inline-block; color:#f5cb4c; font-weight:800;">gedrgeut01@gmail.com</span><br />
-          • إدارة الحسابات المسجلة، الحظر، وفك الحظر متاحة حصراً لك ولا يراها أي زائر أو مستخدم آخر.
+          <strong>حالة الحماية الصارمة:</strong><br />
+          • حساب المطور المصرح له حصراً: <span style="direction:ltr; display:inline-block; color:#fde047; font-weight:800;">gedrgeut01@gmail.com</span><br />
+          • أي حساب Gmail يتم حظره يُمنع فوراً من الدخول أو القراءة أو التفاعل من أي متصفح أو جهاز.
         </div>
 
         <div class="security-stats-grid">
@@ -1292,17 +1849,54 @@
           </div>
         </div>
 
-        <!-- قائمة الحسابات المسجلة وأسماؤها وآخر ظهور وحظرها -->
+        <!-- تحكم سريع للمطور في البوابة -->
         <div class="security-section-box">
-          <strong style="color:#f5cb4c;">👥 الحسابات المسجلة (الاسم، البريد، وآخر ظهور):</strong>
+          <strong style="color:#fde047;">⚙️ إعدادات البوابة السريعة (للمطور):</strong>
+          <form id="portalControlForm" style="margin-top:10px;">
+            <div class="form-group">
+              <label class="field-label" for="customAnnouncementInput">نص الشريط العاجل في أعلى البوابة (اتركه فارغاً لعرض آخر خبر تلقائياً):</label>
+              <input id="customAnnouncementInput" type="text" placeholder="مثال: التسجيل في بطولة السكواد مفتوح الآن!" />
+            </div>
+            <div class="grid-2-modern" style="margin-bottom:12px;">
+              <div>
+                <label class="field-label" for="contestOpenSelect">حالة التسجيل في المسابقات:</label>
+                <select id="contestOpenSelect">
+                  <option value="open">مفتوح</option>
+                  <option value="closed">مغلق حالياً</option>
+                </select>
+              </div>
+              <div>
+                <label class="field-label" for="tryoutOpenSelect">حالة اختبار الكلان:</label>
+                <select id="tryoutOpenSelect">
+                  <option value="open">مفتوح</option>
+                  <option value="closed">مغلق حالياً</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-gold btn-sm" type="submit">حفظ إعدادات البوابة</button>
+          </form>
+        </div>
+
+        <!-- حظر حساب Gmail يدوياً -->
+        <div class="security-section-box">
+          <strong style="color:#fca5a5;">⛔ حظر حساب Gmail مباشرة (حتى قبل دخوله):</strong>
+          <form id="manualBanForm" class="decorator-row" style="margin-top:10px;">
+            <input id="manualBanEmailInput" type="email" placeholder="أدخل بريد Gmail المراد حظره (example@gmail.com)" required style="direction:ltr; text-align:right;" />
+            <button class="btn btn-danger" type="submit">حظر البريد نهائياً</button>
+          </form>
+        </div>
+
+        <!-- الحسابات المسجلة -->
+        <div class="security-section-box">
+          <strong style="color:#fde047;">👥 الحسابات المسجلة (الاسم، البريد، وآخر ظهور):</strong>
           <div id="secRegisteredAccountsList">
             <p class="empty-msg">جاري تحميل الحسابات المسجلة...</p>
           </div>
         </div>
 
-        <!-- قائمة المحظورين مع إلغاء الحظر جنب كل شخص محظور -->
+        <!-- قائمة المحظورين -->
         <div class="security-section-box">
-          <strong style="color:#fca5a5;">🚫 قائمة المحظورين:</strong>
+          <strong style="color:#fca5a5;">🚫 قائمة حسابات Gmail المحظورة:</strong>
           <div id="secBannedAccountsList">
             <p class="empty-msg">لا يوجد حسابات محظورة حالياً.</p>
           </div>
@@ -1310,14 +1904,14 @@
 
         <!-- الطلبات الواردة -->
         <div class="security-section-box">
-          <strong style="color:#f5cb4c;">🏆 طلبات المسابقات الواردة (<span id="secContestCount">0</span>):</strong>
+          <strong style="color:#fde047;">🏆 طلبات المسابقات الواردة (<span id="secContestCount">0</span>):</strong>
           <div id="secContestList">
             <p class="empty-msg">لا توجد طلبات مسابقات حالياً.</p>
           </div>
         </div>
 
         <div class="security-section-box" style="margin-bottom:0;">
-          <strong style="color:#f5cb4c;">🎯 طلبات اختبار الكلان الواردة (<span id="secTryoutCount">0</span>):</strong>
+          <strong style="color:#fde047;">🎯 طلبات اختبار الكلان الواردة (<span id="secTryoutCount">0</span>):</strong>
           <div id="secTryoutList">
             <p class="empty-msg">لا توجد طلبات اختبار كلان حالياً.</p>
           </div>
@@ -1325,22 +1919,159 @@
       </div>
     </section>
 
-    <!-- صفحة اختيار نوع المتصدرين -->
+    <!-- ==========================================
+         صفحة البطولات والمباريات القادمة (يتحكم بها المطور)
+         ========================================== -->
+    <section id="tournamentsPage" class="hidden">
+      <div class="subpage-header">
+        <h2 class="subpage-title">⚔️ البطولات والمباريات القادمة</h2>
+        <button class="btn btn-dark btn-sm back-btn" type="button">← رجوع</button>
+      </div>
+
+      <div id="adminTournamentControls" class="panel hidden">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <strong style="color:#fde047;">⚙️ إدارة البطولات (حصري للمطور)</strong>
+          <button id="toggleCreateTournamentBtn" class="btn btn-outline-gold btn-sm" type="button">+ إضافة بطولة</button>
+        </div>
+
+        <form id="createTournamentForm" class="hidden">
+          <div class="form-group">
+            <label class="field-label" for="tourTitleInput">اسم البطولة أو الروم:</label>
+            <input id="tourTitleInput" type="text" placeholder="مثال: بطولة النخبة الأسبوعية" required />
+          </div>
+          <div class="grid-2-modern">
+            <div class="form-group">
+              <label class="field-label" for="tourModeInput">نوع المود:</label>
+              <select id="tourModeInput" required>
+                <option value="سولو">سولو</option>
+                <option value="ديو">ديو</option>
+                <option value="سكواد">سكواد</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="field-label" for="tourPrizeInput">الجائزة:</label>
+              <input id="tourPrizeInput" type="text" placeholder="مثال: 500 جوهرة + لقب" required />
+            </div>
+          </div>
+          <div class="grid-2-modern">
+            <div class="form-group">
+              <label class="field-label" for="tourDateInput">موعد الانطلاق:</label>
+              <input id="tourDateInput" type="datetime-local" required />
+            </div>
+            <div class="form-group">
+              <label class="field-label" for="tourStatusInput">حالة التسجيل:</label>
+              <select id="tourStatusInput" required>
+                <option value="مفتوح">مفتوح</option>
+                <option value="قريباً">قريباً</option>
+                <option value="مغلق">مغلق</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-gold" type="submit">نشر البطولة</button>
+        </form>
+      </div>
+
+      <div id="tournamentsList" class="panel">
+        <p class="empty-msg">جاري تحميل البطولات القادمة...</p>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         صفحة قاعة الأساطير والإنجازات (يتحكم بها المطور)
+         ========================================== -->
+    <section id="hallOfFamePage" class="hidden">
+      <div class="subpage-header">
+        <h2 class="subpage-title">👑 قاعة الأساطير والإنجازات</h2>
+        <button class="btn btn-dark btn-sm back-btn" type="button">← رجوع</button>
+      </div>
+
+      <div class="panel">
+        <div class="hall-stats-grid">
+          <div class="hall-stat-card">
+            <div id="hallWinsStat" class="hall-stat-num">0</div>
+            <div class="hall-stat-lbl">إجمالي الانتصارات 🏆</div>
+          </div>
+          <div class="hall-stat-card">
+            <div id="hallTitlesStat" class="hall-stat-num">0</div>
+            <div class="hall-stat-lbl">البطولات المحققة 👑</div>
+          </div>
+          <div class="hall-stat-card">
+            <div id="hallWinRateStat" class="hall-stat-num">0%</div>
+            <div class="hall-stat-lbl">نسبة الفوز 🔥</div>
+          </div>
+        </div>
+
+        <div id="adminHallControls" class="admin-edit-card hidden" style="margin-bottom:16px;">
+          <strong style="color:#fde047;">⚙️ تحديث إحصائيات الكلان وإضافة إنجاز (للمطور):</strong>
+          <form id="hallStatsForm" style="margin-top:10px;">
+            <div class="security-stats-grid" style="margin-bottom:10px;">
+              <div>
+                <label class="field-label" for="hallWinsInput">الانتصارات:</label>
+                <input id="hallWinsInput" type="number" min="0" value="0" />
+              </div>
+              <div>
+                <label class="field-label" for="hallTitlesInput">البطولات:</label>
+                <input id="hallTitlesInput" type="number" min="0" value="0" />
+              </div>
+              <div>
+                <label class="field-label" for="hallRateInput">نسبة الفوز (%):</label>
+                <input id="hallRateInput" type="text" placeholder="85%" />
+              </div>
+            </div>
+            <button class="btn btn-gold btn-sm" type="submit">حفظ الإحصائيات</button>
+          </form>
+
+          <hr style="border:0; border-top:1px solid rgba(255,255,255,0.12); margin:14px 0;" />
+
+          <form id="addAchievementForm">
+            <div class="form-group">
+              <label class="field-label" for="achTitleInput">عنوان الإنجاز أو اللقب الجديد:</label>
+              <input id="achTitleInput" type="text" placeholder="مثال: بطل دوري الكلانات 2026" required />
+            </div>
+            <div class="form-group">
+              <label class="field-label" for="achDescInput">تفاصيل الإنجاز:</label>
+              <input id="achDescInput" type="text" placeholder="مثال: المركز الأول دون أي خسارة" required />
+            </div>
+            <button class="btn btn-outline-gold btn-sm" type="submit">+ إضافة إلى قاعة الأساطير</button>
+          </form>
+        </div>
+
+        <div id="achievementsList">
+          <p class="empty-msg">لا توجد إنجازات مسجلة بعد.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         صفحة اختيار نوع المتصدرين
+         ========================================== -->
     <section id="leaderboardMenuPage" class="hidden">
       <div class="subpage-header">
         <h2 class="subpage-title">🥇 المتصدرين</h2>
         <button class="btn btn-dark btn-sm back-btn" type="button">← رجوع</button>
       </div>
 
-      <div class="grid-4">
-        <button class="tile-card" type="button" data-page="clanLeaderboardPage">
-          <span class="tile-icon">👥</span>
-          <span class="tile-title">المتصدرين في الكلان</span>
+      <div class="grid-2-modern">
+        <button class="fancy-tile" type="button" data-page="clanLeaderboardPage">
+          <div class="tile-header-row">
+            <div class="tile-icon-frame">👥</div>
+            <span class="tile-status-badge gold">نقاط قلوري</span>
+          </div>
+          <div class="tile-body-text">
+            <span class="tile-title">المتصدرين في الكلان</span>
+            <span class="tile-desc">ترتيب أعلى أعضاء الكلان جمعاً لنقاط قلوري</span>
+          </div>
         </button>
 
-        <button class="tile-card" type="button" data-page="contestLeaderboardPage">
-          <span class="tile-icon">🏆</span>
-          <span class="tile-title">المتصدرين في المسابقات</span>
+        <button class="fancy-tile" type="button" data-page="contestLeaderboardPage">
+          <div class="tile-header-row">
+            <div class="tile-icon-frame">🏆</div>
+            <span class="tile-status-badge gold">نقاط البطولات</span>
+          </div>
+          <div class="tile-body-text">
+            <span class="tile-title">المتصدرين في المسابقات</span>
+            <span class="tile-desc">أقوى الفائزين في مباريات ومسابقات الكلان</span>
+          </div>
         </button>
       </div>
     </section>
@@ -1375,7 +2106,7 @@
         </div>
 
         <div id="adminClanLeaderboardEditor" class="admin-edit-card hidden">
-          <strong style="color:#f5cb4c;">⚙️ إدارة المتصدرين في الكلان (المراكز 1 - 3 — أقصى حد 15 حرفاً للاسم):</strong>
+          <strong style="color:#fde047;">⚙️ إدارة المتصدرين في الكلان (المراكز 1 - 3 — أقصى حد 15 حرفاً للاسم):</strong>
           <div id="adminClanRankRows"></div>
         </div>
       </div>
@@ -1411,7 +2142,7 @@
         </div>
 
         <div id="adminContestLeaderboardEditor" class="admin-edit-card hidden">
-          <strong style="color:#f5cb4c;">⚙️ إدارة المتصدرين في المسابقات (المراكز 1 - 3 — أقصى حد 15 حرفاً للاسم):</strong>
+          <strong style="color:#fde047;">⚙️ إدارة المتصدرين في المسابقات (المراكز 1 - 3 — أقصى حد 15 حرفاً للاسم):</strong>
           <div id="adminContestRankRows"></div>
         </div>
       </div>
@@ -1434,7 +2165,7 @@
         </form>
 
         <div id="feedbackSendChannels" class="send-channels-box hidden">
-          <strong style="color:#f5cb4c;">إرسال الملاحظة مباشرة عبر البريد:</strong>
+          <strong style="color:#fde047;">إرسال الملاحظة مباشرة عبر البريد:</strong>
           <div class="send-channels-single">
             <a id="feedbackGmailLink" class="btn btn-gmail btn-sm">
               <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
@@ -1459,7 +2190,7 @@
 
       <div id="adminNewsControls" class="panel hidden">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-          <strong style="color:#f5cb4c;">إدارة الأخبار</strong>
+          <strong style="color:#fde047;">إدارة الأخبار</strong>
           <button id="toggleCreateNewsBtn" class="btn btn-outline-gold btn-sm" type="button">+ إنشاء منشور</button>
         </div>
 
@@ -1494,7 +2225,7 @@
 
       <div id="adminPollControls" class="panel hidden">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-          <strong style="color:#f5cb4c;">إدارة التصويتات</strong>
+          <strong style="color:#fde047;">إدارة التصويتات</strong>
           <button id="toggleCreatePollBtn" class="btn btn-outline-gold btn-sm" type="button">+ إنشاء منشور</button>
         </div>
 
@@ -1550,6 +2281,10 @@
       <div class="subpage-header">
         <h2 class="subpage-title">🏆 مشاركة في مسابقة</h2>
         <button class="btn btn-dark btn-sm back-btn" type="button">← رجوع</button>
+      </div>
+
+      <div id="contestClosedNotice" class="warning-box hidden">
+        التسجيل في المسابقات مغلق حالياً بقرار من إدارة الكلان — تابع آخر الأخبار لمعرفة موعد الفتح القادم.
       </div>
 
       <div class="panel">
@@ -1618,7 +2353,7 @@
         </form>
 
         <div id="contestSendChannels" class="send-channels-box hidden">
-          <strong style="color:#f5cb4c;">إرسال الاستمارة مباشرة إلى الإدارة:</strong>
+          <strong style="color:#fde047;">إرسال الاستمارة مباشرة إلى الإدارة:</strong>
           <div class="send-channels-grid">
             <a id="contestWhatsappLink" class="btn btn-whatsapp btn-sm" target="_blank" rel="noopener">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
@@ -1647,13 +2382,17 @@
         <button class="btn btn-dark btn-sm back-btn" type="button">← رجوع</button>
       </div>
 
+      <div id="tryoutClosedNotice" class="warning-box hidden">
+        اختبارات الانضمام للكلان مغلقة حالياً بقرار من الإدارة — تابع آخر الأخبار لمعرفة موعد فتح التجنيد.
+      </div>
+
       <div class="warning-box">
         تحذير: إذا لم تكن تملك بطاقة تغيير الاسم قد يتم رفضك
       </div>
 
-      <!-- أداة زخرفة الأسماء الخاصة بالكلان -->
+      <!-- أداة زخرفة الأسماء بصيغة あ┋nameㅤジ -->
       <div class="decorator-box">
-        <label class="field-label" for="rawClanNameInput" style="color:#f5cb4c !important; margin-bottom:2px;">
+        <label class="field-label" for="rawClanNameInput" style="color:#fde047 !important; margin-bottom:2px;">
           ✨ زخرفة الأسماء (شعار الكلان الرسمي):
         </label>
         <div class="decorator-row">
@@ -1661,7 +2400,7 @@
           <button id="convertNameBtn" class="btn btn-gold btn-sm" type="button">تحويل الاسم</button>
         </div>
         <div id="decoratedResultWrap" class="decorated-result-wrap hidden">
-          <span id="decoratedNameOutput" class="decorated-output">あ┋ADAM ジ</span>
+          <span id="decoratedNameOutput" class="decorated-output">あ┋ADAMㅤジ</span>
           <button id="copyDecoratedBtn" class="btn btn-outline-gold btn-sm" type="button">نسخ</button>
         </div>
       </div>
@@ -1670,12 +2409,12 @@
       <div class="roster-box">
         <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;">
           <button id="toggleRosterBtn" class="btn btn-outline-gold btn-sm" type="button" style="width:100%;">
-            👥 عرض أعضاء الكلان
+            👥 عرض أعضاء الكلان (<span id="rosterOccupiedCount">0</span> / 55)
           </button>
         </div>
 
         <div id="clanRosterContent" class="hidden">
-          <div style="margin-top:10px; font-size:0.84rem; color:#d4d4dc; display:flex; flex-wrap:wrap; gap:10px;">
+          <div style="margin-top:10px; font-size:0.84rem; color:#d4d6e2; display:flex; flex-wrap:wrap; gap:10px;">
             <span>🤴 المالك</span>
             <span>💂‍♀️ نائب المالك</span>
             <span>👮‍♂️ المشرفين</span>
@@ -1746,7 +2485,7 @@
         </form>
 
         <div id="tryoutSendChannels" class="send-channels-box hidden">
-          <strong style="color:#f5cb4c;">إرسال الاستمارة مباشرة إلى الإدارة:</strong>
+          <strong style="color:#fde047;">إرسال الاستمارة مباشرة إلى الإدارة:</strong>
           <div class="send-channels-grid">
             <a id="tryoutWhatsappLink" class="btn btn-whatsapp btn-sm" target="_blank" rel="noopener">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
@@ -1769,14 +2508,14 @@
     </section>
   </main>
 
-  <!-- نافذة تعديل عضو في قائمة الكلان (للإدارة فقط) -->
+  <!-- نافذة تعديل عضو في قائمة الكلان -->
   <div id="rosterEditModal" class="modal-backdrop hidden">
     <div class="modal-card">
       <div id="rosterEditModalTitle" class="modal-title">تعديل الخانة رقم 1</div>
       <form id="rosterEditForm">
         <div class="form-group" style="text-align:right;">
           <label class="field-label" for="rosterPlayerNameInput">اسم اللاعب (اتركه فارغاً ليبقى شاغراً):</label>
-          <input id="rosterPlayerNameInput" type="text" placeholder="مثال: あ┋ADAM ジ" maxlength="36" />
+          <input id="rosterPlayerNameInput" type="text" placeholder="مثال: あ┋ADAMㅤジ" maxlength="36" />
         </div>
         <div class="form-group" style="text-align:right;">
           <label class="field-label" for="rosterPlayerBadgeSelect">شارة المنصب:</label>
@@ -1796,7 +2535,7 @@
     </div>
   </div>
 
-  <!-- نافذة اختيار / تغيير الاسم لحساب جوجل -->
+  <!-- نافذة اختيار / تغيير الاسم -->
   <div id="nicknameModal" class="modal-backdrop hidden">
     <div class="modal-card">
       <div class="modal-title">اختر اسمك في الموقع</div>
@@ -1813,7 +2552,7 @@
     </div>
   </div>
 
-  <!-- نافذة تنبيه الزائر عند محاولة التفاعل أو المشاركة -->
+  <!-- نافذة تنبيه الزائر -->
   <div id="guestPromptModal" class="modal-backdrop hidden">
     <div class="modal-card">
       <div class="modal-title">تنبيه للزوار</div>
@@ -1871,15 +2610,19 @@
     ];
 
     const clanAvatar = document.getElementById("clanAvatar");
+    const barAvatarImg = document.getElementById("barAvatarImg");
     let logoIdx = 0;
 
     function loadNextLogo() {
       if (logoIdx >= LOGO_CANDIDATES.length) return;
-      clanAvatar.src = LOGO_CANDIDATES[logoIdx];
+      const src = LOGO_CANDIDATES[logoIdx];
+      clanAvatar.src = src;
+      barAvatarImg.src = src;
       logoIdx += 1;
     }
 
     clanAvatar.onerror = loadNextLogo;
+    barAvatarImg.onerror = loadNextLogo;
     loadNextLogo();
 
     function buildLevelOptions(minLvl, maxLvl) {
@@ -1923,9 +2666,15 @@
     const appView = document.getElementById("appView");
     const homePage = document.getElementById("homePage");
     const userDisplayName = document.getElementById("userDisplayName");
+    const userRoleChip = document.getElementById("userRoleChip");
     const userEmailSub = document.getElementById("userEmailSub");
     const onlineUsersCountEl = document.getElementById("onlineUsersCount");
     const totalRegisteredCountEl = document.getElementById("totalRegisteredCount");
+    const loginOnlineCountEl = document.getElementById("loginOnlineCount");
+    const loginTotalCountEl = document.getElementById("loginTotalCount");
+    const loginOpenSeatsCountEl = document.getElementById("loginOpenSeatsCount");
+    const quickCopyClanTagBtn = document.getElementById("quickCopyClanTagBtn");
+
     const authError = document.getElementById("authError");
     const googleLoginBtn = document.getElementById("googleLoginBtn");
     const guestLoginBtn = document.getElementById("guestLoginBtn");
@@ -1934,6 +2683,16 @@
     const openFeedbackBtn = document.getElementById("openFeedbackBtn");
     const openSecurityBtn = document.getElementById("openSecurityBtn");
     const toastEl = document.getElementById("toast");
+
+    const topAnnouncementBar = document.getElementById("topAnnouncementBar");
+    const topAnnouncementText = document.getElementById("topAnnouncementText");
+    const miniClanFirst = document.getElementById("miniClanFirst");
+    const miniContestFirst = document.getElementById("miniContestFirst");
+    const contestStatusBadge = document.getElementById("contestStatusBadge");
+    const tryoutStatusBadge = document.getElementById("tryoutStatusBadge");
+    const tournamentsCountBadge = document.getElementById("tournamentsCountBadge");
+    const newsCountBadge = document.getElementById("newsCountBadge");
+    const pollsCountBadge = document.getElementById("pollsCountBadge");
 
     const nicknameModal = document.getElementById("nicknameModal");
     const nicknameForm = document.getElementById("nicknameForm");
@@ -1980,6 +2739,7 @@
 
     // عناصر قائمة أعضاء الكلان (55 خانة)
     const toggleRosterBtn = document.getElementById("toggleRosterBtn");
+    const rosterOccupiedCount = document.getElementById("rosterOccupiedCount");
     const clanRosterContent = document.getElementById("clanRosterContent");
     const clanRosterTableBody = document.getElementById("clanRosterTableBody");
     const rosterAdminColHead = document.getElementById("rosterAdminColHead");
@@ -1991,12 +2751,28 @@
     const clearRosterSlotBtn = document.getElementById("clearRosterSlotBtn");
     const cancelRosterEditBtn = document.getElementById("cancelRosterEditBtn");
 
-    // أداة زخرفة الأسماء
+    // عناصر البطولات وقاعة الأساطير
+    const adminTournamentControls = document.getElementById("adminTournamentControls");
+    const toggleCreateTournamentBtn = document.getElementById("toggleCreateTournamentBtn");
+    const createTournamentForm = document.getElementById("createTournamentForm");
+    const tournamentsList = document.getElementById("tournamentsList");
+
+    const adminHallControls = document.getElementById("adminHallControls");
+    const hallWinsStat = document.getElementById("hallWinsStat");
+    const hallTitlesStat = document.getElementById("hallTitlesStat");
+    const hallWinRateStat = document.getElementById("hallWinRateStat");
+    const achievementsList = document.getElementById("achievementsList");
+
+    // أداة زخرفة الأسماء بصيغة あ┋nameㅤジ
     const rawClanNameInput = document.getElementById("rawClanNameInput");
     const convertNameBtn = document.getElementById("convertNameBtn");
     const decoratedResultWrap = document.getElementById("decoratedResultWrap");
     const decoratedNameOutput = document.getElementById("decoratedNameOutput");
     const copyDecoratedBtn = document.getElementById("copyDecoratedBtn");
+
+    function formatClanTag(raw) {
+      return `あ┋${raw.trim()}ㅤジ`;
+    }
 
     convertNameBtn.addEventListener("click", () => {
       const rawName = rawClanNameInput.value.trim();
@@ -2004,24 +2780,27 @@
         showToast("اكتب اسمك أولاً للتحويل");
         return;
       }
-      const decorated = `あ┋${rawName} ジ`;
-      decoratedNameOutput.textContent = decorated;
+      decoratedNameOutput.textContent = formatClanTag(rawName);
       decoratedResultWrap.classList.remove("hidden");
     });
 
-    copyDecoratedBtn.addEventListener("click", async () => {
-      const textToCopy = decoratedNameOutput.textContent;
+    async function copyTextSafely(textToCopy, successMsg) {
       try {
         await navigator.clipboard.writeText(textToCopy);
-        showToast("تم نسخ الاسم المزخرف");
+        showToast(successMsg);
       } catch {
-        const range = document.createRange();
-        range.selectNodeContents(decoratedNameOutput);
-        const sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-        showToast("تم تحديد الاسم — اضغط نسخ");
+        showToast("تم النسخ: " + textToCopy);
       }
+    }
+
+    copyDecoratedBtn.addEventListener("click", () => {
+      copyTextSafely(decoratedNameOutput.textContent, "تم نسخ الاسم المزخرف");
+    });
+
+    quickCopyClanTagBtn.addEventListener("click", () => {
+      if (!currentUser) return;
+      const baseName = getCustomNickname(currentUser.uid) || currentUser.displayName || "GEDR";
+      copyTextSafely(formatClanTag(baseName), "تم نسخ اسمك بزخرفة الكلان");
     });
 
     const subPages = [
@@ -2033,6 +2812,8 @@
       "leaderboardMenuPage",
       "clanLeaderboardPage",
       "contestLeaderboardPage",
+      "tournamentsPage",
+      "hallOfFamePage",
       "securityPage"
     ];
 
@@ -2041,11 +2822,25 @@
     let isAdmin = false;
     let latestNewsDocs = [];
     let latestPollDocs = [];
+    let latestTournamentDocs = [];
+    let latestAchievementDocs = [];
     let latestContestSubs = [];
     let latestTryoutSubs = [];
     let securityUnsubContest = null;
     let securityUnsubTryout = null;
     const openPollEditors = new Set();
+
+    let portalSettings = {
+      announcement: "",
+      contestStatus: "open",
+      tryoutStatus: "open"
+    };
+
+    let hallStats = {
+      wins: 0,
+      titles: 0,
+      winRate: "0%"
+    };
 
     let clanTop3 = [
       { name: "", points: 0 },
@@ -2074,6 +2869,10 @@
       toastEl.classList.remove("hidden");
       clearTimeout(showToast._t);
       showToast._t = setTimeout(() => toastEl.classList.add("hidden"), 2800);
+    }
+
+    function normalizeEmailKey(email) {
+      return String(email || "").trim().toLowerCase().replace(/[^a-z0-9@._-]/g, "_");
     }
 
     function getCustomNickname(uid) {
@@ -2149,6 +2948,10 @@
       openPage("securityPage");
     });
 
+    topAnnouncementBar.addEventListener("click", () => {
+      openPage("newsPage");
+    });
+
     function requireGoogleAccount() {
       if (currentUser) return true;
       showToast("يرجى التسجيل عبر قوقل اولا");
@@ -2195,7 +2998,7 @@
       window.scrollTo({ top: 0, behavior: "instant" });
     }
 
-    document.querySelectorAll(".tile-card[data-page]").forEach((btn) => {
+    document.querySelectorAll(".fancy-tile[data-page]").forEach((btn) => {
       btn.addEventListener("click", () => openPage(btn.dataset.page));
     });
 
@@ -2212,7 +3015,7 @@
     });
 
     // ==========================================
-    // 1) نظام تتبع الأعضاء المسجلين والحظر
+    // 1) نظام الحظر الصارم بالبريد الإلكتروني والـ UID
     // ==========================================
     const ONLINE_TIMEOUT_MS = 75 * 1000;
 
@@ -2229,16 +3032,34 @@
     }
 
     function findBannedDoc(uid, email) {
-      const cleanEmail = (email || "").toLowerCase();
+      const cleanEmail = String(email || "").trim().toLowerCase();
       return bannedUsersList.find((b) => {
+        if (cleanEmail && b.email && String(b.email).trim().toLowerCase() === cleanEmail) return true;
         if (uid && (b.docId === uid || b.uid === uid)) return true;
-        if (cleanEmail && b.email && String(b.email).toLowerCase() === cleanEmail) return true;
         return false;
       }) || null;
     }
 
     function isAccountBanned(uid, email) {
+      if (String(email || "").trim().toLowerCase() === ADMIN_EMAIL.toLowerCase()) return false;
       return Boolean(findBannedDoc(uid, email));
+    }
+
+    function enforceBanImmediately() {
+      if (!currentUser || isAdmin) return false;
+      if (isAccountBanned(currentUser.uid, currentUser.email)) {
+        const bannedUid = currentUser.uid;
+        currentUser = null;
+        stopUserPresence();
+        stopSecurityListeners();
+        markUserOffline(bannedUid).catch(() => {});
+        signOut(auth).catch(() => {});
+        appView.classList.add("hidden");
+        loginView.classList.remove("hidden");
+        showError("تم حظر حساب الجيمايل الخاص بك نهائياً من دخول بوابة GEDR CLAN.");
+        return true;
+      }
+      return false;
     }
 
     function updatePresenceCounters() {
@@ -2252,6 +3073,9 @@
 
       onlineUsersCountEl.textContent = String(activeOnline);
       totalRegisteredCountEl.textContent = String(totalUnique);
+      loginOnlineCountEl.textContent = String(activeOnline);
+      loginTotalCountEl.textContent = String(totalUnique);
+
       secOnlineCount.textContent = String(activeOnline);
       secTotalUsersCount.textContent = String(totalUnique);
       secBannedCount.textContent = String(bannedUsersList.length);
@@ -2259,6 +3083,10 @@
 
     async function markUserOnline(user) {
       if (!user) return;
+      if (isAccountBanned(user.uid, user.email)) {
+        enforceBanImmediately();
+        return;
+      }
       const chosenName =
         getCustomNickname(user.uid) ||
         user.displayName ||
@@ -2268,7 +3096,7 @@
           doc(db, "registered_users", user.uid),
           {
             uid: user.uid,
-            email: user.email || "",
+            email: (user.email || "").toLowerCase(),
             displayName: chosenName,
             online: true,
             lastSeen: serverTimestamp(),
@@ -2276,7 +3104,12 @@
           },
           { merge: true }
         );
-      } catch {}
+      } catch {
+        // إذا رفضت قواعد Firestore الكتابة فهذا يعني أن الحساب محظور على مستوى قاعدة البيانات
+        if ((user.email || "").toLowerCase() !== ADMIN_EMAIL.toLowerCase() && isAccountBanned(user.uid, user.email)) {
+          enforceBanImmediately();
+        }
+      }
     }
 
     async function markUserOffline(uid) {
@@ -2311,7 +3144,9 @@
     document.addEventListener("visibilitychange", () => {
       if (!currentUser) return;
       if (document.visibilityState === "visible") {
-        markUserOnline(currentUser);
+        if (!enforceBanImmediately()) {
+          markUserOnline(currentUser);
+        }
       } else {
         markUserOffline(currentUser.uid);
       }
@@ -2323,23 +3158,29 @@
       }
     });
 
-    async function banAccount(account) {
-      if (!isAdmin || !account?.uid) return;
-      if ((account.email || "").toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+    async function banAccountByEmailAndUid(emailRaw, uidRaw = "", nameRaw = "") {
+      if (!isAdmin) return;
+      const cleanEmail = String(emailRaw || "").trim().toLowerCase();
+      if (!cleanEmail || !cleanEmail.includes("@")) {
+        showToast("يرجى إدخال بريد Gmail صحيح");
+        return;
+      }
+      if (cleanEmail === ADMIN_EMAIL.toLowerCase()) {
         showToast("لا يمكن حظر حساب المطور");
         return;
       }
-      const resolvedName = resolveAccountDisplayName(account);
+      const docKey = normalizeEmailKey(cleanEmail);
+      const displayName = (nameRaw || "").trim() || cleanEmail.split("@")[0];
       try {
-        await setDoc(doc(db, "banned_users", account.uid), {
-          uid: account.uid,
-          email: account.email || "",
-          displayName: resolvedName,
+        await setDoc(doc(db, "banned_users", docKey), {
+          email: cleanEmail,
+          uid: uidRaw || "",
+          displayName,
           bannedAt: serverTimestamp()
         });
-        showToast("تم حظر الحساب من دخول الموقع");
+        showToast(`تم حظر ${cleanEmail} نهائياً`);
       } catch {
-        showToast("تعذر حظر الحساب");
+        showToast("تعذر حظر الحساب — تأكد من قواعد Firestore");
       }
     }
 
@@ -2352,6 +3193,21 @@
         showToast("تعذر إلغاء الحظر");
       }
     }
+
+    document.getElementById("manualBanForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!isAdmin) return;
+      const emailVal = document.getElementById("manualBanEmailInput").value.trim().toLowerCase();
+      const matchedUser = registeredUsersSnapshot.find(
+        (u) => String(u.email || "").toLowerCase() === emailVal
+      );
+      await banAccountByEmailAndUid(
+        emailVal,
+        matchedUser?.uid || "",
+        matchedUser ? resolveAccountDisplayName(matchedUser) : ""
+      );
+      document.getElementById("manualBanEmailInput").value = "";
+    });
 
     function renderAccountsAndBans() {
       if (!isAdmin) return;
@@ -2401,7 +3257,9 @@
               banBtn.type = "button";
               banBtn.className = "btn-danger";
               banBtn.textContent = "حظر";
-              banBtn.addEventListener("click", () => banAccount(acc));
+              banBtn.addEventListener("click", () =>
+                banAccountByEmailAndUid(acc.email, acc.uid, shownName)
+              );
               row.appendChild(banBtn);
             }
           }
@@ -2460,27 +3318,20 @@
         const dedupedList = [];
         snap.docs.forEach((d) => {
           const data = d.data() || {};
-          const uniqueKey = (data.uid || data.email || d.id).toLowerCase();
+          const uniqueKey = String(data.email || data.uid || d.id).trim().toLowerCase();
           if (seenKeys.has(uniqueKey)) return;
           seenKeys.add(uniqueKey);
           dedupedList.push({
             docId: d.id,
-            uid: data.uid || d.id,
-            email: data.email || "",
+            uid: data.uid || "",
+            email: data.email || d.id,
             displayName: data.displayName || ""
           });
         });
         bannedUsersList = dedupedList;
         updatePresenceCounters();
         renderAccountsAndBans();
-
-        if (currentUser && !isAdmin && isAccountBanned(currentUser.uid, currentUser.email)) {
-          const bannedUid = currentUser.uid;
-          stopUserPresence();
-          markUserOffline(bannedUid).catch(() => {});
-          signOut(auth).catch(() => {});
-          showError("تم حظر حسابك من دخول بوابة GEDR CLAN.");
-        }
+        enforceBanImmediately();
       },
       () => {}
     );
@@ -2491,7 +3342,295 @@
     }, 15000);
 
     // ==========================================
-    // 2) الطلبات الواردة في إدارة الأمان للأدمن
+    // 2) إعدادات البوابة السريعة (للمطور)
+    // ==========================================
+    function applyPortalSettingsUI() {
+      const latestNewsTitle = latestNewsDocs[0]?.title || "";
+      if (portalSettings.announcement) {
+        topAnnouncementText.textContent = portalSettings.announcement;
+      } else if (latestNewsTitle) {
+        topAnnouncementText.textContent = "آخر خبر: " + latestNewsTitle;
+      } else {
+        topAnnouncementText.textContent = "مرحباً بكم في بوابة GEDR CLAN الرسمية — تابعوا البطولات والمتصدرين!";
+      }
+
+      const contestOpen = portalSettings.contestStatus !== "closed";
+      contestStatusBadge.textContent = contestOpen ? "مفتوح" : "مغلق";
+      contestStatusBadge.classList.toggle("closed", !contestOpen);
+      document.getElementById("contestClosedNotice").classList.toggle("hidden", contestOpen);
+
+      const tryoutOpen = portalSettings.tryoutStatus !== "closed";
+      const occupiedCount = clanRosterSlots.filter((s) => Boolean(s.name)).length;
+      const freeSeats = Math.max(0, 55 - occupiedCount);
+
+      if (tryoutOpen) {
+        tryoutStatusBadge.textContent = `متاح ${freeSeats} مقعد`;
+        tryoutStatusBadge.classList.remove("closed");
+      } else {
+        tryoutStatusBadge.textContent = "مغلق";
+        tryoutStatusBadge.classList.add("closed");
+      }
+      document.getElementById("tryoutClosedNotice").classList.toggle("hidden", tryoutOpen);
+      loginOpenSeatsCountEl.textContent = String(freeSeats);
+      rosterOccupiedCount.textContent = String(occupiedCount);
+
+      document.getElementById("customAnnouncementInput").value = portalSettings.announcement || "";
+      document.getElementById("contestOpenSelect").value = portalSettings.contestStatus || "open";
+      document.getElementById("tryoutOpenSelect").value = portalSettings.tryoutStatus || "open";
+    }
+
+    onSnapshot(
+      doc(db, "clan_data", "portal_settings"),
+      (snap) => {
+        if (snap.exists()) {
+          portalSettings = { ...portalSettings, ...snap.data() };
+        }
+        applyPortalSettingsUI();
+      },
+      () => applyPortalSettingsUI()
+    );
+
+    document.getElementById("portalControlForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!isAdmin) return;
+      const announcement = document.getElementById("customAnnouncementInput").value.trim();
+      const contestStatus = document.getElementById("contestOpenSelect").value;
+      const tryoutStatus = document.getElementById("tryoutOpenSelect").value;
+      try {
+        await setDoc(
+          doc(db, "clan_data", "portal_settings"),
+          { announcement, contestStatus, tryoutStatus },
+          { merge: true }
+        );
+        showToast("تم تحديث إعدادات البوابة بنجاح");
+      } catch {
+        showToast("تعذر حفظ الإعدادات");
+      }
+    });
+
+    // ==========================================
+    // 3) البطولات والمباريات القادمة (يتحكم بها المطور)
+    // ==========================================
+    toggleCreateTournamentBtn.addEventListener("click", () => {
+      createTournamentForm.classList.toggle("hidden");
+    });
+
+    createTournamentForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!isAdmin) return;
+      const title = document.getElementById("tourTitleInput").value.trim();
+      const mode = document.getElementById("tourModeInput").value;
+      const prize = document.getElementById("tourPrizeInput").value.trim();
+      const startTime = document.getElementById("tourDateInput").value;
+      const status = document.getElementById("tourStatusInput").value;
+      if (!title || !startTime) return;
+
+      try {
+        await addDoc(collection(db, "tournaments"), {
+          title,
+          mode,
+          prize,
+          startTime,
+          status,
+          createdAt: serverTimestamp()
+        });
+        createTournamentForm.reset();
+        createTournamentForm.classList.add("hidden");
+        showToast("تمت إضافة البطولة بنجاح");
+      } catch {
+        showToast("تعذر إضافة البطولة");
+      }
+    });
+
+    function formatTournamentCountdown(startTimeStr) {
+      const targetMs = new Date(startTimeStr).getTime();
+      if (Number.isNaN(targetMs)) return "الموعد يحدد لاحقاً";
+      const diff = targetMs - Date.now();
+      const dateFormatted = new Date(targetMs).toLocaleString("ar");
+      if (diff <= 0) {
+        return `🔥 بدأت / انتهت (${dateFormatted})`;
+      }
+      const totalMins = Math.floor(diff / 60000);
+      const days = Math.floor(totalMins / (60 * 24));
+      const hours = Math.floor((totalMins % (60 * 24)) / 60);
+      const mins = totalMins % 60;
+      return `⏳ متبقي: ${days} يوم و ${hours} ساعة و ${mins} دقيقة — (${dateFormatted})`;
+    }
+
+    function renderTournaments() {
+      tournamentsCountBadge.textContent = `${latestTournamentDocs.length} بطولة`;
+      if (!latestTournamentDocs.length) {
+        tournamentsList.innerHTML = `<p class="empty-msg">لا توجد بطولات مجدولة حالياً.</p>`;
+        return;
+      }
+
+      tournamentsList.innerHTML = "";
+      latestTournamentDocs.forEach((tour) => {
+        const card = document.createElement("div");
+        card.className = "tournament-card";
+
+        const top = document.createElement("div");
+        top.className = "post-top";
+
+        const titleEl = document.createElement("div");
+        titleEl.className = "post-title";
+        titleEl.textContent = tour.title || "بطولة الكلان";
+        top.appendChild(titleEl);
+
+        if (isAdmin) {
+          const delBtn = document.createElement("button");
+          delBtn.type = "button";
+          delBtn.className = "btn-danger";
+          delBtn.textContent = "حذف";
+          delBtn.addEventListener("click", async () => {
+            try {
+              await deleteDoc(doc(db, "tournaments", tour.id));
+              showToast("تم حذف البطولة");
+            } catch {
+              showToast("تعذر حذف البطولة");
+            }
+          });
+          top.appendChild(delBtn);
+        }
+
+        const badges = document.createElement("div");
+        badges.className = "tournament-badges";
+        badges.innerHTML = `
+          <span class="t-chip">🎮 المود: ${tour.mode || "سكواد"}</span>
+          <span class="t-chip">🎁 الجائزة: ${tour.prize || "-"}</span>
+          <span class="t-chip">📌 الحالة: ${tour.status || "مفتوح"}</span>
+        `;
+
+        const countdown = document.createElement("div");
+        countdown.className = "countdown-pill";
+        countdown.textContent = formatTournamentCountdown(tour.startTime);
+
+        card.append(top, badges, countdown);
+        tournamentsList.appendChild(card);
+      });
+    }
+
+    onSnapshot(
+      query(collection(db, "tournaments"), orderBy("createdAt", "desc")),
+      (snap) => {
+        latestTournamentDocs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        renderTournaments();
+      },
+      () => renderTournaments()
+    );
+
+    setInterval(renderTournaments, 60000);
+
+    // ==========================================
+    // 4) قاعة الأساطير والإنجازات (يتحكم بها المطور)
+    // ==========================================
+    function renderHallOfFame() {
+      hallWinsStat.textContent = String(hallStats.wins || 0);
+      hallTitlesStat.textContent = String(hallStats.titles || 0);
+      hallWinRateStat.textContent = String(hallStats.winRate || "0%");
+
+      document.getElementById("hallWinsInput").value = hallStats.wins || 0;
+      document.getElementById("hallTitlesInput").value = hallStats.titles || 0;
+      document.getElementById("hallRateInput").value = hallStats.winRate || "0%";
+
+      if (!latestAchievementDocs.length) {
+        achievementsList.innerHTML = `<p class="empty-msg">لا توجد إنجازات مسجلة بعد.</p>`;
+        return;
+      }
+
+      achievementsList.innerHTML = "";
+      latestAchievementDocs.forEach((ach) => {
+        const card = document.createElement("div");
+        card.className = "post-item";
+
+        const top = document.createElement("div");
+        top.className = "post-top";
+
+        const titleEl = document.createElement("div");
+        titleEl.className = "post-title";
+        titleEl.textContent = "🏅 " + (ach.title || "إنجاز");
+        top.appendChild(titleEl);
+
+        if (isAdmin) {
+          const delBtn = document.createElement("button");
+          delBtn.type = "button";
+          delBtn.className = "btn-danger";
+          delBtn.textContent = "حذف";
+          delBtn.addEventListener("click", async () => {
+            try {
+              await deleteDoc(doc(db, "achievements", ach.id));
+              showToast("تم حذف الإنجاز");
+            } catch {
+              showToast("تعذر حذف الإنجاز");
+            }
+          });
+          top.appendChild(delBtn);
+        }
+
+        const descEl = document.createElement("p");
+        descEl.textContent = ach.description || "";
+        descEl.style.color = "#d4d6e2";
+
+        card.append(top, descEl);
+        achievementsList.appendChild(card);
+      });
+    }
+
+    onSnapshot(
+      doc(db, "clan_data", "hall_stats"),
+      (snap) => {
+        if (snap.exists()) {
+          hallStats = { ...hallStats, ...snap.data() };
+        }
+        renderHallOfFame();
+      },
+      () => renderHallOfFame()
+    );
+
+    onSnapshot(
+      query(collection(db, "achievements"), orderBy("createdAt", "desc")),
+      (snap) => {
+        latestAchievementDocs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        renderHallOfFame();
+      },
+      () => renderHallOfFame()
+    );
+
+    document.getElementById("hallStatsForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!isAdmin) return;
+      const wins = Math.max(0, Number(document.getElementById("hallWinsInput").value) || 0);
+      const titles = Math.max(0, Number(document.getElementById("hallTitlesInput").value) || 0);
+      const winRate = document.getElementById("hallRateInput").value.trim() || "0%";
+      try {
+        await setDoc(doc(db, "clan_data", "hall_stats"), { wins, titles, winRate }, { merge: true });
+        showToast("تم تحديث إحصائيات الكلان");
+      } catch {
+        showToast("تعذر حفظ الإحصائيات");
+      }
+    });
+
+    document.getElementById("addAchievementForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!isAdmin) return;
+      const title = document.getElementById("achTitleInput").value.trim();
+      const description = document.getElementById("achDescInput").value.trim();
+      if (!title || !description) return;
+      try {
+        await addDoc(collection(db, "achievements"), {
+          title,
+          description,
+          createdAt: serverTimestamp()
+        });
+        document.getElementById("addAchievementForm").reset();
+        showToast("تمت إضافة الإنجاز لقاعة الأساطير");
+      } catch {
+        showToast("تعذر إضافة الإنجاز");
+      }
+    });
+
+    // ==========================================
+    // 5) الطلبات الواردة في إدارة الأمان
     // ==========================================
     function renderSecuritySubmissions() {
       secContestCount.textContent = String(latestContestSubs.length);
@@ -2507,8 +3646,8 @@
 
           const info = document.createElement("div");
           info.innerHTML =
-            `<strong style="color:#f5cb4c;">UID: ${sub.uid || "-"}</strong> | مستوى ${sub.accountLevel || "-"} | ${sub.deviceType || "-"}<br>` +
-            `<span style="color:#b4b4be;">الدولة: ${sub.country || "-"} | العمر: ${sub.ageGroup || "-"} | البريد: ${sub.userEmail || "-"}</span>`;
+            `<strong style="color:#fde047;">UID: ${sub.uid || "-"}</strong> | مستوى ${sub.accountLevel || "-"} | ${sub.deviceType || "-"}<br>` +
+            `<span style="color:#b4b6c4;">الدولة: ${sub.country || "-"} | العمر: ${sub.ageGroup || "-"} | البريد: ${sub.userEmail || "-"}</span>`;
 
           const delBtn = document.createElement("button");
           delBtn.type = "button";
@@ -2539,8 +3678,8 @@
 
           const info = document.createElement("div");
           info.innerHTML =
-            `<strong style="color:#f5cb4c;">UID: ${sub.uid || "-"}</strong> | مستوى ${sub.accountLevel || "-"} | المهارة: ${sub.skill || "-"}<br>` +
-            `<span style="color:#b4b4be;">الجهاز: ${sub.deviceType || "-"} | الدولة: ${sub.country || "-"} | البريد: ${sub.userEmail || "-"}</span>`;
+            `<strong style="color:#fde047;">UID: ${sub.uid || "-"}</strong> | مستوى ${sub.accountLevel || "-"} | المهارة: ${sub.skill || "-"}<br>` +
+            `<span style="color:#b4b6c4;">الجهاز: ${sub.deviceType || "-"} | الدولة: ${sub.country || "-"} | البريد: ${sub.userEmail || "-"}</span>`;
 
           const delBtn = document.createElement("button");
           delBtn.type = "button";
@@ -2596,7 +3735,7 @@
     }
 
     // ==========================================
-    // 3) نظام المتصدرين (الكلان + المسابقات)
+    // 6) نظام المتصدرين (الكلان + المسابقات)
     // ==========================================
     function capNameTo15Chars(val) {
       return (val || "").trim().slice(0, 15);
@@ -2660,7 +3799,7 @@
         const tr = document.createElement("tr");
 
         const tdRank = document.createElement("td");
-        tdRank.style.color = "#f5cb4c";
+        tdRank.style.color = "#fde047";
         tdRank.textContent = rankTitles[idx];
 
         const tdName = document.createElement("td");
@@ -2671,7 +3810,7 @@
         }
 
         const tdPts = document.createElement("td");
-        tdPts.style.color = "#f5cb4c";
+        tdPts.style.color = "#fde047";
         tdPts.textContent = String(isEmpty ? 0 : item.points);
 
         tr.append(tdRank, tdName, tdPts);
@@ -2688,7 +3827,7 @@
 
         const label = document.createElement("span");
         label.style.fontWeight = "800";
-        label.style.color = "#f5cb4c";
+        label.style.color = "#fde047";
         label.textContent = `المركز ${idx + 1}:`;
 
         const nameInput = document.createElement("input");
@@ -2751,6 +3890,9 @@
     }
 
     function renderAllLeaderboards() {
+      miniClanFirst.textContent = clanTop3[0]?.name ? `${clanTop3[0].name} (${clanTop3[0].points})` : "لا يوجد";
+      miniContestFirst.textContent = contestTop3[0]?.name ? `${contestTop3[0].name} (${contestTop3[0].points})` : "لا يوجد";
+
       renderPodium(clanPodiumStage, clanTop3, "قلوري");
       renderLeaderboardTable(clanLeaderboardTableBody, clanTop3);
       adminClanLeaderboardEditor.classList.toggle("hidden", !isAdmin);
@@ -2785,7 +3927,7 @@
     );
 
     // ==========================================
-    // 4) قائمة أعضاء الكلان (55 خانة)
+    // 7) قائمة أعضاء الكلان (55 خانة)
     // ==========================================
     toggleRosterBtn.addEventListener("click", () => {
       clanRosterContent.classList.toggle("hidden");
@@ -2848,7 +3990,7 @@
         const tr = document.createElement("tr");
 
         const tdNum = document.createElement("td");
-        tdNum.style.color = "#f5cb4c";
+        tdNum.style.color = "#fde047";
         tdNum.textContent = String(i + 1);
 
         const tdName = document.createElement("td");
@@ -2879,6 +4021,8 @@
 
         clanRosterTableBody.appendChild(tr);
       }
+
+      applyPortalSettingsUI();
     }
 
     onSnapshot(
@@ -2988,7 +4132,7 @@
         const cred = await signInWithPopup(auth, provider);
         if (cred?.user && isAccountBanned(cred.user.uid, cred.user.email)) {
           await signOut(auth).catch(() => {});
-          showError("تم حظر هذا الحساب من دخول بوابة GEDR CLAN.");
+          showError("تم حظر حساب الجيمايل الخاص بك نهائياً من دخول بوابة GEDR CLAN.");
         }
       } catch (err) {
         if (err.code === "auth/popup-blocked" || isInAppBrowser) {
@@ -3033,18 +4177,7 @@
       const email = currentUser?.email?.toLowerCase() || "";
       isAdmin = Boolean(currentUser && email === ADMIN_EMAIL.toLowerCase());
 
-      if (currentUser && !isAdmin && isAccountBanned(currentUser.uid, currentUser.email)) {
-        const bannedUid = currentUser.uid;
-        currentUser = null;
-        stopUserPresence();
-        stopSecurityListeners();
-        markUserOffline(bannedUid).catch(() => {});
-        signOut(auth).catch(() => {});
-        appView.classList.add("hidden");
-        loginView.classList.remove("hidden");
-        showError("تم حظر حسابك من دخول بوابة GEDR CLAN.");
-        return;
-      }
+      if (enforceBanImmediately()) return;
 
       if (currentUser || isGuest) {
         loginView.classList.add("hidden");
@@ -3054,23 +4187,29 @@
           const savedName = getCustomNickname(currentUser.uid);
           const shownName = savedName || currentUser.displayName || currentUser.email;
           userDisplayName.textContent = shownName;
+          userRoleChip.textContent = isAdmin ? "👑 المطور" : "🛡️ عضو مسجل";
           userEmailSub.textContent = currentUser.email || "";
           userEmailSub.classList.remove("hidden");
           changeNameBtn.classList.remove("hidden");
+          quickCopyClanTagBtn.classList.remove("hidden");
 
           if (!savedName) {
             openNicknameModal(false);
           }
         } else {
-          userDisplayName.textContent = "المتابعة كزائر (للتصفح فقط)";
+          userDisplayName.textContent = "المتابعة كزائر";
+          userRoleChip.textContent = "للتصفح فقط";
           userEmailSub.textContent = "";
           userEmailSub.classList.add("hidden");
           changeNameBtn.classList.add("hidden");
+          quickCopyClanTagBtn.classList.add("hidden");
         }
 
         openSecurityBtn.classList.toggle("hidden", !isAdmin);
         adminNewsControls.classList.toggle("hidden", !isAdmin);
         adminPollControls.classList.toggle("hidden", !isAdmin);
+        adminTournamentControls.classList.toggle("hidden", !isAdmin);
+        adminHallControls.classList.toggle("hidden", !isAdmin);
 
         if (isAdmin) {
           startSecurityListeners();
@@ -3087,6 +4226,8 @@
         openSecurityBtn.classList.add("hidden");
         adminNewsControls.classList.add("hidden");
         adminPollControls.classList.add("hidden");
+        adminTournamentControls.classList.add("hidden");
+        adminHallControls.classList.add("hidden");
         stopSecurityListeners();
       }
 
@@ -3094,6 +4235,8 @@
       renderPolls(latestPollDocs);
       renderAllLeaderboards();
       renderClanRoster();
+      renderTournaments();
+      renderHallOfFame();
     }
 
     onAuthStateChanged(auth, (user) => {
@@ -3107,7 +4250,7 @@
           currentUser = null;
           appView.classList.add("hidden");
           loginView.classList.remove("hidden");
-          showError("تم حظر حسابك من دخول بوابة GEDR CLAN.");
+          showError("تم حظر حساب الجيمايل الخاص بك نهائياً من دخول بوابة GEDR CLAN.");
           return;
         }
         isGuest = false;
@@ -3204,6 +4347,7 @@
 
     async function handleSingleChoiceReaction(item, chosenType) {
       if (!requireGoogleAccount()) return;
+      if (enforceBanImmediately()) return;
 
       const choiceKey = "reacted_news_choice_" + item.id;
       const prevChoice = localStorage.getItem(choiceKey);
@@ -3244,6 +4388,9 @@
     }
 
     function renderNews(docs) {
+      newsCountBadge.textContent = `${docs ? docs.length : 0} خبر`;
+      applyPortalSettingsUI();
+
       if (!docs || docs.length === 0) {
         newsList.innerHTML = `<p class="empty-msg">لا توجد أخبار منشورة حالياً.</p>`;
         return;
@@ -3325,6 +4472,8 @@
     }
 
     function renderPolls(docs) {
+      pollsCountBadge.textContent = `${docs ? docs.length : 0} تصويت`;
+
       if (!docs || docs.length === 0) {
         pollsList.innerHTML = `<p class="empty-msg">لا توجد تصويتات متاحة حالياً.</p>`;
         return;
@@ -3444,13 +4593,14 @@
           labelSpan.textContent = opt.label + (isChosen ? " ✓" : "");
 
           const countSpan = document.createElement("span");
-          countSpan.style.color = "#f5cb4c";
+          countSpan.style.color = "#fde047";
           countSpan.textContent = `${opt.votes || 0} صوت`;
 
           optBtn.append(labelSpan, countSpan);
 
           optBtn.addEventListener("click", async () => {
             if (!requireGoogleAccount()) return;
+            if (enforceBanImmediately()) return;
             if (expiryInfo.expired) {
               showToast("انتهت مدة هذا التصويت");
               return;
@@ -3504,6 +4654,11 @@
     document.getElementById("contestForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!requireGoogleAccount()) return;
+      if (enforceBanImmediately()) return;
+      if (portalSettings.contestStatus === "closed" && !isAdmin) {
+        showToast("التسجيل في المسابقات مغلق حالياً");
+        return;
+      }
 
       const uid = document.getElementById("contestUid").value.trim();
       const accountLevel = document.getElementById("contestLevel").value;
@@ -3555,6 +4710,11 @@
     document.getElementById("tryoutForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!requireGoogleAccount()) return;
+      if (enforceBanImmediately()) return;
+      if (portalSettings.tryoutStatus === "closed" && !isAdmin) {
+        showToast("اختبارات الانضمام للكلان مغلقة حالياً");
+        return;
+      }
 
       const uid = document.getElementById("tryoutUid").value.trim();
       const accountLevel = document.getElementById("tryoutLevel").value;
