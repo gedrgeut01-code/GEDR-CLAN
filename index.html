@@ -53,7 +53,7 @@
     .container {
       max-width: 780px;
       margin: 0 auto;
-      padding: 18px 16px 76px;
+      padding: 18px 16px 56px;
     }
 
     /* شاشة الدخول */
@@ -188,6 +188,18 @@
       border: 1px solid rgba(239, 68, 68, 0.65) !important;
     }
 
+    .btn-unban {
+      background-color: #102a1b !important;
+      color: #86efac !important;
+      border: 1px solid #22c55e !important;
+      padding: 7px 12px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      border-radius: 10px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
     .btn-whatsapp {
       background-color: #16a34a !important;
       color: #ffffff !important;
@@ -209,6 +221,7 @@
       font-weight: 800;
       border-radius: 10px;
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     .btn-sm {
@@ -791,6 +804,56 @@
       line-height: 1.75;
     }
 
+    .security-section-box {
+      background-color: #101016;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .account-row-card {
+      background-color: #16161f;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 11px 12px;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.86rem;
+    }
+
+    .account-row-card.banned {
+      border-color: rgba(239, 68, 68, 0.55);
+      background-color: #211013;
+    }
+
+    .account-meta {
+      min-width: 0;
+      line-height: 1.5;
+    }
+
+    .account-name {
+      font-weight: 800;
+      color: #ffffff;
+      word-break: break-word;
+    }
+
+    .account-sub {
+      font-size: 0.78rem;
+      color: #b4b4be;
+      word-break: break-all;
+    }
+
+    .account-last-seen {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fde68a;
+      margin-top: 2px;
+    }
+
     .submission-card {
       background-color: #101016;
       border: 1px solid rgba(255, 255, 255, 0.14);
@@ -990,8 +1053,8 @@
     .empty-msg {
       text-align: center;
       color: #c4c4ce !important;
-      padding: 24px 12px;
-      font-size: 0.96rem;
+      padding: 20px 12px;
+      font-size: 0.92rem;
       font-weight: 600;
     }
 
@@ -1050,160 +1113,6 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-    }
-
-    /* البوت العائم في الزاوية السفلية اليسرى (للمسجلين فقط وبحجم صغير مدمج) */
-    .gedr-bot-fab {
-      position: fixed;
-      bottom: 16px;
-      left: 16px;
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #f5cb4c, #b45309);
-      color: #09090b;
-      border: 2px solid #fef08a;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.65), 0 0 12px rgba(229, 184, 59, 0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      cursor: pointer;
-      z-index: 950;
-      transition: transform 0.15s ease;
-    }
-
-    .gedr-bot-fab:hover {
-      transform: scale(1.06);
-    }
-
-    .gedr-bot-panel {
-      position: fixed;
-      bottom: 70px;
-      left: 16px;
-      width: 295px;
-      max-width: calc(100vw - 32px);
-      background-color: #14141b;
-      border: 1.5px solid var(--gold-border);
-      border-radius: 16px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
-      z-index: 951;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .gedr-bot-header {
-      background-color: #1c1c26;
-      padding: 9px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(229, 184, 59, 0.3);
-    }
-
-    .gedr-bot-title {
-      font-size: 0.9rem;
-      font-weight: 800;
-      color: #f5cb4c;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .gedr-bot-close {
-      background: transparent;
-      border: none;
-      color: #d4d4dc;
-      font-size: 1.15rem;
-      cursor: pointer;
-      padding: 0 4px;
-      line-height: 1;
-    }
-
-    .gedr-bot-messages {
-      padding: 10px;
-      max-height: 225px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      font-size: 0.82rem;
-    }
-
-    .bot-msg {
-      padding: 8px 10px;
-      border-radius: 11px;
-      line-height: 1.55;
-      max-width: 92%;
-      word-break: break-word;
-    }
-
-    .bot-msg.ai {
-      background-color: #1e1e29;
-      border: 1px solid rgba(229, 184, 59, 0.28);
-      color: #ffffff;
-      align-self: flex-start;
-    }
-
-    .bot-msg.user {
-      background-color: rgba(229, 184, 59, 0.2);
-      border: 1px solid rgba(229, 184, 59, 0.5);
-      color: #fef08a;
-      align-self: flex-end;
-    }
-
-    .bot-gemini-link {
-      display: inline-block;
-      margin-top: 6px;
-      padding: 4px 9px;
-      border-radius: 8px;
-      background-color: #e5b83b;
-      color: #09090b !important;
-      font-weight: 800;
-      font-size: 0.78rem;
-      text-decoration: none;
-    }
-
-    .gedr-bot-quick {
-      padding: 6px 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      background-color: #101016;
-    }
-
-    .bot-chip {
-      background-color: #1c1c26;
-      color: #f5cb4c;
-      border: 1px solid rgba(229, 184, 59, 0.35);
-      border-radius: 999px;
-      padding: 3px 8px;
-      font-size: 0.73rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .gedr-bot-form {
-      display: flex;
-      gap: 6px;
-      padding: 8px;
-      background-color: #0d0d12;
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .gedr-bot-form input {
-      padding: 7px 10px;
-      font-size: 0.82rem;
-      border-radius: 10px;
-    }
-
-    .gedr-bot-form button {
-      padding: 7px 11px;
-      font-size: 0.8rem;
-      border-radius: 10px;
-      flex-shrink: 0;
     }
 
     @media (max-width: 540px) {
@@ -1362,7 +1271,7 @@
         <div class="security-status-card">
           <strong>حالة الحماية النشطة:</strong><br />
           • حساب الإدارة المصرح له: <span style="direction:ltr; display:inline-block; color:#f5cb4c; font-weight:800;">gedrgeut01@gmail.com</span><br />
-          • جميع عمليات التعديل على المتصدرين، قائمة الـ 55 عضواً، إنشاء/حذف الأخبار والتصويتات، وقراءة الطلبات مقفلة برمجياً على مستوى Firestore Rules ولا يراها أي زائر أو مستخدم آخر.
+          • إدارة الحسابات المسجلة، الحظر، وفك الحظر متاحة حصراً لك ولا يراها أي زائر أو مستخدم آخر.
         </div>
 
         <div class="security-stats-grid">
@@ -1375,22 +1284,39 @@
             <div class="security-stat-label">إجمالي المسجلين 🔴</div>
           </div>
           <div class="security-stat-card">
-            <div id="secTotalSubsCount" class="security-stat-num">0</div>
-            <div class="security-stat-label">طلبات واردة 📥</div>
+            <div id="secBannedCount" class="security-stat-num">0</div>
+            <div class="security-stat-label">المحظورون 🚫</div>
           </div>
         </div>
 
-        <div style="margin-bottom:16px;">
-          <strong style="color:#f5cb4c;">🏆 طلبات المسابقات الواردة:</strong>
+        <!-- قائمة الحسابات المسجلة وأسماؤها وآخر ظهور وحظرها -->
+        <div class="security-section-box">
+          <strong style="color:#f5cb4c;">👥 الحسابات المسجلة (الاسم، البريد، وآخر ظهور):</strong>
+          <div id="secRegisteredAccountsList">
+            <p class="empty-msg">جاري تحميل الحسابات المسجلة...</p>
+          </div>
+        </div>
+
+        <!-- قائمة المحظورين مع إلغاء الحظر جنب كل شخص محظور -->
+        <div class="security-section-box">
+          <strong style="color:#fca5a5;">🚫 قائمة المحظورين:</strong>
+          <div id="secBannedAccountsList">
+            <p class="empty-msg">لا يوجد حسابات محظورة حالياً.</p>
+          </div>
+        </div>
+
+        <!-- الطلبات الواردة -->
+        <div class="security-section-box">
+          <strong style="color:#f5cb4c;">🏆 طلبات المسابقات الواردة (<span id="secContestCount">0</span>):</strong>
           <div id="secContestList">
-            <p class="empty-msg">جاري تحميل الطلبات...</p>
+            <p class="empty-msg">لا توجد طلبات مسابقات حالياً.</p>
           </div>
         </div>
 
-        <div>
-          <strong style="color:#f5cb4c;">🎯 طلبات اختبار الكلان الواردة:</strong>
+        <div class="security-section-box" style="margin-bottom:0;">
+          <strong style="color:#f5cb4c;">🎯 طلبات اختبار الكلان الواردة (<span id="secTryoutCount">0</span>):</strong>
           <div id="secTryoutList">
-            <p class="empty-msg">جاري تحميل الطلبات...</p>
+            <p class="empty-msg">لا توجد طلبات اختبار كلان حالياً.</p>
           </div>
         </div>
       </div>
@@ -1840,26 +1766,6 @@
     </section>
   </main>
 
-  <!-- البوت العائم في الزاوية السفلية اليسرى (يظهر للمسجلين فقط) -->
-  <button id="gedrBotFab" class="gedr-bot-fab hidden" type="button" title="GEDR BOT" aria-label="GEDR BOT">🤖</button>
-
-  <div id="gedrBotPanel" class="gedr-bot-panel hidden" role="dialog" aria-label="GEDR BOT">
-    <div class="gedr-bot-header">
-      <div class="gedr-bot-title">🤖 GEDR BOT</div>
-      <button id="gedrBotCloseBtn" class="gedr-bot-close" type="button" aria-label="إغلاق">×</button>
-    </div>
-    <div id="gedrBotMessages" class="gedr-bot-messages"></div>
-    <div class="gedr-bot-quick">
-      <button class="bot-chip" type="button" data-bot-q="شروط دخول الكلان">شروط الكلان</button>
-      <button class="bot-chip" type="button" data-bot-q="شروط المسابقات">المسابقات</button>
-      <button class="bot-chip" type="button" data-bot-q="طريقة التصدر">التصدر</button>
-    </div>
-    <form id="gedrBotForm" class="gedr-bot-form">
-      <input id="gedrBotInput" type="text" placeholder="اسأل عن الموقع والكلان..." required maxlength="180" />
-      <button class="btn btn-gold" type="submit">إرسال</button>
-    </form>
-  </div>
-
   <!-- نافذة تعديل عضو في قائمة الكلان (للإدارة فقط) -->
   <div id="rosterEditModal" class="modal-backdrop hidden">
     <div class="modal-card">
@@ -2050,7 +1956,11 @@
     // عناصر إدارة الأمان
     const secOnlineCount = document.getElementById("secOnlineCount");
     const secTotalUsersCount = document.getElementById("secTotalUsersCount");
-    const secTotalSubsCount = document.getElementById("secTotalSubsCount");
+    const secBannedCount = document.getElementById("secBannedCount");
+    const secRegisteredAccountsList = document.getElementById("secRegisteredAccountsList");
+    const secBannedAccountsList = document.getElementById("secBannedAccountsList");
+    const secContestCount = document.getElementById("secContestCount");
+    const secTryoutCount = document.getElementById("secTryoutCount");
     const secContestList = document.getElementById("secContestList");
     const secTryoutList = document.getElementById("secTryoutList");
 
@@ -2077,14 +1987,6 @@
     const rosterPlayerBadgeSelect = document.getElementById("rosterPlayerBadgeSelect");
     const clearRosterSlotBtn = document.getElementById("clearRosterSlotBtn");
     const cancelRosterEditBtn = document.getElementById("cancelRosterEditBtn");
-
-    // عناصر GEDR BOT العائم
-    const gedrBotFab = document.getElementById("gedrBotFab");
-    const gedrBotPanel = document.getElementById("gedrBotPanel");
-    const gedrBotCloseBtn = document.getElementById("gedrBotCloseBtn");
-    const gedrBotMessages = document.getElementById("gedrBotMessages");
-    const gedrBotForm = document.getElementById("gedrBotForm");
-    const gedrBotInput = document.getElementById("gedrBotInput");
 
     // أداة زخرفة الأسماء
     const rawClanNameInput = document.getElementById("rawClanNameInput");
@@ -2157,6 +2059,7 @@
 
     let presenceHeartbeatTimer = null;
     let registeredUsersSnapshot = [];
+    let bannedUsersMap = new Map();
 
     const isInAppBrowser = /Instagram|FBAN|FBAV|TikTok|Line|Snapchat/i.test(navigator.userAgent);
     if (isInAppBrowser) {
@@ -2189,7 +2092,7 @@
       setTimeout(() => nicknameInput.focus(), 60);
     }
 
-    nicknameForm.addEventListener("submit", (e) => {
+    nicknameForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!currentUser) return;
       const chosen = nicknameInput.value.trim();
@@ -2199,6 +2102,13 @@
       }
       setCustomNickname(currentUser.uid, chosen);
       nicknameModal.classList.add("hidden");
+      try {
+        await setDoc(
+          doc(db, "registered_users", currentUser.uid),
+          { displayName: chosen },
+          { merge: true }
+        );
+      } catch {}
       syncUIState();
       showToast("تم حفظ الاسم بنجاح");
     });
@@ -2283,9 +2193,28 @@
     });
 
     // ==========================================
-    // 1) نظام تتبع الأعضاء المسجلين فقط (الأخضر والأحمر)
+    // 1) نظام تتبع الأعضاء المسجلين والحظر
     // ==========================================
     const ONLINE_TIMEOUT_MS = 75 * 1000;
+
+    function formatLastSeen(userObj) {
+      const now = Date.now();
+      const lastSeenMs = userObj.lastSeen?.toMillis
+        ? userObj.lastSeen.toMillis()
+        : Number(userObj.lastSeenClient || 0);
+      if (userObj.online && now - lastSeenMs <= ONLINE_TIMEOUT_MS) {
+        return "متصل الآن 🟢";
+      }
+      if (!lastSeenMs) return "غير متوفر";
+      return "آخر ظهور: " + new Date(lastSeenMs).toLocaleString("ar");
+    }
+
+    function isAccountBanned(uid, email) {
+      if (uid && bannedUsersMap.has(uid)) return true;
+      const cleanEmail = (email || "").toLowerCase();
+      if (cleanEmail && bannedUsersMap.has(cleanEmail)) return true;
+      return false;
+    }
 
     function updatePresenceCounters() {
       const now = Date.now();
@@ -2300,16 +2229,22 @@
       totalRegisteredCountEl.textContent = String(totalUnique);
       secOnlineCount.textContent = String(activeOnline);
       secTotalUsersCount.textContent = String(totalUnique);
+      secBannedCount.textContent = String(bannedUsersMap.size);
     }
 
     async function markUserOnline(user) {
       if (!user) return;
+      const chosenName =
+        getCustomNickname(user.uid) ||
+        user.displayName ||
+        (user.email ? user.email.split("@")[0] : "مستخدم");
       try {
         await setDoc(
           doc(db, "registered_users", user.uid),
           {
             uid: user.uid,
             email: user.email || "",
+            displayName: chosenName,
             online: true,
             lastSeen: serverTimestamp(),
             lastSeenClient: Date.now()
@@ -2363,25 +2298,174 @@
       }
     });
 
+    async function banAccount(account) {
+      if (!isAdmin || !account?.uid) return;
+      if ((account.email || "").toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+        showToast("لا يمكن حظر حساب المطور");
+        return;
+      }
+      try {
+        await setDoc(doc(db, "banned_users", account.uid), {
+          uid: account.uid,
+          email: account.email || "",
+          displayName: account.displayName || "مستخدم",
+          bannedAt: serverTimestamp()
+        });
+        showToast("تم حظر الحساب من دخول الموقع");
+      } catch {
+        showToast("تعذر حظر الحساب");
+      }
+    }
+
+    async function unbanAccount(banDocId) {
+      if (!isAdmin || !banDocId) return;
+      try {
+        await deleteDoc(doc(db, "banned_users", banDocId));
+        showToast("تم إلغاء الحظر عن الحساب");
+      } catch {
+        showToast("تعذر إلغاء الحظر");
+      }
+    }
+
+    function renderAccountsAndBans() {
+      if (!isAdmin) return;
+      updatePresenceCounters();
+
+      if (registeredUsersSnapshot.length === 0) {
+        secRegisteredAccountsList.innerHTML = `<p class="empty-msg">لا توجد حسابات مسجلة حالياً.</p>`;
+      } else {
+        secRegisteredAccountsList.innerHTML = "";
+        registeredUsersSnapshot.forEach((acc) => {
+          const isSelfAdmin = (acc.email || "").toLowerCase() === ADMIN_EMAIL.toLowerCase();
+          const alreadyBanned = isAccountBanned(acc.uid, acc.email);
+
+          const row = document.createElement("div");
+          row.className = "account-row-card" + (alreadyBanned ? " banned" : "");
+
+          const meta = document.createElement("div");
+          meta.className = "account-meta";
+
+          const nameDiv = document.createElement("div");
+          nameDiv.className = "account-name";
+          nameDiv.textContent = (acc.displayName || "مستخدم") + (isSelfAdmin ? " (المطور)" : "");
+
+          const subDiv = document.createElement("div");
+          subDiv.className = "account-sub";
+          subDiv.textContent = acc.email || acc.uid || "";
+
+          const seenDiv = document.createElement("div");
+          seenDiv.className = "account-last-seen";
+          seenDiv.textContent = formatLastSeen(acc);
+
+          meta.append(nameDiv, subDiv, seenDiv);
+          row.appendChild(meta);
+
+          if (!isSelfAdmin) {
+            if (alreadyBanned) {
+              const unbanBtn = document.createElement("button");
+              unbanBtn.type = "button";
+              unbanBtn.className = "btn-unban";
+              unbanBtn.textContent = "إلغاء الحظر";
+              unbanBtn.addEventListener("click", () => unbanAccount(acc.uid));
+              row.appendChild(unbanBtn);
+            } else {
+              const banBtn = document.createElement("button");
+              banBtn.type = "button";
+              banBtn.className = "btn-danger";
+              banBtn.textContent = "حظر";
+              banBtn.addEventListener("click", () => banAccount(acc));
+              row.appendChild(banBtn);
+            }
+          }
+
+          secRegisteredAccountsList.appendChild(row);
+        });
+      }
+
+      const bannedEntries = Array.from(bannedUsersMap.entries());
+      if (bannedEntries.length === 0) {
+        secBannedAccountsList.innerHTML = `<p class="empty-msg">لا يوجد حسابات محظورة حالياً.</p>`;
+      } else {
+        secBannedAccountsList.innerHTML = "";
+        bannedEntries.forEach(([docId, bAcc]) => {
+          const row = document.createElement("div");
+          row.className = "account-row-card banned";
+
+          const meta = document.createElement("div");
+          meta.className = "account-meta";
+
+          const nameDiv = document.createElement("div");
+          nameDiv.className = "account-name";
+          nameDiv.textContent = bAcc.displayName || "حساب محظور";
+
+          const subDiv = document.createElement("div");
+          subDiv.className = "account-sub";
+          subDiv.textContent = bAcc.email || bAcc.uid || docId;
+
+          meta.append(nameDiv, subDiv);
+
+          const unbanBtn = document.createElement("button");
+          unbanBtn.type = "button";
+          unbanBtn.className = "btn-unban";
+          unbanBtn.textContent = "إلغاء الحظر";
+          unbanBtn.addEventListener("click", () => unbanAccount(docId));
+
+          row.append(meta, unbanBtn);
+          secBannedAccountsList.appendChild(row);
+        });
+      }
+    }
+
     onSnapshot(
       collection(db, "registered_users"),
       (snap) => {
-        registeredUsersSnapshot = snap.docs.map((d) => d.data());
+        registeredUsersSnapshot = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
         updatePresenceCounters();
+        renderAccountsAndBans();
       },
       () => {}
     );
 
-    setInterval(updatePresenceCounters, 15000);
+    onSnapshot(
+      collection(db, "banned_users"),
+      (snap) => {
+        const nextMap = new Map();
+        snap.docs.forEach((d) => {
+          const data = d.data() || {};
+          nextMap.set(d.id, data);
+          if (data.email) {
+            nextMap.set(String(data.email).toLowerCase(), data);
+          }
+        });
+        bannedUsersMap = nextMap;
+        updatePresenceCounters();
+        renderAccountsAndBans();
+
+        if (currentUser && !isAdmin && isAccountBanned(currentUser.uid, currentUser.email)) {
+          const bannedUid = currentUser.uid;
+          stopUserPresence();
+          markUserOffline(bannedUid).catch(() => {});
+          signOut(auth).catch(() => {});
+          showError("تم حظر حسابك من دخول بوابة GEDR CLAN.");
+        }
+      },
+      () => {}
+    );
+
+    setInterval(() => {
+      updatePresenceCounters();
+      renderAccountsAndBans();
+    }, 15000);
 
     // ==========================================
-    // 2) نظام إدارة الأمان الحصري للأدمن
+    // 2) الطلبات الواردة في إدارة الأمان للأدمن
     // ==========================================
     function renderSecuritySubmissions() {
-      secTotalSubsCount.textContent = String(latestContestSubs.length + latestTryoutSubs.length);
+      secContestCount.textContent = String(latestContestSubs.length);
+      secTryoutCount.textContent = String(latestTryoutSubs.length);
 
       if (latestContestSubs.length === 0) {
-        secContestList.innerHTML = `<p class="empty-msg" style="padding:10px;">لا توجد طلبات مسابقات حالياً.</p>`;
+        secContestList.innerHTML = `<p class="empty-msg">لا توجد طلبات مسابقات حالياً.</p>`;
       } else {
         secContestList.innerHTML = "";
         latestContestSubs.forEach((sub) => {
@@ -2413,7 +2497,7 @@
       }
 
       if (latestTryoutSubs.length === 0) {
-        secTryoutList.innerHTML = `<p class="empty-msg" style="padding:10px;">لا توجد طلبات اختبار كلان حالياً.</p>`;
+        secTryoutList.innerHTML = `<p class="empty-msg">لا توجد طلبات اختبار كلان حالياً.</p>`;
       } else {
         secTryoutList.innerHTML = "";
         latestTryoutSubs.forEach((sub) => {
@@ -2778,118 +2862,6 @@
     );
 
     // ==========================================
-    // 5) منطق البوت العائم (GEDR BOT) للمسجلين فقط
-    // ==========================================
-    function appendBotMessage(text, sender = "ai", includeGeminiButton = false) {
-      const bubble = document.createElement("div");
-      bubble.className = `bot-msg ${sender}`;
-      bubble.textContent = text;
-
-      if (includeGeminiButton) {
-        const link = document.createElement("a");
-        link.href = "https://gemini.google.com";
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.className = "bot-gemini-link";
-        link.textContent = "فتح Gemini للإجابة الشاملة ↗";
-        bubble.appendChild(document.createElement("br"));
-        bubble.appendChild(link);
-      }
-
-      gedrBotMessages.appendChild(bubble);
-      gedrBotMessages.scrollTop = gedrBotMessages.scrollHeight;
-    }
-
-    function initBotWelcomeIfNeeded() {
-      if (gedrBotMessages.children.length > 0) return;
-      appendBotMessage(
-        "أهلاً بك في GEDR BOT! أنا مساعدك الخاص ببوابة GEDR CLAN. اسألني عن شروط الكلان، المسابقات، المتصدرين، أو زخرفة الأسماء.",
-        "ai",
-        false
-      );
-    }
-
-    function getGedrBotReply(rawQuery) {
-      const q = rawQuery.toLowerCase();
-
-      if (/كلان|اختبار|انضمام|بطاقة|تغيير الاسم/.test(q)) {
-        return {
-          text: "للانضمام إلى GEDR CLAN: يجب أن يكون مستوى حسابك 60 على الأقل، وتملك بطاقة تغيير الاسم لوضع شعار الكلان (あ┋الاسم ジ)، ثم ملء استمارة «مشاركة في اختبار كلان» وإرسالها.",
-          external: false
-        };
-      }
-      if (/مسابق|بطول|روم/.test(q)) {
-        return {
-          text: "للمشاركة في المسابقات: الحد الأدنى لمستوى الحساب هو 55، مع الالتزام باللعب النظيف ونوع الجهاز المسجل والموافقة على القوانين في قسم «مشاركة في مسابقة».",
-          external: false
-        };
-      }
-      if (/متصدر|تصدر|قلوري|نقاط/.test(q)) {
-        return {
-          text: "في قسم «المتصدرين» يوجد قائمتان: متصدرو الكلان (حسب أعلى نقاط قلوري مع الأعضاء) ومتصدرو المسابقات (3 نقاط لكل فوز في مباراة مسابقة).",
-          external: false
-        };
-      }
-      if (/زخرف|شعار|اسم/.test(q)) {
-        return {
-          text: "يمكنك زخرفة اسمك بشعار الكلان الرسمي من داخل صفحة «مشاركة في اختبار كلان» عبر كتابة اسمك والضغط على تحويل الاسم ثم نسخ.",
-          external: false
-        };
-      }
-      if (/اخبار|خبر|تصويت|ملاحظ/.test(q)) {
-        return {
-          text: "يمكنك متابعة آخر الأخبار والتفاعل معها، والتصويت في الاستطلاعات المتاحة، أو إرسال ملاحظتك للإدارة عبر زر «تقديم ملاحظة» بالأعلى.",
-          external: false
-        };
-      }
-      if (/واتساب|قروب|مجموع|تواصل/.test(q)) {
-        return {
-          text: "يمكنك الانضمام لمجموعة GEDR GROUP من شاشة الدخول، أو إرسال استمارات المسابقة والاختبار مباشرة للإدارة عبر واتساب أو Gmail بعد تعبئة الاستمارة.",
-          external: false
-        };
-      }
-
-      return {
-        text: "أنا مخصص فقط للإجابة عن موقع GEDR CLAN وقوانينه ومسابقاته. للأسئلة العامة أو المواضيع الأخرى، يمكنك التوجه إلى Gemini:",
-        external: true
-      };
-    }
-
-    gedrBotFab.addEventListener("click", () => {
-      if (!currentUser) return;
-      initBotWelcomeIfNeeded();
-      gedrBotPanel.classList.toggle("hidden");
-      if (!gedrBotPanel.classList.contains("hidden")) {
-        setTimeout(() => gedrBotInput.focus(), 50);
-      }
-    });
-
-    gedrBotCloseBtn.addEventListener("click", () => {
-      gedrBotPanel.classList.add("hidden");
-    });
-
-    document.querySelectorAll(".bot-chip[data-bot-q]").forEach((chip) => {
-      chip.addEventListener("click", () => {
-        if (!currentUser) return;
-        const question = chip.dataset.botQ;
-        appendBotMessage(question, "user", false);
-        const res = getGedrBotReply(question);
-        appendBotMessage(res.text, "ai", res.external);
-      });
-    });
-
-    gedrBotForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      if (!currentUser) return;
-      const q = gedrBotInput.value.trim();
-      if (!q) return;
-      appendBotMessage(q, "user", false);
-      gedrBotInput.value = "";
-      const res = getGedrBotReply(q);
-      appendBotMessage(res.text, "ai", res.external);
-    });
-
-    // ==========================================
     // روابط الإرسال المباشر ومعالجة الصور
     // ==========================================
     function buildSendLinks(subject, textBody) {
@@ -2980,7 +2952,11 @@
     async function handleGoogleSignIn() {
       clearError();
       try {
-        await signInWithPopup(auth, provider);
+        const cred = await signInWithPopup(auth, provider);
+        if (cred?.user && isAccountBanned(cred.user.uid, cred.user.email)) {
+          await signOut(auth).catch(() => {});
+          showError("تم حظر هذا الحساب من دخول بوابة GEDR CLAN.");
+        }
       } catch (err) {
         if (err.code === "auth/popup-blocked" || isInAppBrowser) {
           try {
@@ -3013,7 +2989,6 @@
       isGuest = false;
       localStorage.removeItem("gedr_guest_mode");
       nicknameModal.classList.add("hidden");
-      gedrBotPanel.classList.add("hidden");
       goHome();
       if (auth.currentUser) {
         await signOut(auth).catch(() => {});
@@ -3024,6 +2999,19 @@
     function syncUIState() {
       const email = currentUser?.email?.toLowerCase() || "";
       isAdmin = Boolean(currentUser && email === ADMIN_EMAIL.toLowerCase());
+
+      if (currentUser && !isAdmin && isAccountBanned(currentUser.uid, currentUser.email)) {
+        const bannedUid = currentUser.uid;
+        currentUser = null;
+        stopUserPresence();
+        stopSecurityListeners();
+        markUserOffline(bannedUid).catch(() => {});
+        signOut(auth).catch(() => {});
+        appView.classList.add("hidden");
+        loginView.classList.remove("hidden");
+        showError("تم حظر حسابك من دخول بوابة GEDR CLAN.");
+        return;
+      }
 
       if (currentUser || isGuest) {
         loginView.classList.add("hidden");
@@ -3036,7 +3024,6 @@
           userEmailSub.textContent = currentUser.email || "";
           userEmailSub.classList.remove("hidden");
           changeNameBtn.classList.remove("hidden");
-          gedrBotFab.classList.remove("hidden");
 
           if (!savedName) {
             openNicknameModal(false);
@@ -3046,8 +3033,6 @@
           userEmailSub.textContent = "";
           userEmailSub.classList.add("hidden");
           changeNameBtn.classList.add("hidden");
-          gedrBotFab.classList.add("hidden");
-          gedrBotPanel.classList.add("hidden");
         }
 
         openSecurityBtn.classList.toggle("hidden", !isAdmin);
@@ -3056,6 +3041,7 @@
 
         if (isAdmin) {
           startSecurityListeners();
+          renderAccountsAndBans();
         } else {
           stopSecurityListeners();
           if (!document.getElementById("securityPage").classList.contains("hidden")) {
@@ -3068,8 +3054,6 @@
         openSecurityBtn.classList.add("hidden");
         adminNewsControls.classList.add("hidden");
         adminPollControls.classList.add("hidden");
-        gedrBotFab.classList.add("hidden");
-        gedrBotPanel.classList.add("hidden");
         stopSecurityListeners();
       }
 
@@ -3082,6 +3066,17 @@
     onAuthStateChanged(auth, (user) => {
       currentUser = user;
       if (user) {
+        const userIsAdmin = (user.email || "").toLowerCase() === ADMIN_EMAIL.toLowerCase();
+        if (!userIsAdmin && isAccountBanned(user.uid, user.email)) {
+          stopUserPresence();
+          markUserOffline(user.uid).catch(() => {});
+          signOut(auth).catch(() => {});
+          currentUser = null;
+          appView.classList.add("hidden");
+          loginView.classList.remove("hidden");
+          showError("تم حظر حسابك من دخول بوابة GEDR CLAN.");
+          return;
+        }
         isGuest = false;
         localStorage.removeItem("gedr_guest_mode");
         startUserPresence(user);
@@ -3596,3 +3591,4 @@
   </script>
 </body>
 </html>
+جج
