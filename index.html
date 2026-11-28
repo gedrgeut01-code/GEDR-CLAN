@@ -13,9 +13,9 @@
     :root {
       color-scheme: dark only;
       --bg: #060609;
-      --surface: rgba(18, 18, 26, 0.86);
+      --surface: rgba(18, 18, 26, 0.88);
       --surface-solid: #13131c;
-      --surface-2: rgba(26, 26, 38, 0.92);
+      --surface-2: rgba(26, 26, 38, 0.94);
       --gold: #e5b83b;
       --gold-bright: #ffd966;
       --gold-deep: #9c6f0e;
@@ -23,7 +23,7 @@
       --gold-border: rgba(245, 203, 76, 0.48);
       --text: #ffffff;
       --muted: #b4b6c4;
-      --danger-bg: rgba(59, 18, 22, 0.92);
+      --danger-bg: rgba(59, 18, 22, 0.94);
       --danger-border: #ef4444;
       --danger-text: #fecaca;
       --border: rgba(255, 255, 255, 0.14);
@@ -45,7 +45,6 @@
       overflow-x: hidden;
     }
 
-    /* خلفية حية شبكية مع توهج ذهبي */
     body::before {
       content: "";
       position: fixed;
@@ -60,6 +59,38 @@
       background-size: 100% 100%, 100% 100%, 34px 34px, 34px 34px;
     }
 
+    /* شرارات ذهبية عائمة ناعمة */
+    .ambient-sparks {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .spark {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #ffe066;
+      box-shadow: 0 0 10px #f5cb4c;
+      opacity: 0.35;
+      animation: sparkFloat 12s ease-in-out infinite;
+    }
+
+    .spark:nth-child(1) { top: 14%; left: 16%; animation-delay: 0s; }
+    .spark:nth-child(2) { top: 28%; left: 78%; animation-delay: 2.2s; }
+    .spark:nth-child(3) { top: 62%; left: 22%; animation-delay: 4.1s; }
+    .spark:nth-child(4) { top: 76%; left: 72%; animation-delay: 6.4s; }
+    .spark:nth-child(5) { top: 44%; left: 50%; animation-delay: 8.3s; }
+    .spark:nth-child(6) { top: 88%; left: 42%; animation-delay: 10.1s; }
+
+    @keyframes sparkFloat {
+      0%, 100% { transform: translateY(0px) scale(0.85); opacity: 0.25; }
+      50% { transform: translateY(-18px) scale(1.25); opacity: 0.8; }
+    }
+
     .hidden {
       display: none !important;
     }
@@ -72,9 +103,31 @@
       padding: 18px 16px 64px;
     }
 
-    /* ==========================================
-       شاشة تسجيل الدخول الملكية
-       ========================================== */
+    /* شاشة التحميل السريعة قبل التأكد من الحظر */
+    .boot-splash {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: #060609;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .boot-spinner {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 3px solid rgba(245, 203, 76, 0.22);
+      border-top-color: #fde047;
+      animation: spinClockwise 0.9s linear infinite;
+    }
+
+    /* شاشة تسجيل الدخول الملكية */
     .login-screen {
       position: relative;
       z-index: 1;
@@ -91,7 +144,7 @@
       position: relative;
       width: 100%;
       max-width: 470px;
-      background: linear-gradient(165deg, rgba(24, 24, 35, 0.92), rgba(10, 10, 15, 0.96));
+      background: linear-gradient(165deg, rgba(24, 24, 35, 0.93), rgba(10, 10, 15, 0.97));
       border: 1.5px solid var(--gold-border);
       border-radius: 26px;
       padding: 32px 22px 26px;
@@ -104,7 +157,6 @@
       overflow: hidden;
     }
 
-    /* زخارف الزوايا الملكية */
     .corner-ornament {
       position: absolute;
       width: 24px;
@@ -119,7 +171,6 @@
     .corner-ornament.bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; border-radius: 0 0 0 6px; }
     .corner-ornament.br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; border-radius: 0 0 6px 0; }
 
-    /* هالة الشعار المتطورة */
     .avatar-orbit-stage {
       position: relative;
       width: 184px;
@@ -269,7 +320,6 @@
       font-size: 0.94rem;
     }
 
-    /* إحصائيات حية في شاشة الدخول */
     .login-live-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -310,7 +360,6 @@
       gap: 11px;
     }
 
-    /* الأزرار العصرية */
     .btn {
       position: relative;
       overflow: hidden;
@@ -327,13 +376,9 @@
       text-decoration: none;
     }
 
-    .btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
+    .btn:hover:not(:disabled) { transform: translateY(-1px); }
+    .btn:active:not(:disabled) { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
     .btn-google-white {
       background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%) !important;
@@ -362,9 +407,7 @@
       border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
 
-    .btn-dark:hover {
-      border-color: var(--gold-border) !important;
-    }
+    .btn-dark:hover:not(:disabled) { border-color: var(--gold-border) !important; }
 
     .btn-outline-gold {
       background: rgba(229, 184, 59, 0.14) !important;
@@ -424,17 +467,15 @@
       margin-top: 12px;
       width: 100%;
       background-color: var(--danger-bg) !important;
-      border: 1px solid var(--danger-border) !important;
+      border: 1.5px solid var(--danger-border) !important;
       color: var(--danger-text) !important;
-      padding: 11px 14px;
+      padding: 12px 14px;
       border-radius: 12px;
-      font-size: 0.88rem;
-      font-weight: 700;
+      font-size: 0.9rem;
+      font-weight: 800;
     }
 
-    /* ==========================================
-       الشريط العلوي وبطاقة هوية العضو
-       ========================================== */
+    /* الشريط العلوي وبطاقة هوية العضو */
     .user-bar {
       position: relative;
       background: linear-gradient(145deg, rgba(22, 22, 32, 0.94), rgba(12, 12, 18, 0.96)) !important;
@@ -571,7 +612,6 @@
       gap: 8px;
     }
 
-    /* شريط التنبيه العاجل / آخر خبر */
     .announcement-ribbon {
       background: linear-gradient(90deg, rgba(38, 29, 8, 0.95), rgba(22, 22, 32, 0.95), rgba(38, 29, 8, 0.95));
       border: 1px solid var(--gold-border);
@@ -606,9 +646,7 @@
       text-overflow: ellipsis;
     }
 
-    /* ==========================================
-       تخطيط وترتيب الخانات العصري المزخرف
-       ========================================== */
+    /* تخطيط وترتيب الخانات العصري المزخرف */
     .hub-layout {
       display: flex;
       flex-direction: column;
@@ -639,7 +677,6 @@
       gap: 14px;
     }
 
-    /* بطاقة عصريّة مزخرفة */
     .fancy-tile {
       position: relative;
       background: linear-gradient(155deg, rgba(24, 24, 36, 0.92), rgba(12, 12, 18, 0.96)) !important;
@@ -770,7 +807,6 @@
       font-size: 0.78rem;
     }
 
-    /* رؤوس الصفحات الفرعية واللوحات */
     .subpage-header {
       display: flex;
       align-items: center;
@@ -837,9 +873,7 @@
       overflow-y: auto;
     }
 
-    .rules-box strong {
-      color: #fde047 !important;
-    }
+    .rules-box strong { color: #fde047 !important; }
 
     .send-channels-box {
       background-color: #101620 !important;
@@ -874,7 +908,6 @@
       margin-bottom: 14px;
     }
 
-    /* مربع زخرفة الأسماء */
     .decorator-box {
       background: linear-gradient(145deg, rgba(22, 20, 14, 0.95), rgba(14, 14, 20, 0.95)) !important;
       border: 1.5px solid var(--gold-border) !important;
@@ -889,7 +922,8 @@
       margin-top: 8px;
     }
 
-    .decorator-row input[type="text"] {
+    .decorator-row input[type="text"],
+    .decorator-row input[type="email"] {
       flex: 1;
     }
 
@@ -915,9 +949,7 @@
       direction: ltr;
     }
 
-    .form-group {
-      margin-bottom: 15px;
-    }
+    .form-group { margin-bottom: 15px; }
 
     label.field-label {
       display: block;
@@ -957,7 +989,6 @@
       resize: vertical;
     }
 
-    /* البطولات القادمة وقاعة الأساطير */
     .tournament-card {
       background: linear-gradient(155deg, rgba(26, 24, 18, 0.94), rgba(14, 14, 21, 0.96));
       border: 1.5px solid rgba(245, 203, 76, 0.42);
@@ -1022,7 +1053,6 @@
       color: #d4d6e2;
     }
 
-    /* منصة التتويج والجدول للمتصدرين */
     .podium-wrapper {
       background: radial-gradient(circle at top, rgba(229, 184, 59, 0.2), #0b0b10 74%);
       border: 1.5px solid var(--gold-border);
@@ -1176,10 +1206,7 @@
       margin-top: 10px;
     }
 
-    .admin-rank-row input {
-      padding: 8px 10px;
-      font-size: 0.88rem;
-    }
+    .admin-rank-row input { padding: 8px 10px; font-size: 0.88rem; }
 
     .roster-box {
       background-color: #0e0e15 !important;
@@ -1197,7 +1224,6 @@
       border: 1px solid rgba(255, 255, 255, 0.16);
     }
 
-    /* إدارة الأمان */
     .security-stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -1262,17 +1288,8 @@
       background-color: #231014;
     }
 
-    .account-meta {
-      min-width: 0;
-      flex: 1;
-      line-height: 1.5;
-    }
-
-    .account-name {
-      font-weight: 800;
-      color: #ffffff;
-      word-break: break-word;
-    }
+    .account-meta { min-width: 0; flex: 1; line-height: 1.5; }
+    .account-name { font-weight: 800; color: #ffffff; word-break: break-word; }
 
     .account-sub {
       font-size: 0.78rem;
@@ -1303,11 +1320,7 @@
       font-size: 0.86rem;
     }
 
-    .poll-options-boxes {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
+    .poll-options-boxes { display: grid; grid-template-columns: 1fr; gap: 10px; }
 
     .poll-option-box {
       background-color: #0e0e15 !important;
@@ -1355,18 +1368,8 @@
       margin-bottom: 8px;
     }
 
-    .admin-post-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-
-    .post-title {
-      font-size: 1.08rem;
-      font-weight: 800;
-      color: #fde047 !important;
-    }
+    .admin-post-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .post-title { font-size: 1.08rem; font-weight: 800; color: #fde047 !important; }
 
     .post-image {
       width: 100%;
@@ -1400,16 +1403,13 @@
       gap: 8px;
     }
 
-    .reaction-btn:hover,
+    .reaction-btn:hover:not(:disabled),
     .reaction-btn.active {
       border-color: #f5cb4c !important;
       background-color: rgba(229, 184, 59, 0.18) !important;
     }
 
-    .reaction-count {
-      color: #fde047 !important;
-      font-weight: 800;
-    }
+    .reaction-count { color: #fde047 !important; font-weight: 800; }
 
     .poll-expiry-bar {
       display: flex;
@@ -1439,18 +1439,8 @@
       gap: 10px;
     }
 
-    .poll-edit-panel select {
-      width: auto;
-      min-width: 150px;
-      padding: 7px 10px;
-      font-size: 0.88rem;
-    }
-
-    .post-date {
-      font-size: 0.78rem;
-      color: #b4b6c4 !important;
-      margin-top: 8px;
-    }
+    .poll-edit-panel select { width: auto; min-width: 150px; padding: 7px 10px; font-size: 0.88rem; }
+    .post-date { font-size: 0.78rem; color: #b4b6c4 !important; margin-top: 8px; }
 
     .poll-option {
       width: 100%;
@@ -1475,10 +1465,7 @@
       background-color: rgba(229, 184, 59, 0.18) !important;
     }
 
-    .poll-option:disabled {
-      opacity: 0.85;
-      cursor: default;
-    }
+    .poll-option:disabled { opacity: 0.85; cursor: default; }
 
     .empty-msg {
       text-align: center;
@@ -1527,59 +1514,46 @@
       box-shadow: 0 18px 46px rgba(0, 0, 0, 0.78);
     }
 
-    .modal-title {
-      font-size: 1.15rem;
-      font-weight: 900;
-      color: #fde047 !important;
-      margin-bottom: 10px;
-    }
-
-    .modal-text {
-      font-size: 0.95rem;
-      color: #ffffff !important;
-      margin-bottom: 16px;
-      line-height: 1.7;
-    }
-
-    .modal-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    .modal-title { font-size: 1.15rem; font-weight: 900; color: #fde047 !important; margin-bottom: 10px; }
+    .modal-text { font-size: 0.95rem; color: #ffffff !important; margin-bottom: 16px; line-height: 1.7; }
+    .modal-actions { display: flex; flex-direction: column; gap: 10px; }
 
     @media (max-width: 560px) {
       .grid-2-modern,
       .send-channels-grid,
-      .hero-mini-leaders {
-        grid-template-columns: 1fr;
-      }
-      .decorator-row {
-        flex-direction: column;
-      }
-      .admin-rank-row {
-        grid-template-columns: 1fr;
-      }
-      .podium-player-name {
-        font-size: 0.72rem;
-      }
+      .hero-mini-leaders { grid-template-columns: 1fr; }
+      .decorator-row { flex-direction: column; }
+      .admin-rank-row { grid-template-columns: 1fr; }
+      .podium-player-name { font-size: 0.72rem; }
       .security-stats-grid,
-      .hall-stats-grid {
-        grid-template-columns: 1fr;
-      }
+      .hall-stats-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+  <div class="ambient-sparks" aria-hidden="true">
+    <span class="spark"></span>
+    <span class="spark"></span>
+    <span class="spark"></span>
+    <span class="spark"></span>
+    <span class="spark"></span>
+    <span class="spark"></span>
+  </div>
+
+  <!-- شاشة التحميل السريعة للتحقق من حالة الحساب والحظر -->
+  <div id="bootSplash" class="boot-splash">
+    <div class="boot-spinner"></div>
+    <p style="color:#fde047; font-weight:800; font-size:0.95rem;">جاري التحقق من أمان بوابة GEDR CLAN...</p>
+  </div>
+
   <div id="inAppWarning" class="container hidden" style="padding-bottom: 0;">
     <div class="notice-banner">
       أنت تتصفح من متصفح تطبيق داخلي قد يمنع تسجيل الدخول عبر Google. للحصول على أفضل تجربة، افتح الرابط مباشرة في <strong>Google Chrome</strong>.
     </div>
   </div>
 
-  <!-- ==========================================
-       شاشة تسجيل الدخول الملكية
-       ========================================== -->
-  <section id="loginView" class="login-screen">
+  <!-- شاشة تسجيل الدخول الملكية -->
+  <section id="loginView" class="login-screen hidden">
     <div class="login-glass-card">
       <span class="corner-ornament tl"></span>
       <span class="corner-ornament tr"></span>
@@ -1628,7 +1602,6 @@
       <div class="brand-ornament-line">❖ بوابة النخبة والبطولات ❖</div>
       <p class="brand-sub">ساحة التحدي الرسمية — بطولات، اختبارات كلان، متصدرون، أخبار وتصويتات حية.</p>
 
-      <!-- إحصائيات حية قبل الدخول -->
       <div class="login-live-stats">
         <div class="login-stat-pill">
           <span class="login-stat-val"><span class="dot-green"></span><span id="loginOnlineCount">0</span></span>
@@ -1669,11 +1642,8 @@
     </div>
   </section>
 
-  <!-- ==========================================
-       البوابة الرئيسية بعد الدخول
-       ========================================== -->
+  <!-- البوابة الرئيسية بعد الدخول -->
   <main id="appView" class="container hidden">
-    <!-- بطاقة هوية العضو + الشريط العلوي -->
     <div class="user-bar">
       <div class="user-meta">
         <div class="user-mini-avatar">
@@ -1709,14 +1679,12 @@
       </div>
     </div>
 
-    <!-- شريط الإعلان العاجل / آخر خبر -->
     <div id="topAnnouncementBar" class="announcement-ribbon">
       <span class="announcement-badge">✦ عاجل</span>
       <span id="topAnnouncementText" class="announcement-text">مرحباً بكم في بوابة GEDR CLAN الرسمية — تابعوا البطولات والمتصدرين!</span>
       <span style="color:#fde047; font-size:0.82rem; font-weight:800;">عرض ←</span>
     </div>
 
-    <!-- القائمة الرئيسية المرتبة والعصرية -->
     <section id="homePage" class="hub-layout">
       <div class="section-divider-label">✦ منصة الصدارة والتتويج</div>
       <button class="fancy-tile hero-tile" type="button" data-page="leaderboardMenuPage">
@@ -1818,9 +1786,7 @@
       </div>
     </section>
 
-    <!-- ==========================================
-         صفحة إدارة الأمان (حصرية للمطور فقط)
-         ========================================== -->
+    <!-- صفحة إدارة الأمان -->
     <section id="securityPage" class="hidden">
       <div class="subpage-header">
         <h2 class="subpage-title">🛡️ إدارة الأمان والتحكم</h2>
@@ -1831,7 +1797,7 @@
         <div class="security-status-card">
           <strong>حالة الحماية الصارمة:</strong><br />
           • حساب المطور المصرح له حصراً: <span style="direction:ltr; display:inline-block; color:#fde047; font-weight:800;">gedrgeut01@gmail.com</span><br />
-          • أي حساب Gmail يتم حظره يُمنع فوراً من الدخول أو القراءة أو التفاعل من أي متصفح أو جهاز.
+          • أي حساب Gmail محظور يتم طرده فوراً ومنعه من الدخول أو القراءة أو التفاعل أو الدخول كزائر من نفس الجهاز.
         </div>
 
         <div class="security-stats-grid">
@@ -1849,7 +1815,10 @@
           </div>
         </div>
 
-        <!-- تحكم سريع للمطور في البوابة -->
+        <div style="margin-bottom:14px;">
+          <button id="copyAdminSummaryBtn" class="btn btn-outline-gold btn-sm" type="button">📋 نسخ ملخص الإحصائيات</button>
+        </div>
+
         <div class="security-section-box">
           <strong style="color:#fde047;">⚙️ إعدادات البوابة السريعة (للمطور):</strong>
           <form id="portalControlForm" style="margin-top:10px;">
@@ -1877,24 +1846,29 @@
           </form>
         </div>
 
-        <!-- حظر حساب Gmail يدوياً -->
         <div class="security-section-box">
           <strong style="color:#fca5a5;">⛔ حظر حساب Gmail مباشرة (حتى قبل دخوله):</strong>
-          <form id="manualBanForm" class="decorator-row" style="margin-top:10px;">
-            <input id="manualBanEmailInput" type="email" placeholder="أدخل بريد Gmail المراد حظره (example@gmail.com)" required style="direction:ltr; text-align:right;" />
-            <button class="btn btn-danger" type="submit">حظر البريد نهائياً</button>
+          <form id="manualBanForm" style="margin-top:10px;">
+            <div class="decorator-row" style="margin-top:0;">
+              <input id="manualBanEmailInput" type="email" placeholder="بريد Gmail المراد حظره (example@gmail.com)" required style="direction:ltr; text-align:right;" />
+              <button class="btn btn-danger" type="submit">حظر نهائياً</button>
+            </div>
+            <div class="form-group" style="margin-top:8px; margin-bottom:0;">
+              <input id="manualBanReasonInput" type="text" placeholder="سبب الحظر (اختياري)" />
+            </div>
           </form>
         </div>
 
-        <!-- الحسابات المسجلة -->
         <div class="security-section-box">
-          <strong style="color:#fde047;">👥 الحسابات المسجلة (الاسم، البريد، وآخر ظهور):</strong>
+          <strong style="color:#fde047;">👥 الحسابات المسجلة:</strong>
+          <div class="form-group" style="margin-top:8px; margin-bottom:8px;">
+            <input id="searchAccountsInput" type="text" placeholder="بحث بالاسم أو البريد الإلكتروني..." />
+          </div>
           <div id="secRegisteredAccountsList">
             <p class="empty-msg">جاري تحميل الحسابات المسجلة...</p>
           </div>
         </div>
 
-        <!-- قائمة المحظورين -->
         <div class="security-section-box">
           <strong style="color:#fca5a5;">🚫 قائمة حسابات Gmail المحظورة:</strong>
           <div id="secBannedAccountsList">
@@ -1902,7 +1876,6 @@
           </div>
         </div>
 
-        <!-- الطلبات الواردة -->
         <div class="security-section-box">
           <strong style="color:#fde047;">🏆 طلبات المسابقات الواردة (<span id="secContestCount">0</span>):</strong>
           <div id="secContestList">
@@ -1919,9 +1892,7 @@
       </div>
     </section>
 
-    <!-- ==========================================
-         صفحة البطولات والمباريات القادمة (يتحكم بها المطور)
-         ========================================== -->
+    <!-- صفحة البطولات والمباريات القادمة -->
     <section id="tournamentsPage" class="hidden">
       <div class="subpage-header">
         <h2 class="subpage-title">⚔️ البطولات والمباريات القادمة</h2>
@@ -1967,6 +1938,10 @@
               </select>
             </div>
           </div>
+          <div class="form-group">
+            <label class="field-label" for="tourNotesInput">شروط أو ملاحظات الروم (اختياري):</label>
+            <input id="tourNotesInput" type="text" placeholder="مثال: ممنوع القنابل / الحضور قبل الموعد بـ 10 دقائق" />
+          </div>
           <button class="btn btn-gold" type="submit">نشر البطولة</button>
         </form>
       </div>
@@ -1976,9 +1951,7 @@
       </div>
     </section>
 
-    <!-- ==========================================
-         صفحة قاعة الأساطير والإنجازات (يتحكم بها المطور)
-         ========================================== -->
+    <!-- صفحة قاعة الأساطير والإنجازات -->
     <section id="hallOfFamePage" class="hidden">
       <div class="subpage-header">
         <h2 class="subpage-title">👑 قاعة الأساطير والإنجازات</h2>
@@ -2042,9 +2015,7 @@
       </div>
     </section>
 
-    <!-- ==========================================
-         صفحة اختيار نوع المتصدرين
-         ========================================== -->
+    <!-- صفحة اختيار نوع المتصدرين -->
     <section id="leaderboardMenuPage" class="hidden">
       <div class="subpage-header">
         <h2 class="subpage-title">🥇 المتصدرين</h2>
@@ -2287,6 +2258,8 @@
         التسجيل في المسابقات مغلق حالياً بقرار من إدارة الكلان — تابع آخر الأخبار لمعرفة موعد الفتح القادم.
       </div>
 
+      <div id="contestLastSubBanner" class="notice-banner hidden"></div>
+
       <div class="panel">
         <form id="contestForm">
           <div class="form-group">
@@ -2356,18 +2329,9 @@
           <strong style="color:#fde047;">إرسال الاستمارة مباشرة إلى الإدارة:</strong>
           <div class="send-channels-grid">
             <a id="contestWhatsappLink" class="btn btn-whatsapp btn-sm" target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
-                <path d="M20.52 3.48A11.86 11.86 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.15 1.6 5.95L0 24l6.33-1.66a11.86 11.86 0 0 0 5.73 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.45-8.42zM12.07 21.8h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.76.99 1-3.66-.24-.38a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.89 9.9-9.89 2.64 0 5.13 1.03 7 2.9a9.82 9.82 0 0 1 2.9 7c0 5.46-4.44 9.89-9.89 9.89zm5.43-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35z"/>
-              </svg>
               <span>التواصل عبر واتساب</span>
             </a>
             <a id="contestGmailLink" class="btn btn-gmail btn-sm">
-              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-                <path fill="#4285F4" d="M2 6.5v11c0 .83.67 1.5 1.5 1.5H6v-8.5l6 4.5 6-4.5V19h2.5c.83 0 1.5-.67 1.5-1.5v-11c0-1.25-1.43-1.96-2.42-1.2L12 11 4.42 5.3C3.43 4.54 2 5.25 2 6.5z"/>
-                <path fill="#EA4335" d="M18 10.5V19h2.5c.83 0 1.5-.67 1.5-1.5v-11c0-1.25-1.43-1.96-2.42-1.2L18 6.5v4z"/>
-                <path fill="#34A853" d="M2 6.5v11c0 .83.67 1.5 1.5 1.5H6v-8.5L2 7.5v-1z"/>
-                <path fill="#FBBC05" d="M18 6.5l-6 4.5-6-4.5L4.42 5.3 12 11l7.58-5.7L18 6.5z"/>
-              </svg>
               <span>التواصل عبر الجيمايل</span>
             </a>
           </div>
@@ -2386,11 +2350,12 @@
         اختبارات الانضمام للكلان مغلقة حالياً بقرار من الإدارة — تابع آخر الأخبار لمعرفة موعد فتح التجنيد.
       </div>
 
+      <div id="tryoutLastSubBanner" class="notice-banner hidden"></div>
+
       <div class="warning-box">
         تحذير: إذا لم تكن تملك بطاقة تغيير الاسم قد يتم رفضك
       </div>
 
-      <!-- أداة زخرفة الأسماء بصيغة あ┋nameㅤジ -->
       <div class="decorator-box">
         <label class="field-label" for="rawClanNameInput" style="color:#fde047 !important; margin-bottom:2px;">
           ✨ زخرفة الأسماء (شعار الكلان الرسمي):
@@ -2405,7 +2370,6 @@
         </div>
       </div>
 
-      <!-- خيار عرض أعضاء الكلان (55 خانة) -->
       <div class="roster-box">
         <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;">
           <button id="toggleRosterBtn" class="btn btn-outline-gold btn-sm" type="button" style="width:100%;">
@@ -2488,18 +2452,9 @@
           <strong style="color:#fde047;">إرسال الاستمارة مباشرة إلى الإدارة:</strong>
           <div class="send-channels-grid">
             <a id="tryoutWhatsappLink" class="btn btn-whatsapp btn-sm" target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
-                <path d="M20.52 3.48A11.86 11.86 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.15 1.6 5.95L0 24l6.33-1.66a11.86 11.86 0 0 0 5.73 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.45-8.42zM12.07 21.8h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.76.99 1-3.66-.24-.38a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.89 9.9-9.89 2.64 0 5.13 1.03 7 2.9a9.82 9.82 0 0 1 2.9 7c0 5.46-4.44 9.89-9.89 9.89zm5.43-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35z"/>
-              </svg>
               <span>التواصل عبر واتساب</span>
             </a>
             <a id="tryoutGmailLink" class="btn btn-gmail btn-sm">
-              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-                <path fill="#4285F4" d="M2 6.5v11c0 .83.67 1.5 1.5 1.5H6v-8.5l6 4.5 6-4.5V19h2.5c.83 0 1.5-.67 1.5-1.5v-11c0-1.25-1.43-1.96-2.42-1.2L12 11 4.42 5.3C3.43 4.54 2 5.25 2 6.5z"/>
-                <path fill="#EA4335" d="M18 10.5V19h2.5c.83 0 1.5-.67 1.5-1.5v-11c0-1.25-1.43-1.96-2.42-1.2L18 6.5v4z"/>
-                <path fill="#34A853" d="M2 6.5v11c0 .83.67 1.5 1.5 1.5H6v-8.5L2 7.5v-1z"/>
-                <path fill="#FBBC05" d="M18 6.5l-6 4.5-6-4.5L4.42 5.3 12 11l7.58-5.7L18 6.5z"/>
-              </svg>
               <span>التواصل عبر الجيمايل</span>
             </a>
           </div>
@@ -2590,6 +2545,7 @@
       deleteDoc,
       doc,
       setDoc,
+      getDoc,
       onSnapshot,
       query,
       orderBy,
@@ -2601,6 +2557,7 @@
     const ADMIN_EMAIL = "gedrgeut01@gmail.com";
     const ADMIN_WHATSAPP = "213784697227";
     const LOGO_IMAGE_FILE = "IMG_20261112_133428_146.png";
+    const DEVICE_BAN_FLAG = "gedr_device_gmail_banned";
 
     const LOGO_CANDIDATES = [
       `https://gedrgeut01-code.github.io/GEDR-CLAN/${LOGO_IMAGE_FILE}`,
@@ -2661,6 +2618,7 @@
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
 
+    const bootSplash = document.getElementById("bootSplash");
     const inAppWarning = document.getElementById("inAppWarning");
     const loginView = document.getElementById("loginView");
     const appView = document.getElementById("appView");
@@ -2715,7 +2673,6 @@
     const toggleRulesBtn = document.getElementById("toggleRulesBtn");
     const rulesContent = document.getElementById("rulesContent");
 
-    // عناصر إدارة الأمان
     const secOnlineCount = document.getElementById("secOnlineCount");
     const secTotalUsersCount = document.getElementById("secTotalUsersCount");
     const secBannedCount = document.getElementById("secBannedCount");
@@ -2725,8 +2682,8 @@
     const secTryoutCount = document.getElementById("secTryoutCount");
     const secContestList = document.getElementById("secContestList");
     const secTryoutList = document.getElementById("secTryoutList");
+    const searchAccountsInput = document.getElementById("searchAccountsInput");
 
-    // عناصر المتصدرين
     const clanPodiumStage = document.getElementById("clanPodiumStage");
     const clanLeaderboardTableBody = document.getElementById("clanLeaderboardTableBody");
     const adminClanLeaderboardEditor = document.getElementById("adminClanLeaderboardEditor");
@@ -2737,7 +2694,6 @@
     const adminContestLeaderboardEditor = document.getElementById("adminContestLeaderboardEditor");
     const adminContestRankRows = document.getElementById("adminContestRankRows");
 
-    // عناصر قائمة أعضاء الكلان (55 خانة)
     const toggleRosterBtn = document.getElementById("toggleRosterBtn");
     const rosterOccupiedCount = document.getElementById("rosterOccupiedCount");
     const clanRosterContent = document.getElementById("clanRosterContent");
@@ -2751,7 +2707,6 @@
     const clearRosterSlotBtn = document.getElementById("clearRosterSlotBtn");
     const cancelRosterEditBtn = document.getElementById("cancelRosterEditBtn");
 
-    // عناصر البطولات وقاعة الأساطير
     const adminTournamentControls = document.getElementById("adminTournamentControls");
     const toggleCreateTournamentBtn = document.getElementById("toggleCreateTournamentBtn");
     const createTournamentForm = document.getElementById("createTournamentForm");
@@ -2763,7 +2718,6 @@
     const hallWinRateStat = document.getElementById("hallWinRateStat");
     const achievementsList = document.getElementById("achievementsList");
 
-    // أداة زخرفة الأسماء بصيغة あ┋nameㅤジ
     const rawClanNameInput = document.getElementById("rawClanNameInput");
     const convertNameBtn = document.getElementById("convertNameBtn");
     const decoratedResultWrap = document.getElementById("decoratedResultWrap");
@@ -2864,15 +2818,15 @@
       inAppWarning.classList.remove("hidden");
     }
 
+    function hideBootSplash() {
+      bootSplash.classList.add("hidden");
+    }
+
     function showToast(msg) {
       toastEl.textContent = msg;
       toastEl.classList.remove("hidden");
       clearTimeout(showToast._t);
       showToast._t = setTimeout(() => toastEl.classList.add("hidden"), 2800);
-    }
-
-    function normalizeEmailKey(email) {
-      return String(email || "").trim().toLowerCase().replace(/[^a-z0-9@._-]/g, "_");
     }
 
     function getCustomNickname(uid) {
@@ -2952,6 +2906,68 @@
       openPage("newsPage");
     });
 
+    function showError(msg) {
+      authError.textContent = msg;
+      authError.classList.remove("hidden");
+    }
+
+    function clearError() {
+      authError.textContent = "";
+      authError.classList.add("hidden");
+    }
+
+    // فحص الحظر المباشر من السيرفر عبر getDoc قبل فتح البوابة
+    async function checkBanDirectFromServer(user) {
+      if (!user) return false;
+      const email = String(user.email || "").trim().toLowerCase();
+      if (email === ADMIN_EMAIL.toLowerCase()) return false;
+
+      try {
+        if (email) {
+          const emailBanSnap = await getDoc(doc(db, "banned_users", email));
+          if (emailBanSnap.exists()) return true;
+        }
+        if (user.uid) {
+          const uidBanSnap = await getDoc(doc(db, "banned_users", user.uid));
+          if (uidBanSnap.exists()) return true;
+        }
+      } catch {
+        // إذا رفض Firestore القراءة بسبب قاعدة حظر للسيرفر فالحساب محظور
+        return true;
+      }
+      return findBannedDoc(user.uid, email) !== null;
+    }
+
+    async function kickBannedUser(user, reasonText = "") {
+      localStorage.setItem(DEVICE_BAN_FLAG, "1");
+      localStorage.removeItem("gedr_guest_mode");
+      isGuest = false;
+      currentUser = null;
+      stopUserPresence();
+      stopSecurityListeners();
+
+      if (user?.uid) {
+        try {
+          await updateDoc(doc(db, "registered_users", user.uid), {
+            online: false,
+            lastSeen: serverTimestamp(),
+            lastSeenClient: 0
+          });
+        } catch {}
+      }
+
+      if (auth.currentUser) {
+        await signOut(auth).catch(() => {});
+      }
+
+      appView.classList.add("hidden");
+      loginView.classList.remove("hidden");
+      hideBootSplash();
+      showError(
+        reasonText || "تم حظر حساب الجيمايل الخاص بك نهائياً من دخول بوابة GEDR CLAN."
+      );
+    }
+
     function requireGoogleAccount() {
       if (currentUser) return true;
       showToast("يرجى التسجيل عبر قوقل اولا");
@@ -2972,16 +2988,6 @@
       loginView.classList.remove("hidden");
       await handleGoogleSignIn();
     });
-
-    function showError(msg) {
-      authError.textContent = msg;
-      authError.classList.remove("hidden");
-    }
-
-    function clearError() {
-      authError.textContent = "";
-      authError.classList.add("hidden");
-    }
 
     function openPage(pageId) {
       if (pageId === "securityPage" && !isAdmin) return;
@@ -3015,7 +3021,7 @@
     });
 
     // ==========================================
-    // 1) نظام الحظر الصارم بالبريد الإلكتروني والـ UID
+    // 1) نظام الحضور والحظر الصارم (البريد الإلكتروني + UID + الجهاز)
     // ==========================================
     const ONLINE_TIMEOUT_MS = 75 * 1000;
 
@@ -3045,18 +3051,11 @@
       return Boolean(findBannedDoc(uid, email));
     }
 
-    function enforceBanImmediately() {
+    async function enforceBanImmediately() {
       if (!currentUser || isAdmin) return false;
-      if (isAccountBanned(currentUser.uid, currentUser.email)) {
-        const bannedUid = currentUser.uid;
-        currentUser = null;
-        stopUserPresence();
-        stopSecurityListeners();
-        markUserOffline(bannedUid).catch(() => {});
-        signOut(auth).catch(() => {});
-        appView.classList.add("hidden");
-        loginView.classList.remove("hidden");
-        showError("تم حظر حساب الجيمايل الخاص بك نهائياً من دخول بوابة GEDR CLAN.");
+      const bannedNow = await checkBanDirectFromServer(currentUser);
+      if (bannedNow) {
+        await kickBannedUser(currentUser);
         return true;
       }
       return false;
@@ -3066,6 +3065,7 @@
       const now = Date.now();
       const totalUnique = registeredUsersSnapshot.length;
       const activeOnline = registeredUsersSnapshot.filter((u) => {
+        if (isAccountBanned(u.uid, u.email)) return false;
         if (!u.online) return false;
         const lastSeenMs = u.lastSeen?.toMillis ? u.lastSeen.toMillis() : Number(u.lastSeenClient || 0);
         return now - lastSeenMs <= ONLINE_TIMEOUT_MS;
@@ -3083,10 +3083,12 @@
 
     async function markUserOnline(user) {
       if (!user) return;
-      if (isAccountBanned(user.uid, user.email)) {
-        enforceBanImmediately();
+      const banned = await checkBanDirectFromServer(user);
+      if (banned) {
+        await kickBannedUser(user);
         return;
       }
+
       const chosenName =
         getCustomNickname(user.uid) ||
         user.displayName ||
@@ -3105,9 +3107,8 @@
           { merge: true }
         );
       } catch {
-        // إذا رفضت قواعد Firestore الكتابة فهذا يعني أن الحساب محظور على مستوى قاعدة البيانات
-        if ((user.email || "").toLowerCase() !== ADMIN_EMAIL.toLowerCase() && isAccountBanned(user.uid, user.email)) {
-          enforceBanImmediately();
+        if ((user.email || "").toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+          await kickBannedUser(user);
         }
       }
     }
@@ -3144,9 +3145,9 @@
     document.addEventListener("visibilitychange", () => {
       if (!currentUser) return;
       if (document.visibilityState === "visible") {
-        if (!enforceBanImmediately()) {
-          markUserOnline(currentUser);
-        }
+        enforceBanImmediately().then((kicked) => {
+          if (!kicked) markUserOnline(currentUser);
+        });
       } else {
         markUserOffline(currentUser.uid);
       }
@@ -3158,7 +3159,7 @@
       }
     });
 
-    async function banAccountByEmailAndUid(emailRaw, uidRaw = "", nameRaw = "") {
+    async function banAccountByEmailAndUid(emailRaw, uidRaw = "", nameRaw = "", reasonRaw = "") {
       if (!isAdmin) return;
       const cleanEmail = String(emailRaw || "").trim().toLowerCase();
       if (!cleanEmail || !cleanEmail.includes("@")) {
@@ -3169,15 +3170,32 @@
         showToast("لا يمكن حظر حساب المطور");
         return;
       }
-      const docKey = normalizeEmailKey(cleanEmail);
       const displayName = (nameRaw || "").trim() || cleanEmail.split("@")[0];
+      const reason = (reasonRaw || "").trim();
+
       try {
-        await setDoc(doc(db, "banned_users", docKey), {
+        await setDoc(doc(db, "banned_users", cleanEmail), {
           email: cleanEmail,
           uid: uidRaw || "",
           displayName,
+          reason,
           bannedAt: serverTimestamp()
         });
+
+        // إجبار حالة الحساب المسجل على غير متصل فوراً
+        const matchingUsers = registeredUsersSnapshot.filter(
+          (u) => String(u.email || "").toLowerCase() === cleanEmail || (uidRaw && u.uid === uidRaw)
+        );
+        for (const mUser of matchingUsers) {
+          if (mUser.uid) {
+            await setDoc(
+              doc(db, "registered_users", mUser.uid),
+              { online: false, lastSeenClient: 0 },
+              { merge: true }
+            ).catch(() => {});
+          }
+        }
+
         showToast(`تم حظر ${cleanEmail} نهائياً`);
       } catch {
         showToast("تعذر حظر الحساب — تأكد من قواعد Firestore");
@@ -3198,26 +3216,54 @@
       e.preventDefault();
       if (!isAdmin) return;
       const emailVal = document.getElementById("manualBanEmailInput").value.trim().toLowerCase();
+      const reasonVal = document.getElementById("manualBanReasonInput").value.trim();
       const matchedUser = registeredUsersSnapshot.find(
         (u) => String(u.email || "").toLowerCase() === emailVal
       );
       await banAccountByEmailAndUid(
         emailVal,
         matchedUser?.uid || "",
-        matchedUser ? resolveAccountDisplayName(matchedUser) : ""
+        matchedUser ? resolveAccountDisplayName(matchedUser) : "",
+        reasonVal
       );
       document.getElementById("manualBanEmailInput").value = "";
+      document.getElementById("manualBanReasonInput").value = "";
+    });
+
+    searchAccountsInput.addEventListener("input", () => {
+      renderAccountsAndBans();
+    });
+
+    document.getElementById("copyAdminSummaryBtn").addEventListener("click", () => {
+      const occupied = clanRosterSlots.filter((s) => Boolean(s.name)).length;
+      const freeSeats = Math.max(0, 55 - occupied);
+      const summary =
+        `ملخص بوابة GEDR CLAN:\n` +
+        `• المتواجدون الآن: ${secOnlineCount.textContent}\n` +
+        `• إجمالي المسجلين: ${secTotalUsersCount.textContent}\n` +
+        `• المحظورون: ${secBannedCount.textContent}\n` +
+        `• المقاعد المتاحة في الكلان: ${freeSeats} / 55`;
+      copyTextSafely(summary, "تم نسخ ملخص الإحصائيات");
     });
 
     function renderAccountsAndBans() {
       if (!isAdmin) return;
       updatePresenceCounters();
 
-      if (registeredUsersSnapshot.length === 0) {
-        secRegisteredAccountsList.innerHTML = `<p class="empty-msg">لا توجد حسابات مسجلة حالياً.</p>`;
+      const qText = (searchAccountsInput.value || "").trim().toLowerCase();
+      const filteredUsers = qText
+        ? registeredUsersSnapshot.filter((acc) => {
+            const name = resolveAccountDisplayName(acc).toLowerCase();
+            const mail = String(acc.email || "").toLowerCase();
+            return name.includes(qText) || mail.includes(qText);
+          })
+        : registeredUsersSnapshot;
+
+      if (filteredUsers.length === 0) {
+        secRegisteredAccountsList.innerHTML = `<p class="empty-msg">لا توجد حسابات مطابقة.</p>`;
       } else {
         secRegisteredAccountsList.innerHTML = "";
-        registeredUsersSnapshot.forEach((acc) => {
+        filteredUsers.forEach((acc) => {
           const isSelfAdmin = (acc.email || "").toLowerCase() === ADMIN_EMAIL.toLowerCase();
           const bannedEntry = findBannedDoc(acc.uid, acc.email);
           const alreadyBanned = Boolean(bannedEntry);
@@ -3239,7 +3285,7 @@
 
           const seenDiv = document.createElement("div");
           seenDiv.className = "account-last-seen";
-          seenDiv.textContent = formatLastSeen(acc);
+          seenDiv.textContent = alreadyBanned ? "محظور نهائياً 🚫" : formatLastSeen(acc);
 
           meta.append(nameDiv, subDiv, seenDiv);
           row.appendChild(meta);
@@ -3289,6 +3335,13 @@
 
           meta.append(nameDiv, subDiv);
 
+          if (bAcc.reason) {
+            const reasonDiv = document.createElement("div");
+            reasonDiv.className = "account-last-seen";
+            reasonDiv.textContent = "السبب: " + bAcc.reason;
+            meta.appendChild(reasonDiv);
+          }
+
           const unbanBtn = document.createElement("button");
           unbanBtn.type = "button";
           unbanBtn.className = "btn-unban";
@@ -3325,13 +3378,16 @@
             docId: d.id,
             uid: data.uid || "",
             email: data.email || d.id,
-            displayName: data.displayName || ""
+            displayName: data.displayName || "",
+            reason: data.reason || ""
           });
         });
         bannedUsersList = dedupedList;
         updatePresenceCounters();
         renderAccountsAndBans();
-        enforceBanImmediately();
+        if (currentUser && !isAdmin && isAccountBanned(currentUser.uid, currentUser.email)) {
+          kickBannedUser(currentUser);
+        }
       },
       () => {}
     );
@@ -3342,7 +3398,7 @@
     }, 15000);
 
     // ==========================================
-    // 2) إعدادات البوابة السريعة (للمطور)
+    // 2) إعدادات البوابة السريعة
     // ==========================================
     function applyPortalSettingsUI() {
       const latestNewsTitle = latestNewsDocs[0]?.title || "";
@@ -3409,7 +3465,7 @@
     });
 
     // ==========================================
-    // 3) البطولات والمباريات القادمة (يتحكم بها المطور)
+    // 3) البطولات والمباريات القادمة
     // ==========================================
     toggleCreateTournamentBtn.addEventListener("click", () => {
       createTournamentForm.classList.toggle("hidden");
@@ -3423,6 +3479,7 @@
       const prize = document.getElementById("tourPrizeInput").value.trim();
       const startTime = document.getElementById("tourDateInput").value;
       const status = document.getElementById("tourStatusInput").value;
+      const notes = document.getElementById("tourNotesInput").value.trim();
       if (!title || !startTime) return;
 
       try {
@@ -3432,6 +3489,7 @@
           prize,
           startTime,
           status,
+          notes,
           createdAt: serverTimestamp()
         });
         createTournamentForm.reset();
@@ -3478,6 +3536,23 @@
         top.appendChild(titleEl);
 
         if (isAdmin) {
+          const actionsWrap = document.createElement("div");
+          actionsWrap.className = "admin-post-actions";
+
+          const copyBtn = document.createElement("button");
+          copyBtn.type = "button";
+          copyBtn.className = "btn btn-outline-gold btn-sm";
+          copyBtn.textContent = "نسخ";
+          copyBtn.addEventListener("click", () => {
+            const text =
+              `⚔️ ${tour.title}\n` +
+              `🎮 المود: ${tour.mode}\n` +
+              `🎁 الجائزة: ${tour.prize}\n` +
+              `📌 الحالة: ${tour.status}` +
+              (tour.notes ? `\n📝 ملاحظات: ${tour.notes}` : "");
+            copyTextSafely(text, "تم نسخ بيانات البطولة");
+          });
+
           const delBtn = document.createElement("button");
           delBtn.type = "button";
           delBtn.className = "btn-danger";
@@ -3490,7 +3565,9 @@
               showToast("تعذر حذف البطولة");
             }
           });
-          top.appendChild(delBtn);
+
+          actionsWrap.append(copyBtn, delBtn);
+          top.appendChild(actionsWrap);
         }
 
         const badges = document.createElement("div");
@@ -3501,11 +3578,22 @@
           <span class="t-chip">📌 الحالة: ${tour.status || "مفتوح"}</span>
         `;
 
+        card.append(top, badges);
+
+        if (tour.notes) {
+          const notesEl = document.createElement("p");
+          notesEl.style.color = "#d4d6e2";
+          notesEl.style.fontSize = "0.88rem";
+          notesEl.style.marginBottom = "8px";
+          notesEl.textContent = "📝 " + tour.notes;
+          card.appendChild(notesEl);
+        }
+
         const countdown = document.createElement("div");
         countdown.className = "countdown-pill";
         countdown.textContent = formatTournamentCountdown(tour.startTime);
 
-        card.append(top, badges, countdown);
+        card.appendChild(countdown);
         tournamentsList.appendChild(card);
       });
     }
@@ -3522,7 +3610,7 @@
     setInterval(renderTournaments, 60000);
 
     // ==========================================
-    // 4) قاعة الأساطير والإنجازات (يتحكم بها المطور)
+    // 4) قاعة الأساطير والإنجازات
     // ==========================================
     function renderHallOfFame() {
       hallWinsStat.textContent = String(hallStats.wins || 0);
@@ -3735,7 +3823,7 @@
     }
 
     // ==========================================
-    // 6) نظام المتصدرين (الكلان + المسابقات)
+    // 6) نظام المتصدرين
     // ==========================================
     function capNameTo15Chars(val) {
       return (val || "").trim().slice(0, 15);
@@ -4118,6 +4206,24 @@
       };
     }
 
+    function renderLastSubmissionBanners() {
+      const cBanner = document.getElementById("contestLastSubBanner");
+      const tBanner = document.getElementById("tryoutLastSubBanner");
+
+      if (currentUser) {
+        const lastContest = localStorage.getItem("gedr_last_contest_" + currentUser.uid);
+        const lastTryout = localStorage.getItem("gedr_last_tryout_" + currentUser.uid);
+        cBanner.classList.toggle("hidden", !lastContest);
+        if (lastContest) cBanner.textContent = "آخر طلب مسابقة أرسلته: " + lastContest;
+
+        tBanner.classList.toggle("hidden", !lastTryout);
+        if (lastTryout) tBanner.textContent = "آخر طلب اختبار كلان أرسلته: " + lastTryout;
+      } else {
+        cBanner.classList.add("hidden");
+        tBanner.classList.add("hidden");
+      }
+    }
+
     await setPersistence(auth, browserLocalPersistence).catch(() => {});
 
     getRedirectResult(auth).catch((err) => {
@@ -4128,11 +4234,16 @@
 
     async function handleGoogleSignIn() {
       clearError();
+      googleLoginBtn.disabled = true;
       try {
         const cred = await signInWithPopup(auth, provider);
-        if (cred?.user && isAccountBanned(cred.user.uid, cred.user.email)) {
-          await signOut(auth).catch(() => {});
-          showError("تم حظر حساب الجيمايل الخاص بك نهائياً من دخول بوابة GEDR CLAN.");
+        if (cred?.user) {
+          const banned = await checkBanDirectFromServer(cred.user);
+          if (banned) {
+            await kickBannedUser(cred.user);
+            return;
+          }
+          localStorage.removeItem(DEVICE_BAN_FLAG);
         }
       } catch (err) {
         if (err.code === "auth/popup-blocked" || isInAppBrowser) {
@@ -4144,6 +4255,8 @@
         } else {
           showError("لا يمكنك تسجيل الدخول الآن: " + (err.code || ""));
         }
+      } finally {
+        googleLoginBtn.disabled = false;
       }
     }
 
@@ -4151,6 +4264,10 @@
 
     guestLoginBtn.addEventListener("click", () => {
       clearError();
+      if (localStorage.getItem(DEVICE_BAN_FLAG) === "1") {
+        showError("هذا المتصفح مرتبط بحساب محظور ولا يُسمح له بدخول البوابة.");
+        return;
+      }
       isGuest = true;
       localStorage.setItem("gedr_guest_mode", "1");
       syncUIState();
@@ -4177,11 +4294,10 @@
       const email = currentUser?.email?.toLowerCase() || "";
       isAdmin = Boolean(currentUser && email === ADMIN_EMAIL.toLowerCase());
 
-      if (enforceBanImmediately()) return;
-
       if (currentUser || isGuest) {
         loginView.classList.add("hidden");
         appView.classList.remove("hidden");
+        hideBootSplash();
 
         if (currentUser) {
           const savedName = getCustomNickname(currentUser.uid);
@@ -4223,6 +4339,7 @@
       } else {
         appView.classList.add("hidden");
         loginView.classList.remove("hidden");
+        hideBootSplash();
         openSecurityBtn.classList.add("hidden");
         adminNewsControls.classList.add("hidden");
         adminPollControls.classList.add("hidden");
@@ -4231,6 +4348,7 @@
         stopSecurityListeners();
       }
 
+      renderLastSubmissionBanners();
       renderNews(latestNewsDocs);
       renderPolls(latestPollDocs);
       renderAllLeaderboards();
@@ -4239,27 +4357,28 @@
       renderHallOfFame();
     }
 
-    onAuthStateChanged(auth, (user) => {
-      currentUser = user;
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         const userIsAdmin = (user.email || "").toLowerCase() === ADMIN_EMAIL.toLowerCase();
-        if (!userIsAdmin && isAccountBanned(user.uid, user.email)) {
-          stopUserPresence();
-          markUserOffline(user.uid).catch(() => {});
-          signOut(auth).catch(() => {});
-          currentUser = null;
-          appView.classList.add("hidden");
-          loginView.classList.remove("hidden");
-          showError("تم حظر حساب الجيمايل الخاص بك نهائياً من دخول بوابة GEDR CLAN.");
-          return;
+        if (!userIsAdmin) {
+          const banned = await checkBanDirectFromServer(user);
+          if (banned) {
+            await kickBannedUser(user);
+            return;
+          }
+          localStorage.removeItem(DEVICE_BAN_FLAG);
         }
+        currentUser = user;
         isGuest = false;
         localStorage.removeItem("gedr_guest_mode");
         startUserPresence(user);
       } else {
+        currentUser = null;
         stopUserPresence();
-        if (localStorage.getItem("gedr_guest_mode") === "1") {
+        if (localStorage.getItem("gedr_guest_mode") === "1" && localStorage.getItem(DEVICE_BAN_FLAG) !== "1") {
           isGuest = true;
+        } else {
+          isGuest = false;
         }
       }
       syncUIState();
@@ -4347,7 +4466,7 @@
 
     async function handleSingleChoiceReaction(item, chosenType) {
       if (!requireGoogleAccount()) return;
-      if (enforceBanImmediately()) return;
+      if (await enforceBanImmediately()) return;
 
       const choiceKey = "reacted_news_choice_" + item.id;
       const prevChoice = localStorage.getItem(choiceKey);
@@ -4600,7 +4719,7 @@
 
           optBtn.addEventListener("click", async () => {
             if (!requireGoogleAccount()) return;
-            if (enforceBanImmediately()) return;
+            if (await enforceBanImmediately()) return;
             if (expiryInfo.expired) {
               showToast("انتهت مدة هذا التصويت");
               return;
@@ -4609,6 +4728,7 @@
               showToast("يمكنك التصويت لخيار واحد فقط في هذا الاستطلاع");
               return;
             }
+            optBtn.disabled = true;
             try {
               const updated = options.map((item, i) =>
                 i === idx ? { ...item, votes: (item.votes || 0) + 1 } : item
@@ -4617,6 +4737,7 @@
               localStorage.setItem("voted_poll_" + poll.id, opt.id);
               showToast("تم تسجيل صوتك");
             } catch {
+              optBtn.disabled = false;
               showToast("تعذر تسجيل التصويت");
             }
           });
@@ -4650,15 +4771,17 @@
       }
     );
 
-    // إرسال نموذج مشاركة في مسابقة
     document.getElementById("contestForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!requireGoogleAccount()) return;
-      if (enforceBanImmediately()) return;
+      if (await enforceBanImmediately()) return;
       if (portalSettings.contestStatus === "closed" && !isAdmin) {
         showToast("التسجيل في المسابقات مغلق حالياً");
         return;
       }
+
+      const submitBtn = e.submitter;
+      if (submitBtn) submitBtn.disabled = true;
 
       const uid = document.getElementById("contestUid").value.trim();
       const accountLevel = document.getElementById("contestLevel").value;
@@ -4669,6 +4792,7 @@
 
       if (!agreedToRules) {
         showToast("يرجى الموافقة على القوانين أولاً");
+        if (submitBtn) submitBtn.disabled = false;
         return;
       }
 
@@ -4700,21 +4824,30 @@
           userEmail: currentUser.email,
           createdAt: serverTimestamp()
         });
+        localStorage.setItem(
+          "gedr_last_contest_" + currentUser.uid,
+          `UID ${uid} (${new Date().toLocaleTimeString("ar")})`
+        );
+        renderLastSubmissionBanners();
         showToast("تم إرسال الطلب وحفظه — يمكنك أيضاً إرساله عبر واتساب أو Gmail");
       } catch {
         showToast("تم تجهيز أزرار واتساب وGmail للإرسال المباشر");
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
       }
     });
 
-    // إرسال نموذج مشاركة في اختبار كلان
     document.getElementById("tryoutForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!requireGoogleAccount()) return;
-      if (enforceBanImmediately()) return;
+      if (await enforceBanImmediately()) return;
       if (portalSettings.tryoutStatus === "closed" && !isAdmin) {
         showToast("اختبارات الانضمام للكلان مغلقة حالياً");
         return;
       }
+
+      const submitBtn = e.submitter;
+      if (submitBtn) submitBtn.disabled = true;
 
       const uid = document.getElementById("tryoutUid").value.trim();
       const accountLevel = document.getElementById("tryoutLevel").value;
@@ -4751,13 +4884,19 @@
           userEmail: currentUser.email,
           createdAt: serverTimestamp()
         });
+        localStorage.setItem(
+          "gedr_last_tryout_" + currentUser.uid,
+          `UID ${uid} (${new Date().toLocaleTimeString("ar")})`
+        );
+        renderLastSubmissionBanners();
         showToast("تم إرسال الطلب وحفظه — يمكنك أيضاً إرساله عبر واتساب أو Gmail");
       } catch {
         showToast("تم تجهيز أزرار واتساب وGmail للإرسال المباشر");
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
       }
     });
 
-    // إرسال نموذج تقديم ملاحظة
     document.getElementById("feedbackForm").addEventListener("submit", (e) => {
       e.preventDefault();
       const noteText = document.getElementById("feedbackMessageInput").value.trim();
